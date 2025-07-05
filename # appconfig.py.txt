@@ -1,0 +1,81 @@
+# app/config.py
+from pydantic_settings import BaseSettings
+from pydantic import Field, validator
+from typing import Optional, List
+import os
+from dotenv import load_dotenv
+
+# Load .env file if it exists (for local development)
+load_dotenv()
+
+class Settings(BaseSettings):
+    """Application settings with validation"""
+    
+    # Database
+    database_url: str = Field(
+        default="postgresql://user:pass@localhost/voice_booking",
+        env="DATABASE_URL"
+    )
+    db_pool_size_min: int = Field(default=10, env="DB_POOL_SIZE_MIN")
+    db_pool_size_max: int = Field(default=20, env="DB_POOL_SIZE_MAX")
+    
+    # Supabase
+    supabase_url: str = Field(
+        default="https://xdnjnrrnehximkxteidq.supabase.co",
+        env="SUPABASE_URL"
+    )
+    supabase_key: Optional[str] = Field(default=None, env="SUPABASE_KEY")
+    
+    # API Security
+    api_key: str = Field(default="development-key", env="API_KEY")
+    api_key_header: str = Field(default="X-API-Key", env="API_KEY_HEADER")
+    
+    # Application
+    environment: str = Field(default="development", env="ENVIRONMENT")
+    debug: bool = Field(default=False, env="DEBUG")
+    app_name: str = Field(default="Voice Booking System", env="APP_NAME")
+    app_version: str = Field(default="2.0.0", env="APP_VERSION")
+    
+    # CORS
+    cors_origins: List[str] = Field(
+        default=["*"],
+        env="CORS_ORIGINS"
+    )
+    
+    # Logging
+    log_level: str = Field(default="INFO", env="LOG_LEVEL")
+    log_format: str = Field(
+        default="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        env="LOG_FORMAT"
+    )
+    
+    # Matching thresholds
+    practitioner_match_threshold: float = Field(
+        default=0.6,
+        env="PRACTITIONER_MATCH_THRESHOLD"
+    )
+    service_match_threshold: float = Field(
+        default=0.5,
+        env="SERVICE_MATCH_THRESHOLD"
+    )
+    
+    @validator("environment")
+    def validate_environment(cls, v):
+        allowed = ["development", "staging", "production"]
+        if v not in allowed:
+            raise ValueError(f"Environment must be one of {allowed}")
+        return v
+    
+    @validator("database_url")
+    def validate_database_url(cls, v):
+        if not v.startswith(("postgresql://", "postgres://")):
+            raise ValueError("Database URL must be a PostgreSQL connection string")
+        return v
+    
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+        case_sensitive = False
+
+# Singleton instance
+settings = Settings()

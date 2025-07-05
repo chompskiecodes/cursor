@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-07-05T23:39:17.226374",
+  "endpoint": "/availability-checker",
+  "headers": {},
+  "payload": {
+    "action": "check",
+    "practitioner": "Brendan Smith",
+    "date": "2025-07-10",
+    "appointmentType": "Massage",
+    "business_name": null,
+    "business_id": null,
+    "location": null,
+    "sessionId": "test_booking_123",
+    "dialedNumber": "0478621267",
+    "callerPhone": null,
+    "systemCallerID": null,
+    "timestamp": "2025-07-05 23:39:17.226225"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan Smith",
+    "patient_name": null,
+    "appointment_type": "Massage",
+    "date": "2025-07-10",
+    "time": null,
+    "caller_phone": null,
+    "dialed_number": "0478621267"
+  }
+}

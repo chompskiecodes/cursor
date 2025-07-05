@@ -1,0 +1,88 @@
+2025-07-05 23:39:06,599 - INFO - Starting webhook booking test - Log file: booking_test_logs\booking_test_20250705_233906.log
+2025-07-05 23:39:06,599 - INFO - === Webhook-First Booking Test ===
+2025-07-05 23:39:06,600 - INFO - Webhook API: http://localhost:8000
+2025-07-05 23:39:06,600 - INFO - Test phone number: 0478621267
+2025-07-05 23:39:06,601 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-06) ---
+2025-07-05 23:39:06,601 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-06",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621267"
+}
+2025-07-05 23:39:08,942 - INFO - Status: 200
+2025-07-05 23:39:08,943 - INFO - Response: {"success":false,"error":"clinic_not_found","message":"I couldn't find the clinic information.","sessionId":"test_booking_123"}
+2025-07-05 23:39:08,943 - ERROR - Availability check not successful: I couldn't find the clinic information.
+2025-07-05 23:39:08,944 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-07) ---
+2025-07-05 23:39:08,944 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-07",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621267"
+}
+2025-07-05 23:39:11,021 - INFO - Status: 200
+2025-07-05 23:39:11,022 - INFO - Response: {"success":false,"error":"clinic_not_found","message":"I couldn't find the clinic information.","sessionId":"test_booking_123"}
+2025-07-05 23:39:11,022 - ERROR - Availability check not successful: I couldn't find the clinic information.
+2025-07-05 23:39:11,023 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-08) ---
+2025-07-05 23:39:11,023 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-08",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621267"
+}
+2025-07-05 23:39:13,103 - INFO - Status: 200
+2025-07-05 23:39:13,103 - INFO - Response: {"success":false,"error":"clinic_not_found","message":"I couldn't find the clinic information.","sessionId":"test_booking_123"}
+2025-07-05 23:39:13,103 - ERROR - Availability check not successful: I couldn't find the clinic information.
+2025-07-05 23:39:13,104 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-09) ---
+2025-07-05 23:39:13,104 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-09",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621267"
+}
+2025-07-05 23:39:15,183 - INFO - Status: 200
+2025-07-05 23:39:15,185 - INFO - Response: {"success":false,"error":"clinic_not_found","message":"I couldn't find the clinic information.","sessionId":"test_booking_123"}
+2025-07-05 23:39:15,185 - ERROR - Availability check not successful: I couldn't find the clinic information.
+2025-07-05 23:39:15,186 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-10) ---
+2025-07-05 23:39:15,186 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-10",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621267"
+}
+2025-07-05 23:39:17,272 - INFO - Status: 200
+2025-07-05 23:39:17,272 - INFO - Response: {"success":false,"error":"clinic_not_found","message":"I couldn't find the clinic information.","sessionId":"test_booking_123"}
+2025-07-05 23:39:17,273 - ERROR - Availability check not successful: I couldn't find the clinic information.
+2025-07-05 23:39:17,273 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-11) ---
+2025-07-05 23:39:17,273 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-11",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621267"
+}
+2025-07-05 23:39:19,368 - INFO - Status: 200
+2025-07-05 23:39:19,369 - INFO - Response: {"success":false,"error":"clinic_not_found","message":"I couldn't find the clinic information.","sessionId":"test_booking_123"}
+2025-07-05 23:39:19,370 - ERROR - Availability check not successful: I couldn't find the clinic information.
+2025-07-05 23:39:19,371 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-12) ---
+2025-07-05 23:39:19,372 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-12",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621267"
+}
+2025-07-05 23:39:21,444 - INFO - Status: 200
+2025-07-05 23:39:21,444 - INFO - Response: {"success":false,"error":"clinic_not_found","message":"I couldn't find the clinic information.","sessionId":"test_booking_123"}
+2025-07-05 23:39:21,445 - ERROR - Availability check not successful: I couldn't find the clinic information.

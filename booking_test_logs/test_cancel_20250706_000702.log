@@ -1,0 +1,18 @@
+2025-07-06 00:07:02,608 - INFO - Starting webhook cancel test - Log file: booking_test_logs\test_cancel_20250706_000702.log
+2025-07-06 00:07:02,609 - INFO - === Webhook-First Cancel Test ===
+2025-07-06 00:07:02,609 - INFO - Webhook API: http://localhost:8000
+2025-07-06 00:07:02,610 - INFO - Test phone number: 0478621276
+2025-07-06 00:07:02,610 - INFO - 
+--- Step: Cancel Appointment via Webhook ---
+2025-07-06 00:07:02,610 - INFO - Cancel payload: {
+  "action": "cancel",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678",
+  "appointmentId": "1723216902232220787"
+}
+2025-07-06 00:07:06,249 - INFO - Status: 200
+2025-07-06 00:07:06,250 - INFO - Response: {"success":true,"message":"Your appointment has been successfully cancelled.","sessionId":"test_booking_123"}
+2025-07-06 00:07:06,265 - INFO - Message: Your appointment has been successfully cancelled.
+2025-07-06 00:07:06,271 - INFO - 
+Test results saved to: booking_test_logs\test_cancel_20250706_000702.log

@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-07-05T18:33:06.538188",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "action": "book",
+    "sessionId": "reschedule_setup",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-05 18:33:06.537894",
+    "callerPhone": "0412345678",
+    "systemCallerID": null,
+    "patientName": "Test Patient",
+    "patientPhone": null,
+    "appointmentType": "Acupuncture (Follow up)",
+    "practitioner": "Brendan Smith",
+    "appointmentDate": "2025-07-06",
+    "appointmentTime": "09:00",
+    "business_name": null,
+    "business_id": "1701928805762869230",
+    "location": "City Clinic",
+    "bookingFor": "self",
+    "transcript": [],
+    "notes": "Appointment to be rescheduled",
+    "appointmentId": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan Smith",
+    "patient_name": "Test Patient",
+    "appointment_type": "Acupuncture (Follow up)",
+    "date": "2025-07-06",
+    "time": "09:00",
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-07-05T23:06:58.092610",
+  "endpoint": "/location-resolver",
+  "headers": {},
+  "payload": {
+    "locationQuery": "main",
+    "sessionId": "test_1751720816",
+    "dialedNumber": "0478621276",
+    "callerPhone": "0412345678",
+    "additionalContext": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": null,
+    "patient_name": null,
+    "appointment_type": null,
+    "date": null,
+    "time": null,
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

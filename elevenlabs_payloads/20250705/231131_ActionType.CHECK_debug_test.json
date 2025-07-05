@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-07-05T23:11:31.998848",
+  "endpoint": "/availability-checker",
+  "headers": {},
+  "payload": {
+    "action": "check",
+    "practitioner": "Brendan Smith",
+    "date": "today",
+    "appointmentType": "Acupuncture (Initial)",
+    "business_name": null,
+    "business_id": null,
+    "location": "City Clinic",
+    "sessionId": "debug_test",
+    "dialedNumber": "0478621276",
+    "callerPhone": "0412345678",
+    "systemCallerID": null,
+    "timestamp": "2025-07-05 23:11:31.998621"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan Smith",
+    "patient_name": null,
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "today",
+    "time": null,
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

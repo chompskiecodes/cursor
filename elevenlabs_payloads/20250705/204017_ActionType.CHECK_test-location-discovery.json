@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-07-05T20:40:17.889487",
+  "endpoint": "/availability-checker",
+  "headers": {},
+  "payload": {
+    "action": "check",
+    "practitioner": "Brendan Smith",
+    "date": "2025-07-07",
+    "appointmentType": "Acupuncture (Follow up)",
+    "business_name": null,
+    "business_id": null,
+    "location": null,
+    "sessionId": "test-location-discovery",
+    "dialedNumber": "0478621276",
+    "callerPhone": null,
+    "systemCallerID": null,
+    "timestamp": "2025-07-05 20:40:17.889144"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan Smith",
+    "patient_name": null,
+    "appointment_type": "Acupuncture (Follow up)",
+    "date": "2025-07-07",
+    "time": null,
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

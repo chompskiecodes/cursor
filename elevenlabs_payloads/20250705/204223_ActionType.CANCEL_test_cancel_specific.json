@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-05T20:42:23.352296",
+  "endpoint": "/cancel-appointment",
+  "headers": {},
+  "payload": {
+    "sessionId": "test_cancel_specific",
+    "callerPhone": "0412345678",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-05 20:42:23.352188",
+    "action": "cancel",
+    "appointmentId": null,
+    "appointmentDetails": "my appointment 2025-07-07 at 11:00 at balmain with Brendan Smith",
+    "reason": "Can't make it anymore"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": null,
+    "patient_name": null,
+    "appointment_type": null,
+    "date": null,
+    "time": null,
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

@@ -1,0 +1,66 @@
+services:
+  - type: web
+    name: voice-booking-api
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      # Supabase Database (set manually in Render dashboard for security)
+      - key: DATABASE_URL
+        sync: false  # Format: postgresql://postgres:[YOUR-PASSWORD]@[HOST]:5432/postgres
+      
+      # Supabase Configuration
+      - key: SUPABASE_URL
+        value: https://xdnjnrrnehximkxteidq.supabase.co
+      - key: SUPABASE_KEY
+        sync: false  # Set manually in Render dashboard for security
+      
+      # API Security
+      - key: API_KEY
+        generateValue: true  # Generates a secure random value
+      - key: API_KEY_HEADER
+        value: X-API-Key
+      
+      # Application Settings
+      - key: ENVIRONMENT
+        value: production
+      - key: APP_NAME
+        value: Voice Booking System
+      - key: APP_VERSION
+        value: 2.0.0
+      - key: LOG_LEVEL
+        value: INFO
+      
+      # CORS Origins
+      - key: CORS_ORIGINS
+        value: "*"  # Update this with your actual frontend URLs in production
+      
+      # Database Pool (optimized for Supabase)
+      - key: DB_POOL_SIZE_MIN
+        value: 5
+      - key: DB_POOL_SIZE_MAX
+        value: 20
+      
+      # Matching Thresholds
+      - key: PRACTITIONER_MATCH_THRESHOLD
+        value: 0.6
+      - key: SERVICE_MATCH_THRESHOLD
+        value: 0.5
+      
+      # Python Runtime
+      - key: PYTHON_VERSION
+        value: 3.11
+
+    autoDeploy: true
+    region: oregon  # Choose closest to your Supabase region
+    
+    # Health check configuration
+    healthCheckPath: /api/v1/health
+    
+    # Build configuration
+    buildFilter:
+      paths:
+        - app/**
+        - requirements.txt
+        - render.yaml

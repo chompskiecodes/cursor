@@ -1,0 +1,139 @@
+ElevenLabs Tool Integration Pattern
+1. Tool Configuration in ElevenLabs Agent
+Tools enable your assistant to connect to external data and systems. You can define a set of tools that the assistant has access to, and the assistant will use them where appropriate based on the conversation. Server tools | ElevenLabs Documentation
+The agent needs tools configured with:
+
+Clear names and descriptions to help the LLM understand when to use them
+Parameter descriptions that guide the agent on what data to extract from conversation
+System prompt instructions on when/how to use the tools
+
+2. How Location Disambiguation Should Work
+Based on the docs, here's the recommended flow:
+python# 1. Configure tools in ElevenLabs Agent dashboard:
+
+# Tool: location-resolver
+{
+  "name": "location-resolver",
+  "description": "Resolves ambiguous location references like 'main clinic' or 'the usual place' to a specific clinic location",
+  "type": "webhook",
+  "url": "https://your-api.com/location-resolver",
+  "method": "POST",
+  "parameters": [
+    {
+      "name": "locationQuery",
+      "type": "string",
+      "description": "The location reference from the conversation (e.g., 'main clinic', 'usual place')",
+      "required": true
+    },
+    {
+      "name": "sessionId",
+      "type": "string", 
+      "description": "Current conversation session ID",
+      "required": true
+    },
+    {
+      "name": "dialedNumber",
+      "type": "string",
+      "description": "The phone number that was dialed",
+      "required": true
+    },
+    {
+      "name": "callerPhone",
+      "type": "string",
+      "description": "The caller's phone number",
+      "required": false
+    }
+  ]
+}
+
+# Tool: availability-checker
+{
+  "name": "availability-checker",
+  "description": "Check available appointment times for a practitioner at a specific location",
+  "parameters": [
+    {
+      "name": "locationId",
+      "type": "string",
+      "description": "The resolved location ID (use location-resolver first if location is unclear)"
+    }
+    // ... other parameters
+  ]
+}
+3. Update System Prompt
+To orchestrate tool usage effectively, update the assistant's system prompt to specify the sequence and logic for making these calls. Server tools | ElevenLabs Documentation
+Add to the agent's system prompt:
+When handling appointment requests:
+
+1. If the caller mentions a location (like "main clinic", "your Burwood location", "the usual place"):
+   - ALWAYS use the location-resolver tool first to clarify which specific location they mean
+   - Wait for the response before proceeding
+   - If multiple locations are suggested, ask the caller to confirm which one
+
+2. Only after you have a confirmed locationId:
+   - Use availability-checker with the resolved locationId
+   - Use appointment-handler with the resolved locationId
+
+3. If no location is mentioned:
+   - Ask "Which of our locations would you prefer?"
+   - Use location-resolver with their response
+
+Never assume a location. Always confirm ambiguous references.
+4. Update Your API Responses
+Your endpoints should return responses that guide the agent:
+python# When location is ambiguous:
+{
+  "success": false,
+  "resolved": false,
+  "message": "Did you mean our City Clinic on Main Street or our Suburban Clinic on Park Avenue?",
+  "alternatives": [
+    {"location_id": "loc_001", "location_name": "City Clinic"},
+    {"location_id": "loc_002", "location_name": "Suburban Clinic"}
+  ],
+  "sessionId": "abc123"
+}
+
+# When location is clear:
+{
+  "success": true,
+  "resolved": true,
+  "suggested_location": "loc_001",
+  "suggested_location_name": "City Clinic",
+  "message": "I'll check availability at our City Clinic.",
+  "sessionId": "abc123"
+}
+5. Tool Chaining
+When using tools, we recommend picking high intelligence models like GPT-4o mini or Claude 3.5 Sonnet and avoiding Gemini 1.5 Flash. Server tools | ElevenLabs Documentation
+The agent should automatically chain tools based on the responses:
+
+User: "I'd like to book with Cameron at the main clinic"
+Agent calls location-resolver with "main clinic"
+Gets response suggesting "City Clinic"
+Agent confirms: "I'll check Cameron's availability at our City Clinic"
+Agent calls availability-checker with locationId: "loc_001"
+
+6. Best Practices
+Use clear and descriptive names for tool parameters. If applicable, specify the expected format for a parameter in the description Server tools | ElevenLabs Documentation
+
+Keep tool names simple and descriptive
+Return voice-friendly messages in your responses
+Use the resolved boolean to indicate if disambiguation is needed
+Include confidence scores to help the agent decide when to ask for clarification
+
+7. Implementation Update
+Your current implementation is good, but consider these adjustments:
+
+Simplify the response structure for the agent:
+
+python# Instead of nested errors, use top-level fields
+{
+  "needs_clarification": true,  # Agent can easily check this
+  "clarification_message": "Which location did you mean?",
+  "options": ["City Clinic", "Suburban Clinic"]
+}
+
+Add a dedicated disambiguation endpoint that the agent can use when the user responds to clarification:
+
+python@app.post("/confirm-location")
+async def confirm_location(request: ConfirmLocationRequest):
+    # Handle "yes, the first one" or "City Clinic" responses
+This approach ensures the agent never proceeds with ambiguous locations and always gets user confirmation when needed.

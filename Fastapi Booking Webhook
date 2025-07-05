@@ -1,0 +1,309 @@
+from fastapi import FastAPI, Request
+from pydantic import BaseModel
+import requests
+from datetime import datetime, timedelta
+import re
+import os
+
+app = FastAPI()
+
+# === Configuration from environment variables ===
+SUPABASE_TOKEN = os.environ.get("SUPABASE_TOKEN")
+SUPABASE_APIKEY = SUPABASE_TOKEN
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://xdnjnrrnehximkxteidq.supabase.co/rest/v1")
+
+FALLBACK_CLINIKO_API_KEY = os.environ.get("FALLBACK_CLINIKO_API_KEY")
+FALLBACK_CLINIKO_SHARD = os.environ.get("FALLBACK_CLINIKO_SHARD", "au4")
+
+# === Utilities ===
+def normalize_phone(phone):
+    if not phone:
+        return ''
+    cleaned = re.sub(r'\D', '', phone)
+    if cleaned.startswith('0'):
+        cleaned = '61' + cleaned[1:]
+    return cleaned
+
+def parse_requested_date(text):
+    today = datetime.now()
+    text = text.lower()
+    if "tomorrow" in text:
+        return today + timedelta(days=1)
+    if "today" in text:
+        return today
+    days_map = {
+        "monday": 0,
+        "tuesday": 1,
+        "wednesday": 2,
+        "thursday": 3,
+        "friday": 4,
+        "saturday": 5,
+        "sunday": 6
+    }
+    for day, index in days_map.items():
+        if day in text:
+            delta = (index - today.weekday() + 7) % 7
+            return today + timedelta(days=delta)
+    return today + timedelta(days=1)
+
+def extract_service(text):
+    services = ["massage", "acupuncture", "chiropractic"]
+    for service in services:
+        if service in text.lower():
+            return service
+    return "massage"
+
+def extract_practitioner(text):
+    match = re.search(r"with (\w+)", text.lower())
+    return match.group(1).capitalize() if match else ""
+
+def extract_name(text):
+    match = re.search(r"my name is ([a-zA-Z]+(?: [a-zA-Z]+)?)", text.lower())
+    return match.group(1).title().split() if match else ("Voice", "Caller")
+
+def generate_session_id():
+    return f"session_{int(datetime.now().timestamp() * 1000)}"
+
+def lookup_clinic_data_by_phone(normalized_phone):
+    headers = {
+        "apikey": SUPABASE_APIKEY,
+        "Authorization": f"Bearer {SUPABASE_TOKEN}"
+    }
+    url = f"{SUPABASE_URL}/phone_lookup?phone_normalized=eq.{normalized_phone}"
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200 or not response.json():
+        return {"error": "Clinic data not found for phone."}
+    clinic_id = response.json()[0]["clinic_id"]
+
+    clinic_url = f"{SUPABASE_URL}/clinics?clinic_id=eq.{clinic_id}"
+    clinic_resp = requests.get(clinic_url, headers=headers)
+    if clinic_resp.status_code != 200 or not clinic_resp.json():
+        return {"error": "Clinic metadata not found."}
+    clinic = clinic_resp.json()[0]
+
+    return {
+        "cliniko_api_key": clinic["cliniko_api_key"],
+        "cliniko_shard": clinic["cliniko_shard"],
+        "clinic_id": clinic_id
+    }
+
+@app.post("/book-appointment")
+async def book_appointment(request: Request):
+    data = await request.json()
+    caller_phone = data.get("callerPhone")
+    transcript = data.get("transcript", [])
+
+    if not caller_phone or not transcript:
+        return {"success": False, "error": "Missing required booking data."}
+
+    message = " ".join([t["message"] for t in transcript if t["role"] == "user"]).lower()
+    service = extract_service(message)
+    practitioner = extract_practitioner(message)
+    name = extract_name(message)
+    requested_date = parse_requested_date(message).strftime("%Y-%m-%d")
+    normalized_phone = normalize_phone(caller_phone)
+
+    clinic_data = lookup_clinic_data_by_phone(normalized_phone)
+    if "error" in clinic_data:
+        api_key = FALLBACK_CLINIKO_API_KEY
+        shard = FALLBACK_CLINIKO_SHARD
+    else:
+        api_key = clinic_data["cliniko_api_key"]
+        shard = clinic_data["cliniko_shard"]
+
+    headers = {
+        "Authorization": f"Basic {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    appt_resp = requests.get(
+        f"https://api.{shard}.cliniko.com/v1/appointments?from={requested_date}",
+        headers=headers
+    )
+    appt_resp.raise_for_status()
+    appointments = appt_resp.json().get("appointments", [])
+    if any(a for a in appointments if a["patient"].get("phone") == caller_phone and service in a["appointment_type"].get("name", "").lower()):
+        return {"success": False, "error": "Appointment already exists."}
+
+    search_resp = requests.get(
+        f"https://api.{shard}.cliniko.com/v1/patients?search={caller_phone}",
+        headers=headers
+    )
+    search_resp.raise_for_status()
+    patients = search_resp.json().get("patients", [])
+
+    if patients:
+        patient_id = patients[0]["id"]
+    else:
+        first_name, last_name = name
+        patient_payload = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "phone": caller_phone
+        }
+        create_resp = requests.post(
+            f"https://api.{shard}.cliniko.com/v1/patients",
+            headers=headers,
+            json=patient_payload
+        )
+        create_resp.raise_for_status()
+        patient_id = create_resp.json()["id"]
+
+    appt_type_resp = requests.get(
+        f"https://api.{shard}.cliniko.com/v1/appointment_types",
+        headers=headers
+    )
+    appt_type_resp.raise_for_status()
+    appt_types = appt_type_resp.json().get("appointment_types", [])
+    appt_type = next((a for a in appt_types if service in a["name"].lower()), None)
+    if not appt_type:
+        return {"success": False, "error": f"Service '{service}' not found."}
+
+    appointment_payload = {
+        "patient_id": patient_id,
+        "appointment_type_id": appt_type["id"],
+        "start_time": f"{requested_date}T09:00:00+10:00"
+    }
+    booking_resp = requests.post(
+        f"https://api.{shard}.cliniko.com/v1/appointments",
+        headers=headers,
+        json=appointment_payload
+    )
+    booking_resp.raise_for_status()
+    appointment_id = booking_resp.json()["id"]
+
+    return {
+        "success": True,
+        "message": f"Booked {service} with {practitioner} on {requested_date}.",
+        "appointment_id": appointment_id
+    }
+
+@app.post("/reschedule-appointment")
+async def reschedule_appointment(request: Request):
+    data = await request.json()
+    caller_phone = data.get("callerPhone")
+    transcript = data.get("transcript", [])
+
+    if not caller_phone or not transcript:
+        return {"success": False, "error": "Missing required data."}
+
+    message = " ".join([t["message"] for t in transcript if t["role"] == "user"]).lower()
+    service = extract_service(message)
+    requested_date = parse_requested_date(message).strftime("%Y-%m-%d")
+    normalized_phone = normalize_phone(caller_phone)
+
+    clinic_data = lookup_clinic_data_by_phone(normalized_phone)
+    if "error" in clinic_data:
+        api_key = FALLBACK_CLINIKO_API_KEY
+        shard = FALLBACK_CLINIKO_SHARD
+    else:
+        api_key = clinic_data["cliniko_api_key"]
+        shard = clinic_data["cliniko_shard"]
+
+    headers = {"Authorization": f"Basic {api_key}", "Content-Type": "application/json"}
+
+    appt_resp = requests.get(
+        f"https://api.{shard}.cliniko.com/v1/appointments?from={datetime.now().strftime('%Y-%m-%d')}",
+        headers=headers
+    )
+    appt_resp.raise_for_status()
+    appointments = appt_resp.json().get("appointments", [])
+
+    current_appt = next((a for a in appointments if caller_phone in a["patient"].get("phone", "") and service in a["appointment_type"]["name"].lower()), None)
+
+    if not current_appt:
+        return {"success": False, "error": "No existing appointment found to reschedule."}
+
+    appointment_type_id = current_appt["appointment_type"]["id"]
+    practitioner_id = current_appt["practitioner"]["id"]
+    patient_id = current_appt["patient"]["id"]
+
+    cancel_resp = requests.delete(
+        f"https://api.{shard}.cliniko.com/v1/appointments/{current_appt['id']}",
+        headers=headers
+    )
+    cancel_resp.raise_for_status()
+
+    avail_resp = requests.get(
+        f"https://api.{shard}.cliniko.com/v1/available_appointments",
+        headers=headers,
+        params={
+            "start_date": requested_date,
+            "end_date": requested_date,
+            "appointment_type_id": appointment_type_id,
+            "practitioner_id": practitioner_id
+        }
+    )
+    avail_resp.raise_for_status()
+    slots = avail_resp.json().get("available_appointments", [])
+
+    if not slots:
+        return {"success": False, "error": f"No available time slots on {requested_date}."}
+
+    chosen_slot = slots[0]
+
+    new_appt_payload = {
+        "patient_id": patient_id,
+        "appointment_type_id": appointment_type_id,
+        "practitioner_id": practitioner_id,
+        "start_time": chosen_slot["start_time"]
+    }
+
+    book_resp = requests.post(
+        f"https://api.{shard}.cliniko.com/v1/appointments",
+        headers=headers,
+        json=new_appt_payload
+    )
+    book_resp.raise_for_status()
+    new_appt_id = book_resp.json()["id"]
+
+    return {
+        "success": True,
+        "message": f"Appointment rescheduled to {chosen_slot['start_time']}",
+        "appointment_id": new_appt_id
+    }
+
+@app.post("/cancel-appointment")
+async def cancel_appointment(request: Request):
+    data = await request.json()
+    caller_phone = data.get("callerPhone")
+    transcript = data.get("transcript", [])
+
+    if not caller_phone or not transcript:
+        return {"success": False, "error": "Missing required data."}
+
+    message = " ".join([t["message"] for t in transcript if t["role"] == "user"]).lower()
+    service = extract_service(message)
+    normalized_phone = normalize_phone(caller_phone)
+
+    clinic_data = lookup_clinic_data_by_phone(normalized_phone)
+    if "error" in clinic_data:
+        api_key = FALLBACK_CLINIKO_API_KEY
+        shard = FALLBACK_CLINIKO_SHARD
+    else:
+        api_key = clinic_data["cliniko_api_key"]
+        shard = clinic_data["cliniko_shard"]
+
+    headers = {"Authorization": f"Basic {api_key}", "Content-Type": "application/json"}
+
+    appt_resp = requests.get(
+        f"https://api.{shard}.cliniko.com/v1/appointments?from={datetime.now().strftime('%Y-%m-%d')}",
+        headers=headers
+    )
+    appt_resp.raise_for_status()
+    appointments = appt_resp.json().get("appointments", [])
+
+    current_appt = next((a for a in appointments if caller_phone in a["patient"].get("phone", "") and service in a["appointment_type"]["name"].lower()), None)
+
+    if not current_appt:
+        return {"success": False, "error": "No appointment found to cancel."}
+
+    appt_id = current_appt["id"]
+    cancel_resp = requests.delete(
+        f"https://api.{shard}.cliniko.com/v1/appointments/{appt_id}",
+        headers=headers
+    )
+    cancel_resp.raise_for_status()
+
+    return {"success": True, "message": f"Appointment for {service} has been cancelled."}
+

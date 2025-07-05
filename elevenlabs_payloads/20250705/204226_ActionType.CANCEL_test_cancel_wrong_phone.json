@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-05T20:42:26.269853",
+  "endpoint": "/cancel-appointment",
+  "headers": {},
+  "payload": {
+    "sessionId": "test_cancel_wrong_phone",
+    "callerPhone": "0499999999",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-05 20:42:26.269762",
+    "action": "cancel",
+    "appointmentId": null,
+    "appointmentDetails": "any appointment",
+    "reason": "Wrong number test"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": null,
+    "patient_name": null,
+    "appointment_type": null,
+    "date": null,
+    "time": null,
+    "caller_phone": "0499999999",
+    "dialed_number": "0478621276"
+  }
+}

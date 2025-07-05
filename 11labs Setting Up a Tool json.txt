@@ -1,0 +1,104 @@
+ Setting Up a Tool
+To create a new tool, you'll send a POST request to:
+
+bash
+Copy
+Edit
+
+https://api.elevenlabs.io/v1/convai/tools
+Headers:
+
+xi-api-key: Your personal API key
+
+Content-Type: application/json
+help.elevenlabs.io
++6
+11labs-ai.com
++6
+elevenlabs.io
++6
+11labs-ai.com
+
+JSON Body Structure:
+
+json
+Copy
+Edit
+{
+  "tool_config": {
+    "name": "get_weather",
+    "description": "Fetches current weather data for a specified location.",
+    "api_schema": {
+      "url": "https://api.weatherapi.com/v1/current.json",
+      "method": "GET",
+      "path_params_schema": {},
+      "query_params_schema": {
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Location query (e.g., city name or coordinates)."
+          },
+          "key": {
+            "type": "string",
+            "description": "API key for authentication."
+          }
+        },
+        "required": ["q", "key"]
+      },
+      "request_body_schema": {
+        "type": "object",
+        "properties": {}
+      },
+      "request_headers": {
+        "Accept": "application/json"
+      }
+    }
+  }
+}
+Key Components Explained:
+
+name & description: Clearly define what your tool does. This helps the assistant understand when to use it.
+
+api_schema: Details about the external API your tool will interact with.
+
+url: The endpoint of the external API.
+
+method: HTTP method to use (GET, POST, etc.).
+
+path_params_schema: Define any path parameters if needed.
+
+query_params_schema: Specify query parameters, their types, descriptions, and which are required.
+
+request_body_schema: Structure of the request body if your method requires one.
+
+request_headers: Any additional headers needed for the request.
+elevenlabs.io
++2
+elevenlabs.io
++2
+help.elevenlabs.io
++2
+help.elevenlabs.io
+postman.com
++3
+11labs-ai.com
++3
+11labs-ai.com
++3
+
+🔄 Updating an Existing Tool
+To update a tool, send a PATCH request to:
+
+bash
+Copy
+Edit
+
+https://api.elevenlabs.io/v1/convai/tools/{tool_id}
+Replace {tool_id} with the ID of the tool you wish to update.
+
+🧠 Best Practices
+Descriptive Naming: Use intuitive names and descriptions for your tools and parameters. This clarity aids the assistant in selecting the right tool during conversations.
+
+Parameter Details: Clearly define each parameter's type, purpose, and whether it's required. This ensures accurate data is passed to the external API.
+
+Authentication: If the external API requires authentication (like an API key), ensure it's included in the request_headers or as a query parameter, as appropriate.

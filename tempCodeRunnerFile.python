@@ -1,0 +1,20 @@
+python -c "
+import asyncio
+import asyncpg
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+url = os.getenv('DATABASE_URL')
+print(f'Testing connection to: {url[:50]}...')
+
+async def test():
+    try:
+        conn = await asyncpg.connect(url)
+        print('✓ Database connected successfully!')
+        await conn.close()
+    except Exception as e:
+        print(f'✗ Error: {e}')
+
+asyncio.run(test())
+"

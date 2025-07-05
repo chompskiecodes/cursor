@@ -1,0 +1,132 @@
+{
+  "timestamp": "2025-07-04T14:10:54.578199+00:00",
+  "phone_number": "61478621276",
+  "schema_check": {
+    "businesses": {
+      "exists": true,
+      "columns": [
+        "business_id",
+        "clinic_id",
+        "business_name",
+        "is_primary",
+        "created_at"
+      ],
+      "has_created_at": true,
+      "has_updated_at": false
+    },
+    "practitioners": {
+      "exists": true,
+      "columns": [
+        "practitioner_id",
+        "clinic_id",
+        "first_name",
+        "last_name",
+        "title",
+        "active",
+        "created_at"
+      ],
+      "has_created_at": true,
+      "has_updated_at": false
+    },
+    "appointment_types": {
+      "exists": true,
+      "columns": [
+        "appointment_type_id",
+        "clinic_id",
+        "name",
+        "duration_minutes",
+        "billable_item_id",
+        "active"
+      ],
+      "has_created_at": false,
+      "has_updated_at": false
+    },
+    "appointments": {
+      "exists": true,
+      "columns": [
+        "appointment_id",
+        "clinic_id",
+        "patient_id",
+        "practitioner_id",
+        "appointment_type_id",
+        "business_id",
+        "starts_at",
+        "ends_at",
+        "status",
+        "notes",
+        "created_at",
+        "updated_at"
+      ],
+      "has_created_at": true,
+      "has_updated_at": true
+    }
+  },
+  "data_check": {
+    "businesses": {
+      "count": 3,
+      "status": "3 businesses found",
+      "businesses": [
+        {
+          "business_id": "1701928805762869230",
+          "business_name": "City Clinic",
+          "is_primary": true
+        },
+        {
+          "business_id": "1717010852512540252",
+          "business_name": "balmain",
+          "is_primary": false
+        },
+        {
+          "business_id": "1709781060880966929",
+          "business_name": "Location 2",
+          "is_primary": false
+        }
+      ],
+      "alias_info": [
+        {
+          "business_name": "City Clinic",
+          "alias_count": 5
+        },
+        {
+          "business_name": "Location 2",
+          "alias_count": 3
+        },
+        {
+          "business_name": "balmain",
+          "alias_count": 0
+        }
+      ]
+    },
+    "practitioners": {
+      "total": 3,
+      "active": 3,
+      "inactive": 0,
+      "practitioners_with_locations": 3
+    },
+    "appointment_types": {
+      "total": 3,
+      "active": 3
+    },
+    "cache": {
+      "total_entries": 22,
+      "valid": 0,
+      "expired": 22,
+      "stale": 4,
+      "freshness_percentage": 0.0
+    }
+  },
+  "issues": [],
+  "summary": [
+    "\u2705 3 businesses found",
+    "\u2705 3 practitioners (3 active)",
+    "\u2705 3 appointment types (3 active)"
+  ],
+  "clinic_info": {
+    "clinic_id": "9da34639-5ea8-4c1b-b29b-82f1ece91518",
+    "clinic_name": "Noam Field",
+    "has_api_key": true,
+    "cliniko_shard": "au4",
+    "active": true,
+    "timezone": "Australia/Sydney"
+  }
+}

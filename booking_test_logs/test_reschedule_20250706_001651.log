@@ -1,0 +1,42 @@
+2025-07-06 00:16:51,763 - INFO - Starting webhook reschedule test - Log file: booking_test_logs\test_reschedule_20250706_001651.log
+2025-07-06 00:16:51,764 - INFO - === Webhook-First Reschedule Test ===
+2025-07-06 00:16:51,764 - INFO - Webhook API: http://localhost:8000
+2025-07-06 00:16:51,765 - INFO - Test phone number: 0478621276
+2025-07-06 00:16:51,765 - INFO - 
+--- Check Availability for 2025-07-07 ---
+2025-07-06 00:16:51,765 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-07",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-06 00:16:54,603 - INFO - Status: 200
+2025-07-06 00:16:54,603 - INFO - Response: {"success":true,"sessionId":"test_booking_123","message":"Brendan Smith has the following times available at balmain on Monday, July 07, 2025: 4:00 PM","error":null,"practitioner":{"id":"1702104296348198163","name":"Brendan Smith","firstName":"Brendan","servicesCount":0},"date":"Monday, July 07, 2025","slots":[{"date":"Monday, July 07, 2025","time":"4:00 PM","displayTime":"4:00 PM"}],"location":{"id":"1717010852512540252","name":"balmain"}}
+2025-07-06 00:16:54,604 - INFO - Preferred time not available. Next available time: 4:00 PM
+2025-07-06 00:16:54,604 - INFO - 
+--- Step: Reschedule Appointment to 4:00 PM via Webhook ---
+2025-07-06 00:16:54,605 - INFO - Reschedule payload: {
+  "action": "reschedule",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678",
+  "appointmentId": "1723218736460080245",
+  "newDate": "2025-07-07",
+  "newTime": "4:00 PM",
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage"
+}
+2025-07-06 00:17:01,091 - INFO - Status: 200
+2025-07-06 00:17:01,091 - INFO - Response: {"success":true,"message":"Perfect! I've successfully rescheduled your appointment to Monday, July 07, 2025 at 4:00 PM.","appointmentDetails":{"appointmentId":"1723223259018699898","oldAppointmentId":"1723218736460080245","practitioner":"Brendan Smith","date":"Monday, July 07, 2025","time":"4:00 PM","confirmationNumber":"1723223259018699898"},"sessionId":"test_booking_123"}
+2025-07-06 00:17:01,098 - INFO - Message: Perfect! I've successfully rescheduled your appointment to Monday, July 07, 2025 at 4:00 PM.
+2025-07-06 00:17:01,098 - INFO - Appointment Details: {
+  "appointmentId": "1723223259018699898",
+  "oldAppointmentId": "1723218736460080245",
+  "practitioner": "Brendan Smith",
+  "date": "Monday, July 07, 2025",
+  "time": "4:00 PM",
+  "confirmationNumber": "1723223259018699898"
+}
+2025-07-06 00:17:01,102 - INFO - 
+Test results saved to: booking_test_logs\test_reschedule_20250706_001651.log

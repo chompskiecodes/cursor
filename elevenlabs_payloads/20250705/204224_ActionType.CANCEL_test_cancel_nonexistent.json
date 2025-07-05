@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-05T20:42:24.902090",
+  "endpoint": "/cancel-appointment",
+  "headers": {},
+  "payload": {
+    "sessionId": "test_cancel_nonexistent",
+    "callerPhone": "0412345678",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-05 20:42:24.902036",
+    "action": "cancel",
+    "appointmentId": null,
+    "appointmentDetails": "my appointment last year",
+    "reason": "Testing"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": null,
+    "patient_name": null,
+    "appointment_type": null,
+    "date": null,
+    "time": null,
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

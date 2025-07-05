@@ -1,0 +1,27 @@
+# Core dependencies
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Database
+asyncpg==0.29.0
+
+# HTTP client (async)
+httpx==0.26.0
+
+# Security
+python-multipart==0.0.6
+
+# Environment variables
+python-dotenv==1.0.1
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Timezone support (Python 3.9+)
+tzdata==2023.4  # Required for zoneinfo on some platforms
+
+# Production server
+gunicorn==21.2.0

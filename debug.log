@@ -1,0 +1,600 @@
+2025-07-03 23:16:18,395 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:16:18,396 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: setup_0
+2025-07-03 23:16:18,397 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:16:18,397 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Chomps Skie'
+2025-07-03 23:16:18,398 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-03 23:16:26,916 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:16:26,917 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: setup_1
+2025-07-03 23:16:26,943 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:16:26,943 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Chomps Skie'
+2025-07-03 23:16:26,944 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Follow up)'
+2025-07-03 23:16:30,670 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:16:30,671 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: setup_2
+2025-07-03 23:16:30,671 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:16:30,671 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Chomps Skie'
+2025-07-03 23:16:30,672 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Massage'
+2025-07-03 23:16:37,710 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:16:37,711 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: reschedule_setup
+2025-07-03 23:16:37,711 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:16:37,712 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Chomps Skie'
+2025-07-03 23:16:37,712 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-03 23:24:53,041 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:24:53,042 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751549077465
+2025-07-03 23:24:53,042 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:24:53,043 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Brendan Smith'
+2025-07-03 23:24:53,043 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-03 23:28:33,784 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:28:33,785 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751549303031
+2025-07-03 23:28:33,785 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:28:33,785 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Brendan Smith'
+2025-07-03 23:28:33,786 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-03 23:33:59,288 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:33:59,288 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751549625480
+2025-07-03 23:33:59,288 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:33:59,288 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Brendan Smith'
+2025-07-03 23:33:59,289 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-03 23:37:24,362 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:37:24,363 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751549832285
+2025-07-03 23:37:24,364 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:37:24,364 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Brendan Smith'
+2025-07-03 23:37:24,364 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-03 23:37:31,010 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:37:31,010 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751549832285
+2025-07-03 23:37:31,011 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.RESCHEDULE
+2025-07-03 23:37:31,011 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'None'
+2025-07-03 23:37:31,011 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'None'
+2025-07-03 23:49:25,571 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:49:25,572 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751550549080
+2025-07-03 23:49:25,572 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-03 23:49:25,572 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Brendan Smith'
+2025-07-03 23:49:25,572 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-03 23:49:32,825 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-03 23:49:32,825 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751550549080
+2025-07-03 23:49:32,825 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.RESCHEDULE
+2025-07-03 23:49:32,826 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'None'
+2025-07-03 23:49:32,826 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'None'
+2025-07-04 11:57:25,979 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-04 11:57:25,979 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751594233373
+2025-07-04 11:57:25,979 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-04 11:57:25,980 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Brendan Smith'
+2025-07-04 11:57:25,980 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-04 12:21:27,766 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-04 12:21:27,766 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751595673655
+2025-07-04 12:21:27,767 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.BOOK
+2025-07-04 12:21:27,767 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'Brendan Smith'
+2025-07-04 12:21:27,768 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'Acupuncture (Initial)'
+2025-07-04 12:21:34,984 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-04 12:21:34,985 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_session_1751595673655
+2025-07-04 12:21:34,985 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Action: ActionType.RESCHEDULE
+2025-07-04 12:21:34,986 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Practitioner: 'None'
+2025-07-04 12:21:34,986 - tools.booking_router.flow - DEBUG - [booking_router.py:178] - Service: 'None'
+2025-07-05 16:53:32,418 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 16:53:32,419 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_booking_123
+2025-07-05 16:53:32,419 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 16:53:32,419 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan'
+2025-07-05 16:53:32,419 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-05 17:04:36,309 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:04:36,309 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: setup_0
+2025-07-05 17:04:36,309 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:04:36,309 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Chomps Skie'
+2025-07-05 17:04:36,309 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 17:04:41,351 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:04:41,351 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: setup_1
+2025-07-05 17:04:41,351 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:04:41,352 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Chomps Skie'
+2025-07-05 17:04:41,352 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 17:04:44,959 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:04:44,960 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: setup_2
+2025-07-05 17:04:44,960 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:04:44,960 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Chomps Skie'
+2025-07-05 17:04:44,960 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-05 17:04:51,799 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:04:51,799 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: reschedule_setup
+2025-07-05 17:04:51,800 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:04:51,800 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Chomps Skie'
+2025-07-05 17:04:51,800 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 17:08:31,344 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:08:31,344 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 17:08:31,345 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:08:31,345 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:08:31,345 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 17:08:36,485 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:08:36,485 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_2
+2025-07-05 17:08:36,485 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:08:36,486 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:08:36,486 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 17:08:40,022 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:08:40,022 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_3
+2025-07-05 17:08:40,022 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:08:40,023 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:08:40,023 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-05 17:29:23,557 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:29:23,557 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 17:29:23,557 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:29:23,557 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:29:23,557 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 17:29:28,800 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:29:28,801 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_2
+2025-07-05 17:29:28,801 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:29:28,801 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:29:28,801 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 17:29:32,676 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:29:32,676 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_3
+2025-07-05 17:29:32,677 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:29:32,677 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:29:32,677 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-05 17:29:39,242 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:29:39,242 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: reschedule_setup
+2025-07-05 17:29:39,242 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:29:39,242 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:29:39,242 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 17:34:29,262 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:34:29,262 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: debug_booking_test
+2025-07-05 17:34:29,262 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:34:29,263 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:34:29,263 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 17:35:23,272 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:35:23,272 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: debug_booking_test
+2025-07-05 17:35:23,272 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:35:23,273 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:35:23,273 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 17:48:19,678 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:48:19,678 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 17:48:19,679 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:48:19,679 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:48:19,679 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 17:48:25,430 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:48:25,430 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_2
+2025-07-05 17:48:25,430 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:48:25,430 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:48:25,430 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 17:48:29,697 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:48:29,697 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_3
+2025-07-05 17:48:29,698 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:48:29,698 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:48:29,698 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-05 17:48:36,939 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 17:48:36,939 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: reschedule_setup
+2025-07-05 17:48:36,939 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 17:48:36,940 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 17:48:36,940 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 18:10:56,431 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:10:56,432 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 18:10:56,433 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:10:56,433 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:10:56,434 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:11:04,674 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:11:04,675 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: reschedule_setup
+2025-07-05 18:11:04,676 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:11:04,676 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:11:04,676 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:23:46,109 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:23:46,110 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 18:23:46,110 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:23:46,110 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:23:46,111 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:23:54,672 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:23:54,672 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: reschedule_setup
+2025-07-05 18:23:54,673 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:23:54,673 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:23:54,674 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:32:57,064 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:32:57,065 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 18:32:57,065 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:32:57,065 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:32:57,066 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:33:06,545 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:33:06,546 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: reschedule_setup
+2025-07-05 18:33:06,546 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:33:06,547 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:33:06,547 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:36:24,356 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:36:24,357 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 18:36:24,357 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:36:24,357 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:36:24,358 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:37:30,881 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:37:30,882 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 18:37:30,882 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:37:30,883 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:37:30,883 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:37:40,654 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:37:40,655 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: reschedule_setup
+2025-07-05 18:37:40,656 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:37:40,656 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:37:40,657 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:42:37,999 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:42:37,999 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 18:42:37,999 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:42:38,000 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:42:38,000 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:42:46,805 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:42:46,806 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_reschedule_time
+2025-07-05 18:42:46,807 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.RESCHEDULE
+2025-07-05 18:42:46,807 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:42:46,807 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:44:53,745 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:44:53,745 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_1
+2025-07-05 18:44:53,745 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 18:44:53,745 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:44:53,745 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 18:45:02,344 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 18:45:02,345 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_reschedule_time
+2025-07-05 18:45:02,345 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.RESCHEDULE
+2025-07-05 18:45:02,345 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 18:45:02,345 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:14,571 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:14,571 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_09:00
+2025-07-05 20:33:14,572 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:14,572 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:14,572 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:19,196 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:19,196 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_10:00
+2025-07-05 20:33:19,196 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:19,197 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:19,197 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:23,804 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:23,804 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_11:00
+2025-07-05 20:33:23,804 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:23,805 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:23,805 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:28,417 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:28,417 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_14:00
+2025-07-05 20:33:28,417 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:28,418 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:28,418 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:32,946 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:32,946 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_15:00
+2025-07-05 20:33:32,946 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:32,947 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:32,947 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:37,612 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:37,612 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_16:00
+2025-07-05 20:33:37,612 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:37,612 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:37,613 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:42,292 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:42,293 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_09:00
+2025-07-05 20:33:42,293 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:42,293 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:42,294 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:47,613 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:47,613 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_10:00
+2025-07-05 20:33:47,613 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:47,613 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:47,614 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:53,989 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:53,989 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_09:00
+2025-07-05 20:33:53,989 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:53,990 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:53,990 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:33:58,493 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:33:58,494 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_10:00
+2025-07-05 20:33:58,494 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:33:58,494 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:33:58,494 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:34:03,095 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:34:03,095 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_11:00
+2025-07-05 20:34:03,095 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:34:03,095 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:34:03,095 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:40:20,506 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:40:20,507 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_09:00
+2025-07-05 20:40:20,507 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:40:20,508 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:40:20,508 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:40:28,428 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:40:28,429 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_10:00
+2025-07-05 20:40:28,429 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:40:28,429 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:40:28,429 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:40:36,684 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:40:36,684 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_11:00
+2025-07-05 20:40:36,685 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:40:36,685 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:40:36,686 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:40:43,841 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:40:43,842 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_14:00
+2025-07-05 20:40:43,842 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:40:43,843 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:40:43,843 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:40:50,690 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:40:50,690 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_15:00
+2025-07-05 20:40:50,691 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:40:50,691 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:40:50,691 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:40:57,339 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:40:57,340 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_16:00
+2025-07-05 20:40:57,340 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:40:57,341 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:40:57,341 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:41:05,449 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:41:05,450 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_09:00
+2025-07-05 20:41:05,450 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:41:05,450 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:41:05,451 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:41:12,216 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:41:12,217 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_9:00 AM_retry
+2025-07-05 20:41:12,217 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:41:12,217 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:41:12,217 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:41:19,437 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:41:19,438 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_10:00
+2025-07-05 20:41:19,438 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:41:19,439 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:41:19,439 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:41:27,279 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:41:27,280 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_10:00 AM_retry
+2025-07-05 20:41:27,280 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:41:27,280 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:41:27,281 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:41:34,381 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:41:34,381 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_11:00
+2025-07-05 20:41:34,382 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:41:34,382 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:41:34,383 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:41:44,315 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:41:44,316 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_09:00
+2025-07-05 20:41:44,316 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:41:44,317 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:41:44,317 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:41:50,694 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:41:50,695 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_10:00
+2025-07-05 20:41:50,695 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:41:50,695 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:41:50,696 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:41:57,107 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:41:57,108 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_11:00
+2025-07-05 20:41:57,108 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:41:57,109 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:41:57,110 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:42:03,813 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:42:03,814 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_14:00
+2025-07-05 20:42:03,815 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:42:03,815 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:42:03,816 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:42:09,672 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:42:09,672 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_15:00
+2025-07-05 20:42:09,672 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:42:09,672 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:42:09,672 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:42:15,335 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:42:15,336 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_16:00
+2025-07-05 20:42:15,336 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:42:15,336 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:42:15,337 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:42:27,753 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:42:27,753 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_reschedule_time
+2025-07-05 20:42:27,754 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.RESCHEDULE
+2025-07-05 20:42:27,754 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:42:27,754 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:06,752 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:06,752 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_09:00
+2025-07-05 20:55:06,753 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:06,753 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:06,753 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:12,310 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:12,310 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_10:00
+2025-07-05 20:55:12,310 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:12,310 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:12,311 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:16,793 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:16,793 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_11:00
+2025-07-05 20:55:16,793 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:16,793 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:16,793 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:21,282 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:21,282 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_14:00
+2025-07-05 20:55:21,282 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:21,282 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:21,282 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:26,164 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:26,164 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_15:00
+2025-07-05 20:55:26,164 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:26,164 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:26,164 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:30,853 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:30,853 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_16:00
+2025-07-05 20:55:30,853 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:30,854 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:30,854 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:35,594 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:35,594 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_09:00
+2025-07-05 20:55:35,595 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:35,595 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:35,595 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:40,444 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:40,444 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_9:00 AM_retry
+2025-07-05 20:55:40,445 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:40,445 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:40,445 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:45,950 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:45,951 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_10:00
+2025-07-05 20:55:45,951 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:45,951 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:45,951 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:51,437 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:51,437 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_10:00 AM_retry
+2025-07-05 20:55:51,437 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:51,437 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:51,438 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:55:56,210 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:55:56,211 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_11:00
+2025-07-05 20:55:56,211 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:55:56,211 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:55:56,211 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:56:00,748 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:56:00,748 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_11:00 AM_retry
+2025-07-05 20:56:00,749 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:56:00,749 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:56:00,749 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:56:05,272 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:56:05,273 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_14:00
+2025-07-05 20:56:05,273 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:56:05,274 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:56:05,274 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 20:56:11,369 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 20:56:11,370 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_Location 2_09:00
+2025-07-05 20:56:11,371 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 20:56:11,371 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 20:56:11,371 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:00:04,553 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:00:04,553 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_09:00
+2025-07-05 21:00:04,553 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:00:04,554 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:00:04,554 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:00:09,738 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:00:09,738 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_10:00
+2025-07-05 21:00:09,738 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:00:09,738 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:00:09,739 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:00:14,786 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:00:14,786 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_11:00
+2025-07-05 21:00:14,786 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:00:14,786 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:00:14,787 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:00:19,463 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:00:19,463 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_14:00
+2025-07-05 21:00:19,463 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:00:19,463 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:00:19,463 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:00:24,265 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:00:24,266 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_15:00
+2025-07-05 21:00:24,266 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:00:24,266 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:00:24,266 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:00:29,130 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:00:29,130 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_16:00
+2025-07-05 21:00:29,130 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:00:29,130 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:00:29,130 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:00:34,047 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:00:34,048 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_09:00
+2025-07-05 21:00:34,048 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:00:34,048 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:00:34,048 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:01:38,504 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:01:38,505 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_09:00
+2025-07-05 21:01:38,505 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:01:38,505 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:01:38,505 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:01:44,172 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:01:44,173 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_10:00
+2025-07-05 21:01:44,173 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:01:44,173 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:01:44,173 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:01:48,631 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:01:48,631 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_11:00
+2025-07-05 21:01:48,631 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:01:48,631 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:01:48,631 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:01:53,065 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:01:53,066 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_14:00
+2025-07-05 21:01:53,066 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:01:53,066 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:01:53,066 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:01:58,414 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:01:58,415 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_15:00
+2025-07-05 21:01:58,415 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:01:58,416 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:01:58,416 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:03,270 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:03,270 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_16:00
+2025-07-05 21:02:03,271 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:03,271 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:03,271 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:08,231 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:08,231 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_09:00
+2025-07-05 21:02:08,232 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:08,232 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:08,232 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:12,961 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:12,962 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_9:00 AM_retry
+2025-07-05 21:02:12,962 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:12,963 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:12,964 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:17,334 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:17,335 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_10:00
+2025-07-05 21:02:17,335 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:17,335 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:17,335 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:21,985 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:21,985 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_10:00 AM_retry
+2025-07-05 21:02:21,985 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:21,985 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:21,986 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:26,495 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:26,495 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_11:00
+2025-07-05 21:02:26,495 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:26,495 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:26,495 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:30,999 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:30,999 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_11:00 AM_retry
+2025-07-05 21:02:30,999 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:30,999 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:30,999 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:35,512 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:35,512 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_14:00
+2025-07-05 21:02:35,512 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:35,513 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:35,513 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:40,029 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:40,030 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_2:00 PM_retry
+2025-07-05 21:02:40,030 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:40,030 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:40,030 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:02:44,522 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:02:44,522 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_balmain_15:00
+2025-07-05 21:02:44,522 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:02:44,522 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:02:44,522 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:05:04,354 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:05:04,354 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_09:00
+2025-07-05 21:05:04,354 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:05:04,354 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:05:04,355 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:05:09,492 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:05:09,492 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_10:00
+2025-07-05 21:05:09,492 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:05:09,493 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:05:09,493 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 21:05:13,979 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 21:05:13,979 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_setup_City Clinic_11:00
+2025-07-05 21:05:13,979 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 21:05:13,979 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 21:05:13,979 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Follow up)'
+2025-07-05 23:00:31,598 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 23:00:31,599 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_booking_123
+2025-07-05 23:00:31,599 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 23:00:31,599 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan'
+2025-07-05 23:00:31,600 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-05 23:11:34,031 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 23:11:34,031 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: debug_booking_test
+2025-07-05 23:11:34,032 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 23:11:34,032 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 23:11:34,032 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Acupuncture (Initial)'
+2025-07-05 23:48:31,444 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 23:48:31,444 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_booking_123
+2025-07-05 23:48:31,445 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 23:48:31,445 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 23:48:31,445 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-05 23:58:56,501 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-05 23:58:56,501 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_booking_123
+2025-07-05 23:58:56,501 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-05 23:58:56,501 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-05 23:58:56,501 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-06 00:04:17,756 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-06 00:04:17,756 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_booking_123
+2025-07-06 00:04:17,756 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-06 00:04:17,756 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-06 00:04:17,757 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-06 00:07:56,435 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-06 00:07:56,435 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_booking_123
+2025-07-06 00:07:56,435 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.BOOK
+2025-07-06 00:07:56,435 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-06 00:07:56,435 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-06 00:16:56,949 - tools.booking_router.flow - DEBUG - [booking_router.py:181] - === BOOKING REQUEST START ===
+2025-07-06 00:16:56,949 - tools.booking_router.flow - DEBUG - [booking_router.py:182] - Session: test_booking_123
+2025-07-06 00:16:56,949 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.RESCHEDULE
+2025-07-06 00:16:56,949 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
+2025-07-06 00:16:56,950 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'

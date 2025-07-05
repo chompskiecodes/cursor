@@ -1,0 +1,41 @@
+2025-07-05 23:00:20,655 - INFO - Starting booking test - Log file: booking_test_logs\booking_test_20250705_230020.log
+2025-07-05 23:00:20,656 - INFO - Configuration:
+2025-07-05 23:00:20,656 - INFO -   - Cliniko Shard: au4
+2025-07-05 23:00:20,657 - INFO -   - Webhook URL: http://localhost:8000
+2025-07-05 23:00:20,657 - INFO -   - Webhook API Key: **********
+2025-07-05 23:00:20,657 - INFO -   - Test Phone: 0478621276
+2025-07-05 23:00:20,658 - INFO - === Simple Booking Test ===
+2025-07-05 23:00:20,658 - INFO - Cliniko API: https://api.au4.cliniko.com/v1
+2025-07-05 23:00:20,659 - INFO - Webhook API: http://localhost:8000
+2025-07-05 23:00:20,659 - INFO - Test phone number: 0478621276
+2025-07-05 23:00:20,660 - INFO - 
+--- Step 1: Verify Practitioner Exists ---
+2025-07-05 23:00:20,660 - INFO - Finding practitioner 'Brendan'...
+2025-07-05 23:00:20,838 - INFO - Found 3 practitioners
+2025-07-05 23:00:20,903 - INFO - 
+--- Step 2: Get Location ---
+2025-07-05 23:00:20,904 - INFO - Finding location 'Balmain'...
+2025-07-05 23:00:21,023 - INFO - Found 3 businesses
+2025-07-05 23:00:21,032 - INFO - 
+--- Step 3: Using Service ---
+2025-07-05 23:00:21,033 - INFO - Using service: Massage
+2025-07-05 23:00:21,034 - INFO - 
+--- Step 4: Find Available Times via Webhook ---
+2025-07-05 23:00:21,035 - INFO - Checking availability via webhook for next 7 days...
+2025-07-05 23:00:29,351 - INFO - 
+--- Step 5: Get Patient ---
+2025-07-05 23:00:29,352 - INFO - Finding an existing patient...
+2025-07-05 23:00:29,497 - INFO - Found 5 patients
+2025-07-05 23:00:29,506 - INFO - 
+--- Step 6: Book Appointment ---
+2025-07-05 23:00:29,522 - INFO - Booking appointment via webhook...
+2025-07-05 23:00:29,524 - INFO - Booking details:
+2025-07-05 23:00:29,524 - INFO -   - Patient: first patient
+2025-07-05 23:00:29,524 - INFO -   - Practitioner: Brendan
+2025-07-05 23:00:29,525 - INFO -   - Service: Massage
+2025-07-05 23:00:29,525 - INFO -   - Date: 2025-07-07
+2025-07-05 23:00:29,526 - INFO -   - Time: 12:00
+2025-07-05 23:00:29,526 - INFO -   - Location ID: 1717010852512540252
+2025-07-05 23:00:34,617 - ERROR - Error details: booking_failed
+2025-07-05 23:00:34,621 - ERROR - 
+Check log file for details: booking_test_logs\booking_test_20250705_230020.log
