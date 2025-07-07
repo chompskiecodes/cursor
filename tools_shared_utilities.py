@@ -3,8 +3,8 @@
 
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
-from typing import Optional
 from .dependencies import get_settings
+
 
 def convert_utc_to_local(utc_time_str: str, timezone_str: str = None) -> datetime:
     """Convert UTC time string to local timezone"""
@@ -26,6 +26,7 @@ def convert_utc_to_local(utc_time_str: str, timezone_str: str = None) -> datetim
     # local_tz = ZoneInfo(timezone_str)  # Generic usage, not clinic-specific
     local_tz = ZoneInfo(timezone_str)
     return utc_time.astimezone(local_tz)
+
 
 def format_time_for_voice(dt: datetime) -> str:
     """Format datetime for voice response"""

@@ -2,7 +2,7 @@
 import asyncio
 import asyncpg
 import httpx
-from typing import Dict, List, Optional
+from typing import Dict, List
 import os
 from dotenv import load_dotenv
 import logging

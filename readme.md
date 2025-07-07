@@ -4,6 +4,49 @@
 
 ---
 
+> ⚠️ **Cliniko API Limitation:**
+> 
+> When checking appointment availability or booking, you must always specify all three of the following:
+> - Practitioner
+> - Business (location)
+> - Treatment type (appointment type)
+>
+> The Cliniko API does **not** support checking availability at just the clinic level or with only a subset of these fields. All endpoints and test scripts must enforce this requirement.
+
+---
+
+### 🚨 Development & Integration Notes
+
+1. **Field Naming Consistency**
+   - Always use `business_id` (not `locationId`, `location_id`, or `locationID`) for location/business references in all API payloads, docs, and code.
+   - All documentation and test scripts should use `business_id` for clarity and backend compatibility.
+
+2. **Practitioner Name Columns**
+   - The practitioners table may not have a `full_name` column. Use the actual schema column (e.g., `name`, `first_name` + `last_name`, or check your DB schema).
+   - Update scripts and queries to match your real DB schema.
+
+3. **Database Pool Initialization**
+   - Standalone scripts (not running under FastAPI) must manually initialize the asyncpg connection pool using `asyncpg.create_pool` with the correct `DATABASE_URL`.
+   - Do not rely on FastAPI’s dependency injection or shared pool for standalone scripts.
+
+4. **Legacy/Flat Fields**
+   - All legacy/flat fields (e.g., `locationId`, `location_id`, etc.) have been removed from the API and documentation.
+   - If you see these in any code or docs, update them to the current field names.
+
+5. **Branching Logic for Availability**
+   - If a user requests a specific practitioner, only offer slots for that practitioner (searching future days if needed).
+   - If a user requests a service or “any” practitioner, offer the next available slot with any practitioner.
+
+6. **Test Scripts**
+   - Test scripts must use the same field names as the backend (e.g., `business_id`).
+   - When debugging, check both the payload and the backend handler for field name mismatches.
+
+7. **Error Handling**
+   - If you see “Database pool not initialized,” ensure your script is initializing the pool (see above).
+   - If you see “column ... does not exist,” check your DB schema and update queries accordingly.
+
+---
+
 ### 🔹 Overview
 
 This project implements an AI-powered voice receptionist system using FastAPI and Supabase, integrated with the Cliniko API. It supports multi-location clinics, enabling intelligent location disambiguation, robust validation, and fast, JSON-compliant webhook communication with ElevenLabs' Conversational AI platform.
@@ -146,7 +189,7 @@ The system implements **10 specialized webhook tools** designed for different co
   "date": "2025-06-24",
   "availability": {
     "City Clinic": {
-      "location_id": "loc_001",
+      "business_id": "loc_001",
       "slots": [
         {"time": "09:00", "service_name": "Massage (60 min)", "duration": 60},
         {"time": "10:00", "service_name": "Massage (60 min)", "duration": 60}
@@ -182,7 +225,7 @@ The system implements **10 specialized webhook tools** designed for different co
   "sessionId": "unique_session_id",
   "dialedNumber": "0478621267",
   "location": "City Clinic",
-  "locationId": "loc_001",
+  "business_id": "loc_001",
   "notes": "First time patient"
 }
 ```
@@ -198,7 +241,7 @@ The system implements **10 specialized webhook tools** designed for different co
     "practitionerId": "prac_001",
     "service": "Massage (60 min)",
     "location": "City Clinic",
-    "locationId": "loc_001",
+    "business_id": "loc_001",
     "date": "2025-06-24",
     "time": "10:00 AM",
     "patient": "John Smith",
@@ -341,7 +384,16 @@ python test_elevenlabs.py
 
 **Critical Learnings from Testing:**
 
-#### 1. **Date Format Requirements**
+#### 1. **Practitioner Availability - CRITICAL REQUIREMENT**
+- **Practitioner availability can ONLY be requested through the specific endpoint structure:**
+  ```
+  GET /businesses/{business_id}/practitioners/{practitioner_id}/appointment_types/{appointment_type_id}/available_times
+  ```
+- **You MUST provide ALL THREE IDs: business_id, practitioner_id, AND appointment_type_id**
+- **There is NO endpoint to get general practitioner availability without specifying a service**
+- **This is a Cliniko API limitation - not a system design choice**
+
+#### 2. **Date Format Requirements**
 - **Available Times Endpoint**: Use simple date format `YYYY-MM-DD` for `from` and `to` parameters
   ```python
   # ✅ CORRECT
@@ -367,7 +419,40 @@ python test_elevenlabs.py
   appointment_end = (local_time + timedelta(minutes=30)).astimezone(ZoneInfo("UTC")).isoformat()
   ```
 
-#### 3. **Common API Errors & Solutions**
+#### 3. **System Design Implications of Cliniko's Availability Limitation**
+
+**The Problem:**
+- Cliniko requires ALL THREE parameters (business_id, practitioner_id, appointment_type_id) to check availability
+- This means we cannot check "general practitioner availability" without knowing the service
+- When a user asks "Is Dr. Smith available tomorrow?", we must know what service they want
+
+**Our Solution:**
+1. **For practitioner-specific queries:** We check availability for ALL services that practitioner offers
+2. **For service-specific queries:** We check availability across ALL practitioners who offer that service
+3. **For general queries:** We use `find_next_available` which intelligently searches across combinations
+
+**Implementation Strategy:**
+```python
+# When user asks "Is Dr. Smith available tomorrow?"
+# We must check each service Dr. Smith offers:
+for service in practitioner_services:
+    availability = cliniko.get_available_times(
+        business_id, practitioner_id, service.appointment_type_id, date, date
+    )
+    if availability:
+        return "Yes, Dr. Smith has availability for {service.name}"
+
+# When user asks "Do you have any massage appointments tomorrow?"
+# We must check each practitioner who offers massage:
+for practitioner in massage_practitioners:
+    availability = cliniko.get_available_times(
+        business_id, practitioner.id, massage_service_id, date, date
+    )
+    if availability:
+        return "Yes, {practitioner.name} has massage availability"
+```
+
+#### 4. **Common API Errors & Solutions**
 
 | Error | Cause | Solution |
 |-------|-------|----------|

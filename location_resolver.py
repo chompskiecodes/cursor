@@ -225,7 +225,7 @@ class LocationResolver:
                 success=False,
                 sessionId=request.sessionId,
                 resolved=False,
-                needsClarification=False,
+                needs_clarification=False,
                 message="I couldn't find any locations for this clinic. Please contact the clinic directly.",
                 confidence=0.0
             )
@@ -237,9 +237,9 @@ class LocationResolver:
                 success=True,
                 sessionId=request.sessionId,
                 resolved=True,
-                needsClarification=False,
+                needs_clarification=False,
                 message=f"I'll book you at {location['business_name']}",
-                location=LocationData(
+                selected_location=LocationData(
                     id=location['business_id'],
                     name=location['business_name']
                 ),
@@ -299,9 +299,9 @@ class LocationResolver:
                 success=True,
                 sessionId=request.sessionId,
                 resolved=True,
-                needsClarification=False,
+                needs_clarification=False,
                 message=f"I'll book you at {best_match['location']['business_name']}",
-                location=LocationData(
+                selected_location=LocationData(
                     id=best_match['location']['business_id'],
                     name=best_match['location']['business_name']
                 ),
@@ -332,7 +332,7 @@ class LocationResolver:
                 success=True,
                 sessionId=request.sessionId,
                 resolved=False,
-                needsClarification=True,
+                needs_clarification=True,
                 message=message,
                 options=options,
                 confidence=best_match['score']
@@ -364,7 +364,7 @@ class LocationResolver:
                 success=True,
                 sessionId=request.sessionId,
                 resolved=False,
-                needsClarification=True,
+                needs_clarification=True,
                 message=message,
                 options=options,
                 confidence=0.0

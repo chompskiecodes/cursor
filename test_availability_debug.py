@@ -1,45 +1,51 @@
 #!/usr/bin/env python3
-"""Debug availability checker response"""
+"""Debug script for availability checker"""
 
 import asyncio
 import httpx
 import json
-import os
+from datetime import datetime, timedelta
 
-async def test_availability_without_location():
-    """Test availability checker without location parameter"""
+async def test_availability_checker():
+    """Test the availability checker directly"""
     
+    # Test data
     payload = {
-        "sessionId": "test-debug",
-        "dialedNumber": "0478621276",
         "practitioner": "Brendan Smith",
-        "appointmentType": "Acupuncture (Follow up)",
-        "date": "2025-07-07"
-        # No location parameter
+        "appointmentType": "Massage",
+        "date": "2025-07-07",
+        "sessionId": "debug_test_123",
+        "dialedNumber": "0478621276",
+        "business_id": "1701928805762869230"  # City Clinic
     }
     
-    headers = {
-        "Content-Type": "application/json"
-    }
+    print("Testing availability checker...")
+    print(f"Payload: {json.dumps(payload, indent=2)}")
     
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        response = await client.post(
-            "http://localhost:8000/availability-checker",
-            headers=headers,
-            json=payload
-        )
-        
-        data = response.json()
-        print("Response:")
-        print(json.dumps(data, indent=2))
-        
-        if data.get("needs_clarification"):
-            print(f"\n✓ Needs clarification: {data.get('message')}")
-            print(f"Options: {data.get('options')}")
-        else:
-            print(f"\n✗ No clarification needed")
-            print(f"Success: {data.get('success')}")
-            print(f"Message: {data.get('message')}")
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "http://localhost:8000/availability-checker",
+                json=payload,
+                timeout=30.0
+            )
+            
+            print(f"Status: {response.status_code}")
+            print(f"Response: {response.text}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                print(f"Success: {data.get('success')}")
+                print(f"Message: {data.get('message')}")
+                print(f"Error: {data.get('error')}")
+                print(f"Resolved: {data.get('resolved')}")
+                print(f"NeedsClarification: {data.get('needsClarification')}")
+                
+                if data.get('next_available'):
+                    print(f"Next available: {data.get('next_available')}")
+            
+    except Exception as e:
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
-    asyncio.run(test_availability_without_location()) 
+    asyncio.run(test_availability_checker())

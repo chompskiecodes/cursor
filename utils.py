@@ -6,6 +6,8 @@ from difflib import SequenceMatcher
 from models import TranscriptMessage
 
 # === Utility Functions ===
+
+
 def normalize_phone(phone: str) -> str:
     """Normalize phone number to international format"""
     if not phone:
@@ -15,34 +17,39 @@ def normalize_phone(phone: str) -> str:
         cleaned = '61' + cleaned[1:]  # Australian format
     return cleaned
 
+
 def mask_phone(phone: str) -> str:
     """Mask phone number for logging"""
     if len(phone) < 4:
         return "***"
     return f"{phone[:3]}***{phone[-2:]}"
 
+
 def normalize_for_matching(text: str) -> str:
     """Normalize text for fuzzy matching - handle all Cliniko data quirks"""
     if not text:
         return ""
     return (text
-        .strip()  # Remove leading/trailing spaces
-        .lower()  # Case insensitive
-        .replace("  ", " ")  # Multiple spaces to single
-        .replace("\t", " ")  # Tabs to spaces
-        .replace("\n", " ")  # Newlines to spaces
-        .replace("\xa0", " ")  # Non-breaking spaces to regular spaces
-    )
+            .strip()  # Remove leading/trailing spaces
+            .lower()  # Case insensitive
+            .replace("  ", " ")  # Multiple spaces to single
+            .replace("\t", " ")  # Tabs to spaces
+            .replace("\n", " ")  # Newlines to spaces
+            .replace("\xa0", " ")  # Non-breaking spaces to regular spaces
+            )
+
 
 def fuzzy_match(str1: str, str2: str) -> float:
     """Calculate similarity between two strings"""
     return SequenceMatcher(None, str1.lower(), str2.lower()).ratio()
+
 
 def extract_from_transcript(transcript: List[TranscriptMessage], pattern: str) -> Optional[str]:
     """Extract information from transcript using regex pattern"""
     full_text = " ".join([msg.message for msg in transcript if msg.role == "user"])
     match = re.search(pattern, full_text, re.IGNORECASE)
     return match.group(1) if match else None
+
 
 def parse_date_request(date_str: str, clinic_timezone=None) -> date:
     """Parse various date formats and relative dates"""
@@ -76,8 +83,9 @@ def parse_date_request(date_str: str, clinic_timezone=None) -> date:
     # Try parsing as date
     try:
         return datetime.strptime(date_str, "%Y-%m-%d").date()
-    except:
+    except Exception:
         return today + timedelta(days=1)  # Default to tomorrow
+
 
 def parse_time_request(time_str: str) -> Tuple[int, int]:
     """Parse time from various formats"""

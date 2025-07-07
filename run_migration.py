@@ -8,16 +8,16 @@ async def run_migration():
     """Run the schema migration script"""
     print("Connecting to database...")
     conn = await asyncpg.connect(DB_URL, ssl='require')
-    
+
     try:
         print("Reading migration script...")
         with open('schema_migration.sql', 'r') as f:
             sql = f.read()
-        
+
         print("Executing migration...")
         result = await conn.execute(sql)
         print("✅ Migration completed successfully!")
-        
+
     except Exception as e:
         print(f"❌ Migration failed: {e}")
         raise
@@ -25,4 +25,4 @@ async def run_migration():
         await conn.close()
 
 if __name__ == "__main__":
-    asyncio.run(run_migration()) 
+    asyncio.run(run_migration())

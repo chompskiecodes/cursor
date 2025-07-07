@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-07-06T15:53:04.815927",
+  "endpoint": "/location-resolver",
+  "headers": {},
+  "payload": {
+    "locationQuery": "Balmain",
+    "sessionId": "test_comprehensive_123",
+    "dialedNumber": "0478621276",
+    "callerPhone": "0412345678",
+    "additionalContext": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": null,
+    "patient_name": null,
+    "appointment_type": null,
+    "date": null,
+    "time": null,
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

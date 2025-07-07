@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-07-14T09:10:00.000000",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "action": "book",
+    "sessionId": "test_comprehensive_20250714",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-14 09:10:00.000000",
+    "callerPhone": "0412345678",
+    "systemCallerID": null,
+    "patientName": "Test Patient Comprehensive",
+    "patientPhone": "0412345678",
+    "appointmentType": "Acupuncture (Follow up)",
+    "practitioner": "Cameron Lockey",
+    "appointmentDate": "2025-07-14",
+    "appointmentTime": "10:00",
+    "business_name": null,
+    "business_id": "1701928805762869230",
+    "location": "City Clinic",
+    "bookingFor": "self",
+    "transcript": [],
+    "notes": null,
+    "appointmentId": null,
+    "currentAppointmentDetails": null,
+    "newDate": null,
+    "newTime": null,
+    "newPractitioner": null,
+    "newAppointmentType": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Cameron Lockey",
+    "patient_name": "Test Patient Comprehensive",
+    "appointment_type": "Acupuncture (Follow up)",
+    "date": "2025-07-14",
+    "time": "10:00",
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+} 

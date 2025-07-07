@@ -1,58 +1,41 @@
-# main.py (Updated with extracted error handling and modularized)
-from dotenv import load_dotenv
-load_dotenv()  
+# main.py
+"""Main FastAPI application for the Voice Booking System"""
 
-from fastapi import FastAPI, Request, HTTPException, Header, Depends
-from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, Any, Optional, Union
-from datetime import datetime, timedelta, timezone
+from typing import Dict, Any, Optional
+from datetime import datetime
 from contextlib import asynccontextmanager
-from zoneinfo import ZoneInfo
 from payload_logger import payload_logger
 
 import hmac
 import hashlib
 import time
 import asyncpg
-import httpx
 import os
 import logging
 from functools import lru_cache
 import asyncio
 import logging.config
+from dotenv import load_dotenv
+
+# FastAPI imports
+from fastapi import FastAPI, Request, HTTPException, Header, Depends
+from fastapi.middleware.cors import CORSMiddleware
 
 # Import from our other modules
-from database import (
-    get_clinic_by_dialed_number,
-    log_voice_booking,
-    get_location_by_name
-)
-from cliniko import ClinikoAPI
-from models import (
-    ClinicData,
-    LocationResolverRequest,
-    ConfirmLocationRequest
-)
-from utils import (
-    normalize_phone, mask_phone
-)
-
-# === Add new imports for caching and location resolution ===
 from cache_manager import CacheManager, IncrementalCacheSync
-from location_resolver import LocationResolver
-from tools.timezone_utils import get_clinic_timezone
+from tools.availability_router import router as availability_router
+from tools.booking_router import router as booking_router
+from tools.location_router import router as location_router
+from tools.practitioner_router import router as practitioner_router
 from tools.shared_dependencies import set_db_pool, set_cache_manager
 
-# Import tool routers
-from tools.location_router import router as location_resolver_router, router as confirm_location_router
-from tools.availability_router import router as find_next_available_router, router as availability_checker_router
-from tools.booking_router import router as appointment_handler_router, router as cancel_appointment_router
-from tools.practitioner_router import router as get_practitioner_services_router, router as get_practitioner_info_router, router as get_location_practitioners_router, router as get_available_practitioners_router
+# Load environment variables
+load_dotenv()
 
-# Import timezone utils
-from tools.timezone_utils import convert_utc_to_local, format_time_for_voice
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-app = FastAPI()
 
 # Define logging configuration
 LOGGING_CONFIG = {
@@ -128,8 +111,6 @@ else:
 # Apply the configuration
 logging.config.dictConfig(LOGGING_CONFIG)
 
-logger = logging.getLogger(__name__)
-
 # === Configuration ===
 class Settings:
     """Application settings from environment variables"""
@@ -159,115 +140,48 @@ db = Database()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """Application lifespan manager"""
     # Startup
-    settings = get_settings()
-    logger.info(f"Starting Voice Booking System in {settings.environment} mode")
+    logger.info("Starting up Voice Booking System...")
     
-    try:
-        db.pool = await asyncpg.create_pool(
-            settings.database_url, 
-            min_size=5,
-            max_size=20,
-            command_timeout=10,
-            server_settings={
-                'jit': 'off'
-            }
-        )
-        logger.info("Database connected successfully")
+    # Initialize database connection pool
+    db.pool = await asyncpg.create_pool(
+        os.getenv("DATABASE_URL"),
+        min_size=5,
+        max_size=20
+    )
         
-        # Initialize cache manager
-        db.cache = CacheManager(db.pool)
-        logger.info("Cache manager initialized")
-        
-        # Set up dependencies for tools modules
-        set_db_pool(db.pool)
-        set_cache_manager(db.cache)
-        
-        # Start background incremental sync task
-        async def incremental_sync_loop():
-            """Background task for incremental cache sync"""
-            sync = IncrementalCacheSync(db.cache, db.pool)
-            
-            while True:
-                try:
-                    # Wait 5 minutes between syncs
-                    await asyncio.sleep(300)  # 5 minutes
-                    
-                    # Get all active clinics
-                    async with db.pool.acquire() as conn:
-                        clinics = await conn.fetch("""
-                            SELECT clinic_id, cliniko_api_key, cliniko_shard, contact_email
-                            FROM clinics
-                            WHERE is_active = true
-                        """)
-                    
-                    for clinic in clinics:
-                        try:
-                            from cliniko import ClinikoAPI
-                            
-                            # Create Cliniko API instance
-                            cliniko = ClinikoAPI(
-                                clinic['cliniko_api_key'],
-                                clinic['cliniko_shard'],
-                                clinic.get('contact_email', 'support@example.com')
-                            )
-                            
-                            # Run incremental sync
-                            stats = await sync.sync_appointments_incremental(
-                                clinic['clinic_id'],
-                                cliniko
-                            )
-                            
-                            logger.info(f"Background sync for {clinic['clinic_id']}: {stats}")
-                            
-                        except Exception as e:
-                            logger.error(f"Background sync failed for clinic {clinic['clinic_id']}: {e}")
-                    
-                except Exception as e:
-                    logger.error(f"Incremental sync loop error: {e}")
-                    # Wait a bit before retrying
-                    await asyncio.sleep(60)
-        
-        # Start the background sync task
-        if settings.environment != "development":
-            asyncio.create_task(incremental_sync_loop())
-            logger.info("Background incremental sync task started")
-        else:
-            logger.info("Skipping background sync in development mode")
-        
-        # Optional: Start cache maintenance task if you have one
-        # asyncio.create_task(cache_maintenance_task(db.cache))
-        
-    except Exception as e:
-        logger.error(f"Failed to connect to database: {str(e)}")
-        raise
+    # Initialize cache manager
+    db.cache = CacheManager(db.pool)
+    
+    # Set up shared dependencies
+    set_db_pool(db.pool)
+    set_cache_manager(db.cache)
+    
+    logger.info("Voice Booking System started successfully")
     
     yield
     
     # Shutdown
-    logger.info("Shutting down...")
-    await db.pool.close()
-    logger.info("Database disconnected")
+    logger.info("Shutting down Voice Booking System...")
+    if db.pool:
+        await db.pool.close()
+    logger.info("Voice Booking System shutdown complete")
 
+
+# Create FastAPI app
 app = FastAPI(
     title="Voice Booking System", 
-    version="2.0.0", 
-    lifespan=lifespan,
-    docs_url="/docs" if get_settings().environment != "production" else None,
-    redoc_url="/redoc" if get_settings().environment != "production" else None
+    description="API for voice-based appointment booking with Cliniko integration",
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # Include tool routers
-app.include_router(location_resolver_router)
-app.include_router(confirm_location_router)
-app.include_router(find_next_available_router)
-app.include_router(availability_checker_router)
-app.include_router(appointment_handler_router)
-app.include_router(cancel_appointment_router)
-app.include_router(get_practitioner_services_router)
-app.include_router(get_practitioner_info_router)
-app.include_router(get_location_practitioners_router)
-app.include_router(get_available_practitioners_router)
+app.include_router(availability_router)
+app.include_router(booking_router)
+app.include_router(location_router)
+app.include_router(practitioner_router)
 
 # === CORS Configuration ===
 app.add_middleware(
@@ -389,7 +303,7 @@ async def verify_elevenlabs_signature(request: Request, secret: str) -> bool:
         ).hexdigest()
         
         return hmac.compare_digest(signature, expected)
-    except:
+    except Exception:
         return False
 
 async def get_clinic_by_agent_id(agent_id: str, pool: asyncpg.Pool) -> Optional[Dict[str, Any]]:

@@ -249,6 +249,7 @@ async def log_voice_booking(booking_data: Dict[str, Any], pool: asyncpg.Pool) ->
         logger.error(f"Failed to log voice booking: {str(e)}")
         # Don't raise - logging failures shouldn't break bookings
 
+
 async def invalidate_practitioner_availability(practitioner_id: str, business_id: str, date: date, pool: asyncpg.Pool) -> None:
     """Invalidate availability cache for a specific practitioner/date"""
     query = """
@@ -264,6 +265,7 @@ async def invalidate_practitioner_availability(practitioner_id: str, business_id
     except Exception as e:
         logger.error(f"Failed to invalidate cache: {str(e)}")
         # Non-critical - don't raise
+
 
 # === Appointment Storage Functions ===
 
@@ -374,7 +376,8 @@ async def find_appointment_by_details(
     
     # Add practitioner filter if specified
     if practitioner_name:
-        query += " AND (LOWER(pr.first_name) LIKE $5 OR LOWER(pr.last_name) LIKE $5 OR LOWER(pr.first_name || ' ' || pr.last_name) LIKE $5)"
+        query += (" AND (LOWER(pr.first_name) LIKE $5 OR LOWER(pr.last_name) LIKE $5 "
+                  "OR LOWER(pr.first_name || ' ' || pr.last_name) LIKE $5)")
         params.append(f"%{practitioner_name.lower()}%")
     
     # Add time filter if specified

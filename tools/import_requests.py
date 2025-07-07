@@ -1,4 +1,4 @@
-\#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Ngrok ElevenLabs Call Logger
 Extracts and formats ngrok inspect logs for ElevenLabs voice calls
@@ -8,8 +8,7 @@ import requests
 import json
 from datetime import datetime
 import base64
-from typing import List, Dict, Any, Optional
-import sys
+from typing import List, Dict, Any
 import argparse
 from urllib.parse import urlparse
 

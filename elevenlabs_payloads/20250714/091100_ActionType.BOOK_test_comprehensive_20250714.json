@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-07-14T09:11:00.000000",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "action": "book",
+    "sessionId": "test_comprehensive_20250714",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-14 09:11:00.000000",
+    "callerPhone": "0412345678",
+    "systemCallerID": null,
+    "patientName": "Test Patient Comprehensive",
+    "patientPhone": "0412345678",
+    "appointmentType": "Acupuncture (Follow up)",
+    "practitioner": "Chomps Skie",
+    "appointmentDate": "2025-07-15",
+    "appointmentTime": "11:00",
+    "business_name": null,
+    "business_id": "1717010852512540252",
+    "location": "Balmain",
+    "bookingFor": "self",
+    "transcript": [],
+    "notes": null,
+    "appointmentId": null,
+    "currentAppointmentDetails": null,
+    "newDate": null,
+    "newTime": null,
+    "newPractitioner": null,
+    "newAppointmentType": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Chomps Skie",
+    "patient_name": "Test Patient Comprehensive",
+    "appointment_type": "Acupuncture (Follow up)",
+    "date": "2025-07-15",
+    "time": "11:00",
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+} 

@@ -46,6 +46,7 @@ webhook_headers = {
     'Content-Type': 'application/json'
 }
 
+
 def check_availability():
     """Call the webhook's availability checker, searching up to 7 days ahead for an available slot."""
     for day_offset in range(1, 8):  # Next 7 days
@@ -97,12 +98,13 @@ def check_availability():
         except Exception as e:
             logger.error(f"Exception in check_availability: {e}")
             continue
-    logger.error("❌ No available times found in the next 7 days.")
+    logger.error("No available times found in the next 7 days.")
     return None
+
 
 def book_appointment(availability):
     """Book appointment using the webhook"""
-    logger.info(f"\n--- Step 2: Book Appointment via Webhook ---")
+    logger.info("\n--- Step 2: Book Appointment via Webhook ---")
     # Use a realistic patient (simulate agent behavior)
     booking_payload = {
         "action": "book",
@@ -135,18 +137,19 @@ def book_appointment(availability):
             return False
         result = response.json()
         if result.get('success'):
-            logger.info("✅ BOOKING SUCCESSFUL!")
+            logger.info("BOOKING SUCCESSFUL!")
             logger.info(f"Message: {result.get('message')}")
             if 'appointmentDetails' in result:
                 logger.info(f"Appointment Details: {json.dumps(result['appointmentDetails'], indent=2)}")
             return True
         else:
-            logger.error(f"✗ Booking failed: {result.get('message')}")
+            logger.error(f"Booking failed: {result.get('message')}")
             logger.error(f"Error details: {result.get('error')}")
             return False
     except Exception as e:
         logger.error(f"Exception in book_appointment: {e}")
         return False
+
 
 def main():
     logger.info("=== Webhook-First Booking Test ===")
@@ -155,15 +158,15 @@ def main():
     # Step 1: Check availability
     availability = check_availability()
     if not availability:
-        logger.error("❌ Test failed: No available times found or clarification needed.")
+        logger.error("Test failed: No available times found or clarification needed.")
         return
     # Step 2: Book appointment
     success = book_appointment(availability)
     if success:
-        logger.info("\n✅ TEST COMPLETED SUCCESSFULLY!")
+        logger.info("\nTEST COMPLETED SUCCESSFULLY!")
         logger.info(f"\nTest results saved to: {log_file}")
     else:
-        logger.error("\n❌ TEST FAILED!")
+        logger.error("\nTEST FAILED!")
         logger.error(f"\nCheck log file for details: {log_file}")
 
 if __name__ == "__main__":

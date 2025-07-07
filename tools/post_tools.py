@@ -15,6 +15,7 @@ ELEVENLABS_API_KEY = "sk_8ac5a73e17b37d0275ee0a8cce89a4bb53a07ee7f1609692"
 ELEVENLABS_API_URL = "https://api.elevenlabs.io/v1/convai/tools"
 WEBHOOK_API_KEY = "MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4"
 
+
 def create_tool_config(name: str, description: str, webhook_url: str, parameters: Dict) -> Dict:
     """Create a tool configuration for ElevenLabs"""
     return {
@@ -46,21 +47,23 @@ def create_tool_config(name: str, description: str, webhook_url: str, parameters
         }
     }
 
+
 def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
     """Create all tools and return results"""
     results = []
-    
+
     # Headers for API calls
     headers = {
         "xi-api-key": ELEVENLABS_API_KEY,
         "Content-Type": "application/json"
     }
-    
+
     # Define all 10 tools
     tools = [
         {
             "name": "location_resolver",
-            "description": "Resolves ANY location reference to a specific clinic business ID. Call when location is mentioned (main, usual, Balmain, city, your clinic, etc). Returns one of two responses: 1) SUCCESS: Returns business_id (a number) - use this in subsequent tools 2) NEEDS CLARIFICATION: Returns needs_clarification=true with a message and options list. When this happens, you MUST read the message to the caller exactly as provided, wait for their response, then call confirm-location.",
+            "description": "Resolves ANY location reference to a specific clinic business ID. Call when location is mentioned (main, usual, Balmain, city, your clinic, etc). Returns one of two responses: 1) SUCCESS: Returns business_id (a number) - use this in subsequent tools 2) NEEDS CLARIFICATION: Returns needs_clarification = \
+                true with a message and options list. When this happens, you MUST read the message to the caller exactly as provided, wait for their response, then call confirm-location.",
             "endpoint": "/location-resolver",
             "required": ["locationQuery", "sessionId", "dialedNumber"],
             "properties": {
@@ -98,7 +101,8 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
         },
         {
             "name": "confirm_location",
-            "description": "Confirms location after location-resolver needs clarification. ONLY use after you've: 1) Received needs_clarification=true from location-resolver 2) Read the exact message to the caller 3) Received their response. Pass their EXACT words in userResponse along with the options array from location-resolver. Returns the confirmed business_id to use in booking.",
+            "description": "Confirms location after location-resolver needs clarification. ONLY use after you've: 1) Received needs_clarification = \
+                true from location-resolver 2) Read the exact message to the caller 3) Received their response. Pass their EXACT words in userResponse along with the options array from location-resolver. Returns the confirmed business_id to use in booking.",
             "endpoint": "/confirm-location",
             "required": ["userResponse", "options", "sessionId", "dialedNumber"],
             "properties": {
@@ -244,7 +248,8 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
         },
         {
             "name": "appointment_handler",
-            "description": "Books an appointment with all required details. Use after location-resolver. Requires appointmentDate as YYYY-MM-DD, appointmentTime as HH:MM (24-hour), business_id as the number from location-resolver. This completes the booking and returns confirmation.",
+            "description": "Books an appointment with all required details. Use after location-resolver. Requires appointmentDate as YYYY-MM-DD,\
+                appointmentTime as HH:MM (24-hour), business_id as the number from location-resolver. This completes the booking and returns confirmation.",
             "endpoint": "/appointment-handler",
             "required": ["sessionId", "dialedNumber", "callerPhone", "patientName", "practitioner", "appointmentType", "appointmentDate", "appointmentTime", "business_id"],
             "properties": {
@@ -292,7 +297,8 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
                 },
                 "appointmentType": {
                     "type": "string",
-                    "description": "Exact service name (e.g., 'Massage', 'Acupuncture (Initial)', 'Acupuncture (Follow up)')",
+                    "description": "Exact service name (e.g.,\
+                        'Massage', 'Acupuncture (Initial)', 'Acupuncture (Follow up)')",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
@@ -310,7 +316,8 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
                 },
                 "locationId": {
                     "type": "string",
-                    "description": "The resolved location ID number from location-resolver (must be a number, not text)",
+                    "description": "The resolved location ID number from location-resolver (must be a number,\
+                        not text)",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
@@ -374,8 +381,8 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
         },
         {
             "name": "get_practitioner_services",
-            "description": "Lists services for ONE practitioner. Use when caller says a practitioner name but NO service: 'I want to see Dr Smith' (but doesn't say for what). Returns the exact service names to offer the caller. This is the simplest practitioner tool - just shows what they do.",
-            "endpoint": "/get-practitioner-services",
+            "description": "Lists services for ONE practitioner. Use when caller says a practitioner name but NO service: 'I want to see Dr Smith' (but doesn't say for what). Returns the exact service names to offer the caller. This is the simplest practitioner tool - just shows what they do.",\
+                            "endpoint": "/get-practitioner-services",
             "required": ["practitioner", "dialedNumber", "sessionId"],
             "properties": {
                 "practitioner": {
@@ -400,8 +407,8 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
         },
         {
             "name": "get_practitioner_info",
-            "description": "Gets EVERYTHING about a practitioner (all services + all locations). Use ONLY when caller asks specifically about a practitioner: 'What does Dr Smith do?' or 'Where does Dr Smith work?' or when practitioner works at multiple locations. More detailed than needed for basic booking.",
-            "endpoint": "/get-practitioner-info",
+            "description": "Gets EVERYTHING about a practitioner (all services + all locations). Use ONLY when caller asks specifically about a practitioner: 'What does Dr Smith do?' or 'Where does Dr Smith work?' or when practitioner works at multiple locations. More detailed than needed for basic booking.",\
+                            "endpoint": "/get-practitioner-info",
             "required": ["practitioner", "dialedNumber", "sessionId"],
             "properties": {
                 "practitioner": {
@@ -483,26 +490,26 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
             }
         }
     ]
-    
+
     # Create each tool
     for tool in tools:
         webhook_url = f"{webhook_base_url}{tool['endpoint']}"
-        
+
         parameters = {
             "required": tool["required"],
             "description": f"Parameters for {tool['name']}",
             "properties": tool["properties"]
         }
-        
+
         config = create_tool_config(
             name=tool["name"],
             description=tool["description"],
             webhook_url=webhook_url,
             parameters=parameters
         )
-        
+
         print(f"Creating tool: {tool['name']}...", end="", flush=True)
-        
+
         try:
             response = requests.post(
                 ELEVENLABS_API_URL,
@@ -510,32 +517,33 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
                 json=config,
                 timeout=30
             )
-            
+
             if response.status_code == 200 or response.status_code == 201:
                 result = response.json()
                 tool_id = result.get("id", "NO_ID")
-                print(f" ✓")
+                print(" ✓")
                 results.append((tool["name"], tool_id, True, "Success"))
             else:
-                print(f" ✗")
+                print(" ✗")
                 error_msg = f"Status {response.status_code}: {response.text[:100]}"
                 results.append((tool["name"], "FAILED", False, error_msg))
-                
+
         except Exception as e:
-            print(f" ✗")
+            print(" ✗")
             results.append((tool["name"], "ERROR", False, str(e)[:100]))
-        
+
         # Small delay between API calls
         time.sleep(0.5)
-    
+
     return results
+
 
 def print_results_table(results: List[Tuple[str, str, bool, str]]):
     """Print results in a formatted table"""
     print("\n" + "="*80)
     print(f"{'Tool Name':<30} | {'Tool ID':<40} | {'Status':<10}")
     print("="*80)
-    
+
     for name, tool_id, success, message in results:
         status = "✓ Success" if success else "✗ Failed"
         if success:
@@ -543,55 +551,56 @@ def print_results_table(results: List[Tuple[str, str, bool, str]]):
         else:
             print(f"{name:<30} | {tool_id:<40} | {status:<10}")
             print(f"{'':>30} | Error: {message}")
-    
+
     print("="*80)
-    
+
     # Summary
     successful = sum(1 for _, _, success, _ in results if success)
     failed = len(results) - successful
-    
+
     print(f"\nSummary: {successful} tools created successfully, {failed} failed")
-    
+
     # Save successful tool IDs
     if successful > 0:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"elevenlabs_tool_ids_{timestamp}.json"
-        
+
         tool_data = {
             "created_at": datetime.now().isoformat(),
             "tools": {
-                name: tool_id 
-                for name, tool_id, success, _ in results 
+                name: tool_id
+                for name, tool_id, success, _ in results
                 if success
             }
         }
-        
+
         with open(filename, 'w') as f:
             json.dump(tool_data, f, indent=2)
-        
+
         print(f"\nTool IDs saved to: {filename}")
+
 
 def main():
     print("ElevenLabs Voice Booking Tools Creator")
     print("="*50)
-    
+
     # Get webhook URL prefix
     webhook_base = input("\nEnter webhook URL prefix (e.g., https://b055-103-85-36-151.ngrok-free.app): ").strip()
-    
+
     if not webhook_base.startswith("http"):
         print("Error: URL must start with http:// or https://")
         return
-    
+
     if webhook_base.endswith("/"):
         webhook_base = webhook_base[:-1]
-    
+
     print(f"\nUsing webhook base URL: {webhook_base}")
     print("\nCreating tools...")
     print("-"*50)
-    
+
     # Create all tools
     results = create_all_tools(webhook_base)
-    
+
     # Print results
     print_results_table(results)
 

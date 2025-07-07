@@ -17,4 +17,4 @@ async def main():
         print(response.json())
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())

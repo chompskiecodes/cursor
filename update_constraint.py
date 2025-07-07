@@ -13,16 +13,16 @@ async def main():
     if not database_url:
         print("Error: DATABASE_URL environment variable not set")
         return
-    
+
     try:
         # Create connection pool
         pool = await asyncpg.create_pool(database_url)
-        
+
         # Update the constraint
         await update_voice_bookings_constraint(pool)
-        
+
         print("✓ Successfully updated voice_bookings constraint")
-        
+
     except Exception as e:
         print(f"Error updating constraint: {e}")
     finally:
@@ -30,4 +30,4 @@ async def main():
             await pool.close()
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())

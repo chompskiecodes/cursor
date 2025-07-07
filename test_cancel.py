@@ -56,8 +56,9 @@ CANCEL_PAYLOAD = {
     "appointmentId": APPOINTMENT_ID
 }
 
+
 def cancel_appointment():
-    logger.info(f"\n--- Step: Cancel Appointment via Webhook ---")
+    logger.info("\n--- Step: Cancel Appointment via Webhook ---")
     logger.info(f"Cancel payload: {json.dumps(CANCEL_PAYLOAD, indent=2)}")
     try:
         response = requests.post(
@@ -72,16 +73,17 @@ def cancel_appointment():
             return False
         result = response.json()
         if result.get('success'):
-            logger.info("✅ CANCELLATION SUCCESSFUL!")
+            logger.info("CANCELLATION SUCCESSFUL!")
             logger.info(f"Message: {result.get('message')}")
             return True
         else:
-            logger.error(f"✗ Cancellation failed: {result.get('message')}")
+            logger.error(f"Cancellation failed: {result.get('message')}")
             logger.error(f"Error details: {result.get('error')}")
             return False
     except Exception as e:
         logger.error(f"Exception in cancel_appointment: {e}")
         return False
+
 
 def main():
     logger.info("=== Webhook-First Cancel Test ===")
@@ -90,10 +92,10 @@ def main():
     # Step: Cancel appointment
     success = cancel_appointment()
     if success:
-        logger.info("\n✅ CANCEL TEST COMPLETED SUCCESSFULLY!")
+        logger.info("\nCANCEL TEST COMPLETED SUCCESSFULLY!")
         logger.info(f"\nTest results saved to: {log_file}")
     else:
-        logger.error("\n❌ CANCEL TEST FAILED!")
+        logger.error("\nCANCEL TEST FAILED!")
         logger.error(f"\nCheck log file for details: {log_file}")
 
 if __name__ == "__main__":
@@ -101,4 +103,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         logger.error(f"Unhandled exception: {e}", exc_info=True)
-        logger.error(f"\nCheck log file for details: {log_file}") 
+        logger.error(f"\nCheck log file for details: {log_file}")

@@ -598,3 +598,273 @@
 2025-07-06 00:16:56,949 - tools.booking_router.flow - DEBUG - [booking_router.py:183] - Action: ActionType.RESCHEDULE
 2025-07-06 00:16:56,949 - tools.booking_router.flow - DEBUG - [booking_router.py:184] - Practitioner: 'Brendan Smith'
 2025-07-06 00:16:56,950 - tools.booking_router.flow - DEBUG - [booking_router.py:185] - Service: 'Massage'
+2025-07-06 12:51:01,408 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 12:51:01,409 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 12:51:01,410 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 12:51:01,410 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 12:51:01,410 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 13:46:32,371 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 13:46:32,372 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 13:46:32,373 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 13:46:32,373 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 13:46:32,374 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 13:48:01,355 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 13:48:01,356 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 13:48:01,357 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 13:48:01,357 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 13:48:01,357 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 13:49:02,687 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 13:49:02,688 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 13:49:02,689 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 13:49:02,690 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 13:49:02,690 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 14:09:40,167 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 14:09:40,168 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 14:09:40,168 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 14:09:40,168 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 14:09:40,168 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 14:12:25,422 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 14:12:25,422 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 14:12:25,423 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 14:12:25,423 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 14:12:25,423 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 14:16:27,950 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 14:16:27,950 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 14:16:27,950 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 14:16:27,950 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 14:16:27,950 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 14:31:57,615 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 14:31:57,615 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 14:31:57,615 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 14:31:57,615 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 14:31:57,615 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 14:34:08,665 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 14:34:08,666 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 14:34:08,666 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 14:34:08,666 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 14:34:08,666 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 15:43:38,896 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 15:43:38,897 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 15:43:38,897 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 15:43:38,897 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 15:43:38,897 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 15:45:11,322 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 15:45:11,323 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 15:45:11,323 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 15:45:11,324 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: '{request.practitioner}'
+2025-07-06 15:45:11,324 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'
+2025-07-06 15:47:58,717 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 15:47:58,718 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 15:47:58,719 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 15:47:58,719 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 15:47:58,719 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 15:53:32,567 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 15:53:32,567 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 15:53:32,568 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 15:53:32,568 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 15:53:32,568 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 15:54:28,210 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 15:54:28,211 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 15:54:28,211 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 15:54:28,211 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 15:54:28,211 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:08:20,176 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:08:20,178 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:08:20,179 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:08:20,179 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:08:20,180 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:15:53,754 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:15:53,754 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:15:53,754 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:15:53,754 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:15:53,755 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:25:38,786 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:25:38,786 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:25:38,787 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:25:38,787 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:25:38,787 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:30:08,241 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:30:08,242 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:30:08,242 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:30:08,243 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:30:08,243 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:31:42,053 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:31:42,053 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:31:42,054 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:31:42,054 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:31:42,055 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:32:59,965 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:32:59,966 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:32:59,966 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:32:59,966 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:32:59,967 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:34:19,642 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:34:19,643 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:34:19,643 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:34:19,644 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:34:19,644 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:35:45,206 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:35:45,207 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:35:45,208 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:35:45,208 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:35:45,208 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:37:15,891 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:37:15,892 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:37:15,892 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:37:15,892 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:37:15,893 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-06 18:51:58,445 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-06 18:51:58,445 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-06 18:51:58,446 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-06 18:51:58,446 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-06 18:51:58,447 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 17:50:57,071 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 17:50:57,072 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_booking_any_practitioner
+2025-07-07 17:50:57,072 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 17:50:57,073 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'None'
+2025-07-07 17:50:57,074 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:16:06,414 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:16:06,415 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:16:06,416 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:16:06,416 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:16:06,417 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:18:59,127 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:18:59,128 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:18:59,129 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:18:59,129 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:18:59,130 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:26:19,296 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:26:19,297 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:26:19,298 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:26:19,298 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:26:19,299 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:35:17,245 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:35:17,246 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:35:17,247 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:35:17,247 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:35:17,247 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:36:44,591 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:36:44,592 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:36:44,593 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:36:44,593 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:36:44,594 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:38:53,171 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:38:53,173 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:38:53,174 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:38:53,174 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:38:53,174 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:44:55,562 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:44:55,563 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:44:55,563 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:44:55,563 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:44:55,564 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:51:58,626 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:51:58,627 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:51:58,627 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:51:58,628 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:51:58,628 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 19:58:37,741 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 19:58:37,742 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 19:58:37,742 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 19:58:37,743 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 19:58:37,743 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 20:00:39,708 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 20:00:39,709 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 20:00:39,709 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 20:00:39,709 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 20:00:39,710 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 20:04:54,466 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 20:04:54,467 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 20:04:54,468 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 20:04:54,468 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 20:04:54,469 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 20:19:08,581 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 20:19:08,581 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 20:19:08,581 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 20:19:08,581 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 20:19:08,582 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 20:23:36,967 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 20:23:36,968 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 20:23:36,968 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 20:23:36,968 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 20:23:36,968 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 20:27:35,913 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 20:27:35,913 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 20:27:35,913 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 20:27:35,913 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 20:27:35,913 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 20:46:22,271 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 20:46:22,271 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 20:46:22,271 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 20:46:22,272 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 20:46:22,272 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 21:01:46,168 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 21:01:46,168 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 21:01:46,169 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 21:01:46,169 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 21:01:46,169 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 21:05:31,206 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 21:05:31,207 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 21:05:31,207 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 21:05:31,207 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 21:05:31,207 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 21:12:55,819 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 21:12:55,819 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 21:12:55,819 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 21:12:55,819 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 21:12:55,819 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 21:22:41,530 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 21:22:41,530 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 21:22:41,530 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 21:22:41,531 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 21:22:41,531 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 21:26:51,431 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 21:26:51,431 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 21:26:51,431 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 21:26:51,431 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 21:26:51,431 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 21:39:17,748 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 21:39:17,748 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 21:39:17,748 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 21:39:17,749 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 21:39:17,749 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 21:44:34,981 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 21:44:34,982 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 21:44:34,982 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 21:44:34,982 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 21:44:34,982 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 21:48:29,980 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 21:48:29,980 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 21:48:29,981 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 21:48:29,981 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 21:48:29,981 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 22:02:13,255 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 22:02:13,255 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 22:02:13,256 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 22:02:13,256 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 22:02:13,256 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 22:20:39,016 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 22:20:39,016 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 22:20:39,016 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 22:20:39,017 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 22:20:39,017 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 22:39:18,087 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 22:39:18,087 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 22:39:18,088 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 22:39:18,088 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 22:39:18,088 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 22:55:24,113 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 22:55:24,113 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 22:55:24,113 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 22:55:24,113 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 22:55:24,114 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 23:10:27,268 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 23:10:27,269 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 23:10:27,269 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 23:10:27,269 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 23:10:27,269 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-07 23:13:44,705 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-07 23:13:44,705 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-07 23:13:44,706 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-07 23:13:44,706 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-07 23:13:44,706 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'

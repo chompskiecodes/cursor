@@ -102,6 +102,7 @@ def check_availability():
         logger.error(f"Exception in check_availability: {e}")
         return None
 
+
 def reschedule_appointment(new_time):
     logger.info(f"\n--- Step: Reschedule Appointment to {new_time} via Webhook ---")
     reschedule_payload = {
@@ -129,18 +130,19 @@ def reschedule_appointment(new_time):
             return False
         result = response.json()
         if result.get('success'):
-            logger.info("✅ RESCHEDULE SUCCESSFUL!")
+            logger.info("RESCHEDULE SUCCESSFUL!")
             logger.info(f"Message: {result.get('message')}")
             if 'appointmentDetails' in result:
                 logger.info(f"Appointment Details: {json.dumps(result['appointmentDetails'], indent=2)}")
             return True
         else:
-            logger.error(f"✗ Reschedule failed: {result.get('message')}")
+            logger.error(f"Reschedule failed: {result.get('message')}")
             logger.error(f"Error details: {result.get('error')}")
             return False
     except Exception as e:
         logger.error(f"Exception in reschedule_appointment: {e}")
         return False
+
 
 def main():
     logger.info("=== Webhook-First Reschedule Test ===")
@@ -151,10 +153,10 @@ def main():
     if next_time:
         success = reschedule_appointment(next_time)
         if success:
-            logger.info("\n✅ RESCHEDULE TEST COMPLETED SUCCESSFULLY!")
+            logger.info("\nRESCHEDULE TEST COMPLETED SUCCESSFULLY!")
             logger.info(f"\nTest results saved to: {log_file}")
             return
-    logger.error("\n❌ RESCHEDULE TEST FAILED! No available times found.")
+    logger.error("\nRESCHEDULE TEST FAILED! No available times found.")
     logger.error(f"\nCheck log file for details: {log_file}")
 
 if __name__ == "__main__":
@@ -162,4 +164,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         logger.error(f"Unhandled exception: {e}", exc_info=True)
-        logger.error(f"\nCheck log file for details: {log_file}") 
+        logger.error(f"\nCheck log file for details: {log_file}")

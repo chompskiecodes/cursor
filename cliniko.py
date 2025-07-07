@@ -81,12 +81,18 @@ class ClinikoAPI:
     async def get_available_times(self, business_id: str, practitioner_id: str, 
                                   appointment_type_id: str, from_date: str, to_date: str) -> List[Dict[str, Any]]:
         """Get available appointment times"""
+        url = f"{self.base_url}/businesses/{business_id}/practitioners/{practitioner_id}/appointment_types/{appointment_type_id}/available_times"
+        params = {"from": from_date, "to": to_date}
+        logger.info(f"[ClinikoAPI] GET {url}")
+        logger.info(f"[ClinikoAPI] Headers: {self.headers}")
+        logger.info(f"[ClinikoAPI] Params: {params}")
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             response = await client.get(
-                f"{self.base_url}/businesses/{business_id}/practitioners/{practitioner_id}/appointment_types/{appointment_type_id}/available_times",
+                url,
                 headers=self.headers,
-                params={"from": from_date, "to": to_date}
+                params=params
             )
+            logger.info(f"[ClinikoAPI] Response: {response.text}")
             response.raise_for_status()
             return response.json().get('available_times', [])
     

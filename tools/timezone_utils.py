@@ -3,7 +3,7 @@
 
 from datetime import datetime, date, time, timezone as tz
 from zoneinfo import ZoneInfo
-from typing import Union, Optional
+from typing import Dict, Any
 import logging
 import os
 
@@ -35,18 +35,18 @@ def parse_cliniko_time(time_str: str) -> datetime:
     """Parse time string from Cliniko API to UTC datetime"""
     if not time_str:
         raise ValueError("Empty time string")
-    
+
     # Handle 'Z' suffix (Zulu/UTC time)
     if time_str.endswith('Z'):
         dt = datetime.fromisoformat(time_str.replace('Z', '+00:00'))
     else:
         dt = datetime.fromisoformat(time_str)
-    
+
     # Ensure timezone aware
     if dt.tzinfo is None:
         logger.warning(f"Cliniko returned naive datetime: {time_str}")
         dt = dt.replace(tzinfo=UTC)
-    
+
     return dt.astimezone(UTC)
 
 
@@ -65,9 +65,9 @@ def utc_to_local(utc_dt: datetime, timezone: ZoneInfo = DEFAULT_TZ) -> datetime:
 
 
 def combine_date_time_local(
-    date_obj: date, 
-    hour: int, 
-    minute: int, 
+    date_obj: date,
+    hour: int,
+    minute: int,
     timezone: ZoneInfo
 ) -> datetime:
     """Combine date and time in local timezone"""
@@ -102,18 +102,18 @@ def get_clinic_timezone(clinic) -> ZoneInfo:
     elif hasattr(clinic, '__getitem__'):
         try:
             timezone_str = clinic['timezone']
-        except:
+        except Exception:
             pass
     # Validate and return
     if timezone_str and timezone_str.strip():
         try:
             return ZoneInfo(timezone_str)
-        except:
+        except Exception:
             pass
     return DEFAULT_TZ
 
 
-def convert_utc_to_local(utc_time_str: str, timezone: Union[str, ZoneInfo, None] = None) -> datetime:
+def convert_utc_to_local(utc_time_str: str, timezone: Any = None) -> datetime:
     """Convert UTC time string to local timezone"""
     if timezone is None:
         timezone = DEFAULT_TZ
@@ -124,15 +124,15 @@ def convert_utc_to_local(utc_time_str: str, timezone: Union[str, ZoneInfo, None]
         local_tz = timezone
     else:
         raise ValueError(f"Invalid timezone type: {type(timezone)}")
-    
+
     if utc_time_str.endswith('Z'):
         utc_time = datetime.fromisoformat(utc_time_str.replace('Z', '+00:00'))
     else:
         utc_time = datetime.fromisoformat(utc_time_str)
-    
+
     if utc_time.tzinfo is None:
         utc_time = utc_time.replace(tzinfo=UTC)
-    
+
     return utc_time.astimezone(local_tz)
 
 

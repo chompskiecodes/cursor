@@ -1,5 +1,39 @@
 # Granular Architecture: Voice Booking System
 
+---
+
+### 🚨 Development & Integration Notes
+
+1. **Field Naming Consistency**
+   - Always use `business_id` (not `locationId`, `location_id`, or `locationID`) for location/business references in all API payloads, docs, and code.
+   - All documentation and test scripts should use `business_id` for clarity and backend compatibility.
+
+2. **Practitioner Name Columns**
+   - The practitioners table may not have a `full_name` column. Use the actual schema column (e.g., `name`, `first_name` + `last_name`, or check your DB schema).
+   - Update scripts and queries to match your real DB schema.
+
+3. **Database Pool Initialization**
+   - Standalone scripts (not running under FastAPI) must manually initialize the asyncpg connection pool using `asyncpg.create_pool` with the correct `DATABASE_URL`.
+   - Do not rely on FastAPI’s dependency injection or shared pool for standalone scripts.
+
+4. **Legacy/Flat Fields**
+   - All legacy/flat fields (e.g., `locationId`, `location_id`, etc.) have been removed from the API and documentation.
+   - If you see these in any code or docs, update them to the current field names.
+
+5. **Branching Logic for Availability**
+   - If a user requests a specific practitioner, only offer slots for that practitioner (searching future days if needed).
+   - If a user requests a service or “any” practitioner, offer the next available slot with any practitioner.
+
+6. **Test Scripts**
+   - Test scripts must use the same field names as the backend (e.g., `business_id`).
+   - When debugging, check both the payload and the backend handler for field name mismatches.
+
+7. **Error Handling**
+   - If you see “Database pool not initialized,” ensure your script is initializing the pool (see above).
+   - If you see “column ... does not exist,” check your DB schema and update queries accordingly.
+
+---
+
 ## main.py
 
 ### 1. Application Initialization
@@ -186,7 +220,7 @@ This router provides endpoints for checking practitioner and service availabilit
 **Purpose:** Retrieve all practitioners with availability at a specific location on a given date.
 
 **Process:**
-1. Parses the request for location ID, location name, date, dialed number, and session ID.
+1. Parses the request for business_id, date, dialed number, and session ID.
 2. Looks up the clinic using the dialed number.
 3. Parses the date and initializes the Cliniko API.
 4. Queries all practitioners at the location.
@@ -195,7 +229,7 @@ This router provides endpoints for checking practitioner and service availabilit
 7. Returns a structured response listing available practitioners, the date, and location.
 
 **Requirements:**
-- Location ID and dialed number must be provided.
+- Business_id and dialed number must be provided.
 - Returns a structured response with available practitioners, date, and location.
 
 **Order of Operations:**
@@ -361,14 +395,14 @@ This router provides endpoints for retrieving practitioner information, their se
 **Purpose:** Retrieve all practitioners available at a specific location.
 
 **Process:**
-1. Parses the request for location ID and session ID.
-2. Looks up the location name using the location ID.
+1. Parses the request for business_id and session ID.
+2. Looks up the location name using the business_id.
 3. Queries the database for all practitioners associated with the location.
 4. Formats the response to include practitioner details and a message suitable for voice agents.
 5. Handles cases where no practitioners are found, returning a standardized error response.
 
 **Requirements:**
-- Location ID must be provided.
+- Business_id must be provided.
 - Returns a structured response with practitioners, location, and a message.
 
 **Order of Operations:**
@@ -483,7 +517,7 @@ Authorization: Bearer <API_KEY>
 - `GET /practitioners/:id/availability`
 
 **Data Flow:**
-- Input: `locationId`, `date`, `dialedNumber`, etc.
+- Input: `business_id`, `date`, `dialedNumber`, etc.
 - Get all practitioners for the business.
 - For each, check availability as above.
 
@@ -504,7 +538,7 @@ Authorization: Bearer <API_KEY>
 - Same as above.
 
 **Data Flow:**
-- Input: `practitioner`, `service`, `locationId`, `maxDays`, etc.
+- Input: `practitioner`, `service`, `business_id`, `maxDays`, etc.
 - Build search criteria, loop over days/practitioners/locations.
 - Stop at first available slot.
 
@@ -583,7 +617,7 @@ Authorization: Bearer <API_KEY>
 - `GET /practitioners/:id/appointment_types`
 
 **Data Flow:**
-- Input: `practitioner`, `locationId`, etc.
+- Input: `practitioner`, `business_id`, etc.
 - Lookup practitioner, get their appointment types.
 - Filter by location if needed.
 
@@ -623,7 +657,7 @@ Authorization: Bearer <API_KEY>
 - `GET /businesses/:id/practitioners`
 
 **Data Flow:**
-- Input: `locationId`, etc.
+- Input: `business_id`, etc.
 - Lookup business, get practitioners.
 
 **Limitations:**

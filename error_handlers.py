@@ -9,8 +9,8 @@ import httpx
 import asyncpg
 from typing import Dict, Any, Optional, List
 from datetime import datetime
+from models import create_error_response, BaseRequest
 from database import get_practitioner_services, log_voice_booking
-from models import BaseRequest, create_error_response
 
 logger = logging.getLogger(__name__)
 
@@ -67,25 +67,23 @@ async def log_error(
 # === Specific Error Handlers ===
 
 async def handle_clinic_not_found(request: BaseRequest) -> Dict[str, Any]:
-    """Handle clinic not found errors"""
-    logger.error(f"Clinic not found for number: {request.dialedNumber}")
-    
+    """Handle case where clinic is not found"""
     return create_error_response(
         error_code="clinic_not_found",
-        message="I couldn't find the clinic information. Please contact the clinic directly.",
+        message="I'm sorry, I couldn't find your clinic. Please check your phone number and try again.",
         session_id=request.sessionId
     )
 
+
 async def handle_missing_information(missing_fields: List[str], request: BaseRequest) -> Dict[str, Any]:
-    """Handle missing required information"""
-    logger.warning(f"Missing fields: {missing_fields}")
-    
+    """Handle case where required information is missing"""
+    field_names = ", ".join(missing_fields)
     return create_error_response(
         error_code="missing_information",
-        message=f"I need some more information to book your appointment. Please provide: {', '.join(missing_fields)}",
-        session_id=request.sessionId,
-        additional_fields={"missingData": missing_fields}
+        message=f"I need some additional information to help you: {field_names}.",
+        session_id=request.sessionId
     )
+
 
 async def handle_practitioner_not_found(
     requested_name: str,
@@ -108,17 +106,12 @@ async def handle_practitioner_not_found(
         session_id=request.sessionId
     )
 
-async def handle_service_not_found(
-    requested_service: str,
-    practitioner_name: str,
-    request: BaseRequest
-) -> Dict[str, Any]:
-    """Handle service not found errors"""
-    logger.error(f"Service not found: '{requested_service}' for practitioner {practitioner_name}")
-    
+async def handle_service_not_found(request: BaseRequest, service_name: str) -> Dict[str, Any]:
+    """Handle case where service is not found"""
     return create_error_response(
         error_code="service_not_found",
-        message=f"I couldn't find \"{requested_service}\" services with {practitioner_name}.",
+        message=f"I couldn't find the service '{service_name}'. "
+                f"Could you please check the service name and try again?",
         session_id=request.sessionId
     )
 
@@ -132,20 +125,125 @@ async def handle_invalid_phone_number(request: BaseRequest) -> Dict[str, Any]:
         session_id=request.sessionId
     )
 
-async def handle_no_availability(
-    service_name: str,
-    practitioner_name: str,
-    date_str: str,
-    request: BaseRequest
-) -> Dict[str, Any]:
-    """Handle no availability errors"""
-    logger.warning("No available times found")
-    
-    return create_error_response(
-        error_code="no_availability",
-        message=f"I'm sorry, there are no available appointments for {service_name} with {practitioner_name} on {date_str}.",
-        session_id=request.sessionId
-    )
+async def handle_no_availability(request: BaseRequest, date: str, practitioner_name: str) -> Dict[str, Any]:
+    """Handle case where no availability is found"""
+    try:
+        # Get database pool and cache
+        from tools.dependencies import get_db, get_cache
+        pool = await get_db()
+        cache = await get_cache()
+        
+        # Get clinic information
+        from database import get_clinic_by_dialed_number
+        clinic = await get_clinic_by_dialed_number(request.dialedNumber, pool)
+        if not clinic:
+            return create_error_response(
+                error_code="no_availability",
+                message=f"I'm sorry, {practitioner_name} doesn't have any available times on {date}. "
+                        f"Would you like to try another date?",
+                session_id=request.sessionId
+            )
+        
+        # Get practitioner details
+        from database import match_practitioner
+        practitioner_match = await match_practitioner(clinic.clinic_id, practitioner_name, pool)
+        if practitioner_match.get("needs_clarification"):
+            return create_error_response(
+                error_code="practitioner_clarification_needed",
+                message=practitioner_match["message"],
+                session_id=request.sessionId,
+                additional_fields={"options": practitioner_match["clarification_options"]}
+            )
+        if not practitioner_match.get("matches"):
+            return create_error_response(
+                error_code="no_availability",
+                message=f"I'm sorry, {practitioner_name} doesn't have any available times on {date}. "
+                        f"Would you like to try another date?",
+                session_id=request.sessionId
+            )
+        
+        practitioner = practitioner_match["matches"][0]
+        
+        # Get all businesses where this practitioner works
+        query = """
+            SELECT DISTINCT 
+                pb.business_id,
+                b.business_name
+            FROM practitioner_businesses pb
+            JOIN businesses b ON pb.business_id = b.business_id
+            WHERE pb.practitioner_id = $1
+        """
+        async with pool.acquire() as conn:
+            businesses = await conn.fetch(query, practitioner['practitioner_id'])
+        
+        # Search for next available slot across all locations
+        from datetime import datetime, timedelta
+        from tools.timezone_utils import get_clinic_timezone, convert_utc_to_local, format_time_for_voice
+        from cliniko import ClinikoAPI
+        
+        cliniko = ClinikoAPI(
+            clinic.cliniko_api_key,
+            clinic.cliniko_shard,
+            "VoiceBookingSystem/1.0"
+        )
+        
+        clinic_tz = get_clinic_timezone(clinic)
+        search_start = datetime.now(clinic_tz).date()
+        
+        # Search next 14 days
+        for days_ahead in range(14):
+            check_date = search_start + timedelta(days=days_ahead)
+            
+            # --- SUPABASE-ONLY FALLBACK ---
+            for biz in businesses:
+                try:
+                    # Check cache for this practitioner/business/date
+                    cached_slots = await cache.get_availability(
+                        practitioner['practitioner_id'],
+                        biz['business_id'],
+                        search_start
+                    )
+                    if cached_slots:
+                        import logging
+                        logger = logging.getLogger(__name__)
+                        logger.warning(f"[SUPABASE-ONLY FALLBACK] Returning {len(cached_slots)} slots from cache for practitioner {practitioner['practitioner_id']} at business {biz['business_id']} on {search_start}")
+                        clinic_tz = get_clinic_timezone(clinic)
+                        available_times_local = []
+                        for slot in cached_slots:
+                            slot_utc = datetime.fromisoformat(slot['appointment_start'].replace('Z', '+00:00'))
+                            slot_local = slot_utc.astimezone(clinic_tz)
+                            available_times_local.append(format_time_for_voice(slot_local))
+                        return {
+                            "success": False,
+                            "error": "no_availability",
+                            "message": f"[From local system] I'm sorry, {practitioner_name} doesn't have any available times on {date}, but they have these times available: {', '.join(available_times_local)}. (Note: These may be slightly out of date.) Would you like to book one of these?",
+                            "sessionId": request.sessionId,
+                            "availableTimes": available_times_local
+                        }
+                except Exception as e:
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.warning(f"[SUPABASE-ONLY FALLBACK] Error checking cache for {practitioner_name} at {biz['business_name']} on {search_start}: {e}")
+                    continue
+        
+        # If no availability found in next 14 days
+        return create_error_response(
+            error_code="no_availability",
+            message=f"I'm sorry, {practitioner_name} doesn't have any available times on {date} or in the next 2 weeks. "
+                    f"Would you like to try another date?",
+            session_id=request.sessionId
+        )
+        
+    except Exception as e:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Error in handle_no_availability: {e}")
+        return create_error_response(
+            error_code="no_availability",
+            message=f"I'm sorry, {practitioner_name} doesn't have any available times on {date}. "
+                    f"Would you like to try another date?",
+            session_id=request.sessionId
+        )
 
 async def handle_time_not_available(
     requested_time: str,
@@ -438,47 +536,26 @@ async def check_practitioner_location_compatibility(
     business_id: str,
     clinic_id: str,
     db_pool: Any
-) -> Optional[Dict[str, Any]]:
+) -> bool:
     """
     Pre-check if practitioner works at the specified location.
-    Returns error response if mismatch, None if OK.
+    Returns True if practitioner works at location, False otherwise.
     """
-    services = await get_practitioner_services(clinic_id, db_pool)
-    
-    # Check if practitioner has any services at this location
-    services_at_location = [
-        s for s in services
-        if s['practitioner_id'] == practitioner_id 
-        and s['business_id'] == business_id
-    ]
-    
-    if not services_at_location:
-        # Get where they actually work
-        practitioner_info = next(
-            (s for s in services if s['practitioner_id'] == practitioner_id),
-            None
-        )
+    try:
+        # Get all practitioner services and check if they work at the requested location
+        practitioner_locations = await get_practitioner_services(clinic_id, db_pool)
         
-        if practitioner_info:
-            practitioner_locations = list(set(
-                s['business_name'] 
-                for s in services
-                if s['practitioner_id'] == practitioner_id
-            ))
-            
-            requested_business = next(
-                (s['business_name'] for s in services if s['business_id'] == business_id),
-                "the requested location"
-            )
-            
-            return {
-                "error": "practitioner_location_mismatch",
-                "practitioner_name": practitioner_info['practitioner_name'],
-                "requested_location": requested_business,
-                "actual_locations": practitioner_locations
-            }
-    
-    return None  # No error - practitioner works at this location
+        # Filter for this specific practitioner
+        practitioner_services = [s for s in practitioner_locations if s['practitioner_id'] == practitioner_id]
+        
+        # Check if any of their services are at the requested business
+        for service in practitioner_services:
+            if service['business_id'] == business_id:
+                return True
+        return False
+    except Exception as e:
+        logger.error(f"Error checking practitioner location compatibility: {e}")
+        return False
 
 # === Validation Functions ===
 

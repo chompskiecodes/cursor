@@ -1,28 +1,28 @@
 import requests
 import json
+import time
 from datetime import datetime, timedelta
-import os
-from typing import Dict, Any
 import uuid
 
 # Configuration
 BASE_URL = "http://localhost:8000"
 API_KEY = "MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4"
 
+
 def test_availability_discovery():
     """Test discovering where Brendan works using availability checker"""
     print("\n=== Testing Availability Discovery ===")
-    
+
     session_id = f"session_{uuid.uuid4()}"
     availability_url = f"{BASE_URL}/availability-checker"
     headers = {
         "x-api-key": API_KEY,
         "Content-Type": "application/json"
     }
-    
+
     tomorrow = datetime.now() + timedelta(days=1)
     date_str = tomorrow.strftime("%Y-%m-%d")
-    
+
     payload = {
         "practitioner": "Brendan Smith",
         "appointmentType": "Acupuncture (Follow up)",
@@ -31,10 +31,10 @@ def test_availability_discovery():
         "dialedNumber": "0478621276",
         "sessionId": session_id
     }
-    
+
     print(f"Checking availability for Brendan Smith on {date_str}...")
     print(f"Payload: {json.dumps(payload, indent=2)}")
-    
+
     try:
         response = requests.post(availability_url, headers=headers, json=payload)
         print(f"[availability_discovery] Status: {response.status_code}")
@@ -60,19 +60,20 @@ def test_availability_discovery():
         print(f"❌ Error checking availability: {e}")
         return None, None, session_id
 
+
 def test_booking_with_discovered_location(business_id: str, location_name: str, session_id: str):
     """Test booking using the discovered location"""
     print(f"\n=== Testing Booking at {location_name} ===")
-    
+
     tomorrow = datetime.now() + timedelta(days=1)
     date_str = tomorrow.strftime("%Y-%m-%d")
-    
+
     booking_url = f"{BASE_URL}/appointment-handler"
     headers = {
         "x-api-key": API_KEY,
         "Content-Type": "application/json"
     }
-    
+
     payload = {
         "action": "book",
         "appointmentType": "Acupuncture (Follow up)",
@@ -89,10 +90,10 @@ def test_booking_with_discovered_location(business_id: str, location_name: str, 
         "locationId": business_id,
         "notes": "Test booking via script"
     }
-    
+
     print(f"Booking appointment at {location_name}...")
     print(f"Payload: {json.dumps(payload, indent=2)}")
-    
+
     try:
         response = requests.post(booking_url, headers=headers, json=payload)
         print(f"[booking] Status: {response.status_code}")
@@ -108,6 +109,7 @@ def test_booking_with_discovered_location(business_id: str, location_name: str, 
     except Exception as e:
         print(f"❌ Error booking appointment: {e}")
         return None
+
 
 def main():
     print("🚀 Starting comprehensive test with availability discovery...")
@@ -126,4 +128,4 @@ def main():
         print(f"❌ Unhandled exception in main: {e}")
 
 if __name__ == "__main__":
-    main() 
+    main()

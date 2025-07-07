@@ -256,7 +256,7 @@ async def sync_clinic_data(clinic_id: str, cliniko_api_key: str, cliniko_shard: 
             practitioner_count = await conn.fetchval("SELECT COUNT(*) FROM practitioners WHERE clinic_id = $1", clinic_id)
             appt_type_count = await conn.fetchval("SELECT COUNT(*) FROM appointment_types WHERE clinic_id = $1", clinic_id)
             
-            print(f"Database now contains:")
+            print("Database now contains:")
             print(f"  • {business_count} businesses")
             print(f"  • {practitioner_count} practitioners") 
             print(f"  • {appt_type_count} appointment types")
@@ -269,7 +269,7 @@ async def sync_clinic_data(clinic_id: str, cliniko_api_key: str, cliniko_shard: 
                 ORDER BY is_primary DESC, business_name
             """, clinic_id)
             
-            print(f"\nAvailable locations for testing:")
+            print("\nAvailable locations for testing:")
             for business in businesses:
                 primary_flag = " (PRIMARY)" if business['is_primary'] else ""
                 print(f"  • {business['business_name']}{primary_flag} (ID: {business['business_id']})")
@@ -391,11 +391,11 @@ def test_location_resolver(location_query, description="", debug_mode=False):
                             option_names = [str(opt) for opt in options]
                         print(f"✓ Options ({len(options)}): {option_names}")
                     else:
-                        print(f"⚠️  Options: Empty list")
+                        print("⚠️  Options: Empty list")
                 else:
                     print(f"⚠️  Options: Not a list ({type(options)})")
             else:
-                print(f"✓ Options: None")
+                print("✓ Options: None")
 
             # Check for consistency issues
             print_subsection("CONSISTENCY CHECKS")
@@ -441,14 +441,14 @@ def test_location_resolver(location_query, description="", debug_mode=False):
                             option_names = [str(opt) for opt in options]
                         print(f"❓ CLARIFICATION NEEDED: {', '.join(option_names)}")
                     else:
-                        print(f"❓ CLARIFICATION NEEDED: (no options)")
+                        print("❓ CLARIFICATION NEEDED: (no options)")
                 else:
-                    print(f"❓ CLARIFICATION NEEDED: (options not a list)")
+                    print("❓ CLARIFICATION NEEDED: (options not a list)")
                 print(f"   Confidence: {confidence:.3f}")
                 return False
             elif needs_clarification and not options:
-                print(f"⚠️  BUG: Needs clarification but no options provided")
-                print(f"   This is likely an API bug")
+                print("⚠️  BUG: Needs clarification but no options provided")
+                print("   This is likely an API bug")
                 return False
             else:
                 print(f"❌ NO MATCH: {message}")

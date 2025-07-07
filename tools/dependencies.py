@@ -1,26 +1,34 @@
 # tools/dependencies.py
 """Shared dependencies for all tools"""
 
-from fastapi import Header, HTTPException, Depends
-from typing import Optional
+from fastapi import Header, HTTPException
 import os
+import logging
+import asyncpg
+from typing import Dict, Any
 from functools import lru_cache
 from .shared_dependencies import get_db_pool, get_cache_manager
 
 # Settings
+
+
 class Settings:
     """Application settings from environment variables"""
+
+
     def __init__(self):
         self.api_key = os.environ.get("X_API_KEY", "development-key")
         self.environment = os.environ.get("ENVIRONMENT", "development")
         self.default_timezone = os.environ.get("DEFAULT_TIMEZONE", "Australia/Sydney")
 
 @lru_cache()
+
+
 def get_settings():
     return Settings()
 
 # API Key verification
-async def verify_api_key(x_api_key: str = Header(None)) -> bool:
+async def verify_api_key(x_api_key: str = None) -> bool:
     """Verify API key for authentication"""
     settings = get_settings()
     

@@ -1,11 +1,11 @@
-#!/usr/bin/env python3
 """
-Test that phone number 0478621276 works with location-resolver
+Test script for location resolver
 """
 
-import asyncio
 import httpx
 import json
+import time
+from datetime import datetime
 import os
 from dotenv import load_dotenv
 

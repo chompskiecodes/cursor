@@ -1,0 +1,50 @@
+2025-07-07 23:10:22,933 - INFO - Starting comprehensive webhook test - Log file: booking_test_logs\test_all_webhooks_20250707_231022.log
+2025-07-07 23:10:22,934 - INFO - === REDUCED WEBHOOK TEST: ONLY FAILING TESTS ===
+2025-07-07 23:10:22,934 - INFO - Webhook API: http://localhost:8000
+2025-07-07 23:10:22,935 - INFO - Test phone number: 0478621276
+2025-07-07 23:10:22,935 - INFO - 
+--- Testing find_next_available_any_practitioner ---
+2025-07-07 23:10:22,935 - INFO - Endpoint: /find-next-available
+2025-07-07 23:10:22,936 - INFO - Payload: {
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 14,
+  "service": "Massage",
+  "locationId": "1717010852512540252",
+  "locationName": "balmain"
+}
+2025-07-07 23:10:25,206 - INFO - Status: 200
+2025-07-07 23:10:25,206 - INFO - Response: {"success":false,"message":"I couldn't find any Massage services available.","sessionId":"test_comprehensive_123"}
+2025-07-07 23:10:25,206 - ERROR - FAILED: find_next_available_any_practitioner - I couldn't find any Massage services available.
+2025-07-07 23:10:25,206 - INFO - 
+--- Testing appointment_handler_book ---
+2025-07-07 23:10:25,207 - INFO - Endpoint: /appointment-handler
+2025-07-07 23:10:25,207 - INFO - Payload: {
+  "patientName": "Test Patient Comprehensive",
+  "patientPhone": "0412345678",
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "appointmentDate": "2025-07-14",
+  "appointmentTime": "14:00",
+  "business_id": "1717010852512540252",
+  "location": "balmain",
+  "action": "book",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-07 23:10:33,748 - INFO - Status: 200
+2025-07-07 23:10:33,749 - INFO - Response: {"success":true,"message":"Perfect! I've successfully booked your {service['service_name']} appointment with {practitioner['full_name']} for {display_date} at {display_time}.","appointmentDetails":{"appointmentId":"1724639373070181508","practitioner":"Brendan Smith","service":"Massage","duration":"60 minutes","date":"Monday, July 14, 2025","time":"2:00 PM","location":"balmain","patient":"Test Patient Comprehensive"},"sessionId":"test_comprehensive_123"}
+2025-07-07 23:10:33,749 - INFO - SUCCESS: appointment_handler_book
+2025-07-07 23:10:33,749 - INFO - 
+==================================================
+2025-07-07 23:10:33,750 - INFO - TEST SUMMARY
+2025-07-07 23:10:33,750 - INFO - ==================================================
+2025-07-07 23:10:33,751 - INFO - find_next_available_any_practitioner: FAIL
+2025-07-07 23:10:33,751 - INFO -   Error: I couldn't find any Massage services available.
+2025-07-07 23:10:33,751 - INFO - appointment_handler_book: PASS
+2025-07-07 23:10:33,752 - INFO - 
+Overall: 1/2 tests passed
+2025-07-07 23:10:33,752 - INFO - 
+1 tests failed
+2025-07-07 23:10:33,752 - INFO - 
+Detailed results saved to: booking_test_logs\test_all_webhooks_20250707_231022.log

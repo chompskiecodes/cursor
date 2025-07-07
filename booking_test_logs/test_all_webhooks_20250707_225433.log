@@ -1,0 +1,173 @@
+2025-07-07 22:54:33,405 - INFO - Starting comprehensive webhook test - Log file: booking_test_logs\test_all_webhooks_20250707_225433.log
+2025-07-07 22:54:33,406 - INFO - === COMPREHENSIVE WEBHOOK TEST ===
+2025-07-07 22:54:33,406 - INFO - Webhook API: http://localhost:8000
+2025-07-07 22:54:33,407 - INFO - Test phone number: 0478621276
+2025-07-07 22:54:33,407 - INFO - 
+==================================================
+2025-07-07 22:54:33,407 - INFO - PHASE 1: LOCATION RESOLUTION
+2025-07-07 22:54:33,408 - INFO - ==================================================
+2025-07-07 22:54:33,408 - INFO - 
+--- Testing location-resolver ---
+2025-07-07 22:54:33,409 - INFO - Endpoint: /location-resolver
+2025-07-07 22:54:33,409 - INFO - Payload: {
+  "locationQuery": "Balmain",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678"
+}
+2025-07-07 22:54:35,904 - INFO - Status: 200
+2025-07-07 22:54:35,904 - INFO - Response: {"success":true,"sessionId":"test_comprehensive_123","message":"I'll book you at balmain","resolved":true,"needs_clarification":false,"options":null,"confidence":1.0,"selected_location":{"id":"1717010852512540252","name":"balmain"}}
+2025-07-07 22:54:35,905 - INFO - SUCCESS: location-resolver
+2025-07-07 22:54:35,905 - INFO - 
+--- Testing get-location-practitioners ---
+2025-07-07 22:54:35,906 - INFO - Endpoint: /get-location-practitioners
+2025-07-07 22:54:35,906 - INFO - Payload: {
+  "business_id": "1717010852512540252",
+  "businessName": "balmain",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comprehensive_123"
+}
+2025-07-07 22:54:38,063 - INFO - Status: 200
+2025-07-07 22:54:38,064 - INFO - Response: {"success":true,"sessionId":"test_comprehensive_123","message":"At balmain, we have 3 practitioners available.","location":{"id":"1717010852512540252","name":"balmain"},"practitioners":[{"id":"1702104296348198163","name":"Brendan Smith","firstName":"Brendan","servicesCount":3},{"id":"1702107281644070164","name":"Cameron Lockey","firstName":"Cameron","servicesCount":3},{"id":"1701928802566808842","name":"Chomps Skie","firstName":"Chomps","servicesCount":3}]}
+2025-07-07 22:54:38,066 - INFO - SUCCESS: get-location-practitioners
+2025-07-07 22:54:38,066 - INFO - 
+==================================================
+2025-07-07 22:54:38,067 - INFO - PHASE 2: PRACTITIONER SERVICES
+2025-07-07 22:54:38,067 - INFO - ==================================================
+2025-07-07 22:54:38,068 - INFO - 
+--- Testing get-practitioner-services ---
+2025-07-07 22:54:38,068 - INFO - Endpoint: /get-practitioner-services
+2025-07-07 22:54:38,068 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comprehensive_123",
+  "business_id": "1717010852512540252"
+}
+2025-07-07 22:54:40,302 - INFO - Status: 200
+2025-07-07 22:54:40,303 - INFO - Response: {"success":true,"message":"Brendan Smith offers Acupuncture (Follow up), Acupuncture (Initial), and Massage at this business.","practitioner":"Brendan Smith","services":[{"appointment_type_id":"1702104670815659451","service_name":"Acupuncture (Follow up)","duration_minutes":60},{"appointment_type_id":"1701928805083391378","service_name":"Acupuncture (Initial)","duration_minutes":60},{"appointment_type_id":"1702104852236084669","service_name":"Massage","duration_minutes":60}],"businessFiltered":true}
+2025-07-07 22:54:40,304 - INFO - SUCCESS: get-practitioner-services
+2025-07-07 22:54:40,304 - INFO - 
+--- Testing get-practitioner-info ---
+2025-07-07 22:54:40,305 - INFO - Endpoint: /get-practitioner-info
+2025-07-07 22:54:40,305 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comprehensive_123",
+  "businessName": "balmain"
+}
+2025-07-07 22:54:42,730 - INFO - Status: 200
+2025-07-07 22:54:42,730 - INFO - Response: {"success":true,"sessionId":"test_comprehensive_123","message":"Brendan Smith offers Acupuncture (Follow up), Acupuncture (Initial), and Massage at multiple locations.","practitioner":{"id":"1702104296348198163","name":"Brendan Smith","firstName":"Brendan","servicesCount":3},"services":[{"id":"1702104670815659451","name":"Acupuncture (Follow up)","duration":60},{"id":"1701928805083391378","name":"Acupuncture (Initial)","duration":60},{"id":"1702104852236084669","name":"Massage","duration":60}],"locations":[{"id":"1717010852512540252","name":"balmain"},{"id":"1701928805762869230","name":"City Clinic"},{"id":"1709781060880966929","name":"Location 2"}]}
+2025-07-07 22:54:42,731 - INFO - SUCCESS: get-practitioner-info
+2025-07-07 22:54:42,731 - INFO - 
+==================================================
+2025-07-07 22:54:42,732 - INFO - PHASE 3: AVAILABILITY CHECKING
+2025-07-07 22:54:42,732 - INFO - ==================================================
+2025-07-07 22:54:42,732 - INFO - 
+--- Testing get-available-practitioners ---
+2025-07-07 22:54:42,733 - INFO - Endpoint: /get-available-practitioners
+2025-07-07 22:54:42,733 - INFO - Payload: {
+  "business_id": "1717010852512540252",
+  "businessName": "balmain",
+  "date": "2025-07-21",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comprehensive_123"
+}
+2025-07-07 22:54:50,199 - INFO - Status: 200
+2025-07-07 22:54:50,199 - INFO - Response: {"success":true,"sessionId":"test_comprehensive_123","message":"On Monday, July 21 at balmain, Chomps Skie and Brendan Smith have availability.","location":{"id":"1717010852512540252","name":"balmain"},"practitioners":[{"id":"1701928802566808842","name":"Chomps Skie","firstName":"Chomps","servicesCount":0},{"id":"1702104296348198163","name":"Brendan Smith","firstName":"Brendan","servicesCount":0}],"date":"Monday, July 21"}
+2025-07-07 22:54:50,200 - INFO - SUCCESS: get-available-practitioners
+2025-07-07 22:54:50,200 - INFO - 
+--- Testing practitioner-specific availability ---
+2025-07-07 22:54:50,200 - INFO - 
+--- Testing availability-checker ---
+2025-07-07 22:54:50,201 - INFO - Endpoint: /availability-checker
+2025-07-07 22:54:50,201 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-21",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-07 22:54:53,433 - INFO - Status: 200
+2025-07-07 22:54:53,433 - INFO - Response: {"success":true,"sessionId":"test_comprehensive_123","available_times":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"practitioner":"Brendan Smith","service":"the requested service","date":"Monday, July 21, 2025","message":"Brendan Smith has available times on Monday, July 21, 2025: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 2:00 PM, 3:00 PM."}
+2025-07-07 22:54:53,434 - INFO - SUCCESS: availability-checker
+2025-07-07 22:54:53,434 - INFO - No available slots for Brendan Smith on 2025-07-21
+2025-07-07 22:54:53,435 - INFO - Searching for next available slot with the same practitioner...
+2025-07-07 22:54:53,435 - INFO - 
+--- Testing find-next-available ---
+2025-07-07 22:54:53,435 - INFO - Endpoint: /find-next-available
+2025-07-07 22:54:53,436 - INFO - Payload: {
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 7,
+  "practitioner": "Brendan Smith",
+  "service": "Massage",
+  "locationId": "1717010852512540252",
+  "locationName": "balmain"
+}
+2025-07-07 22:55:19,764 - INFO - Status: 200
+2025-07-07 22:55:19,765 - INFO - Response: {"success":true,"sessionId":"test_comprehensive_123","message":"The next available appointment with Brendan Smith is Tuesday, July 08 at 9:00 AM at our Location 2.","found":true,"slot":{"date":"Tuesday, July 08","time":"9:00 AM","displayTime":"9:00 AM"},"practitioner":{"id":"1702104296348198163","name":"Brendan Smith","firstName":"Brendan","servicesCount":0},"service":null,"location":{"id":"1709781060880966929","name":"Location 2"}}
+2025-07-07 22:55:19,766 - INFO - SUCCESS: find-next-available
+2025-07-07 22:55:19,781 - INFO - Found next available slot for Brendan Smith on 2025-07-08 at 14:00
+2025-07-07 22:55:19,781 - INFO - 
+--- Testing service-first availability ---
+2025-07-07 22:55:19,782 - INFO - 
+--- Testing find-next-available ---
+2025-07-07 22:55:19,782 - INFO - Endpoint: /find-next-available
+2025-07-07 22:55:19,782 - INFO - Payload: {
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 7,
+  "service": "Massage",
+  "locationId": "1717010852512540252",
+  "locationName": "balmain"
+}
+2025-07-07 22:55:22,064 - INFO - Status: 200
+2025-07-07 22:55:22,065 - INFO - Response: {"success":false,"message":"I couldn't find any Massage services available.","sessionId":"test_comprehensive_123"}
+2025-07-07 22:55:22,065 - ERROR - FAILED: find-next-available - I couldn't find any Massage services available.
+2025-07-07 22:55:22,066 - INFO - 
+==================================================
+2025-07-07 22:55:22,066 - INFO - PHASE 4: BOOKING
+2025-07-07 22:55:22,066 - INFO - ==================================================
+2025-07-07 22:55:22,067 - INFO - 
+--- Testing appointment-handler ---
+2025-07-07 22:55:22,067 - INFO - Endpoint: /appointment-handler
+2025-07-07 22:55:22,067 - INFO - Payload: {
+  "action": "book",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678",
+  "patientName": "Test Patient Comprehensive",
+  "patientPhone": "0412345678",
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "appointmentDate": "2025-07-08",
+  "appointmentTime": "14:00",
+  "business_id": "1717010852512540252",
+  "location": "balmain"
+}
+2025-07-07 22:55:33,522 - INFO - Status: 200
+2025-07-07 22:55:33,523 - INFO - Response: {"success":false,"error":"time_not_available","message":"I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?","sessionId":"test_comprehensive_123","availableTimes":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM"]}
+2025-07-07 22:55:33,523 - ERROR - FAILED: appointment-handler - I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?
+2025-07-07 22:55:33,523 - ERROR - FAILED: Booking - skipping cancellation test
+2025-07-07 22:55:33,524 - INFO - 
+==================================================
+2025-07-07 22:55:33,524 - INFO - TEST SUMMARY
+2025-07-07 22:55:33,525 - INFO - ==================================================
+2025-07-07 22:55:33,525 - INFO - location_resolver: PASS
+2025-07-07 22:55:33,525 - INFO - get_location_practitioners: PASS
+2025-07-07 22:55:33,526 - INFO - get_practitioner_services: PASS
+2025-07-07 22:55:33,526 - INFO - get_practitioner_info: PASS
+2025-07-07 22:55:33,526 - INFO - get_available_practitioners: PASS
+2025-07-07 22:55:33,527 - INFO - availability_checker: PASS
+2025-07-07 22:55:33,527 - INFO - find_next_available_same_practitioner: PASS
+2025-07-07 22:55:33,528 - INFO - find_next_available_any_practitioner: FAIL
+2025-07-07 22:55:33,528 - INFO -   Error: I couldn't find any Massage services available.
+2025-07-07 22:55:33,528 - INFO - appointment_handler_book: FAIL
+2025-07-07 22:55:33,529 - INFO -   Error: I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?
+2025-07-07 22:55:33,529 - INFO - 
+Overall: 7/9 tests passed
+2025-07-07 22:55:33,530 - INFO - 
+2 tests failed
+2025-07-07 22:55:33,530 - INFO - 
+Detailed results saved to: booking_test_logs\test_all_webhooks_20250707_225433.log

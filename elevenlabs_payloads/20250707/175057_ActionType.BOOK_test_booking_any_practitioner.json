@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-07-07T17:50:57.062191",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "action": "book",
+    "sessionId": "test_booking_any_practitioner",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-07 17:50:57.057814",
+    "callerPhone": "0412345678",
+    "systemCallerID": null,
+    "patientName": "Test Patient",
+    "patientPhone": "0412345678",
+    "appointmentType": "Massage",
+    "practitioner": null,
+    "appointmentDate": "2025-07-08",
+    "appointmentTime": "Tuesday, July 08, 2025 at 09:00 AM",
+    "business_name": null,
+    "business_id": null,
+    "location": null,
+    "bookingFor": "self",
+    "transcript": [],
+    "notes": null,
+    "appointmentId": null,
+    "currentAppointmentDetails": null,
+    "newDate": null,
+    "newTime": null,
+    "newPractitioner": null,
+    "newAppointmentType": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": null,
+    "patient_name": "Test Patient",
+    "appointment_type": "Massage",
+    "date": "2025-07-08",
+    "time": "Tuesday, July 08, 2025 at 09:00 AM",
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

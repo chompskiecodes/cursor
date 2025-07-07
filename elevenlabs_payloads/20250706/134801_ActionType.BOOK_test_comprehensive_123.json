@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-07-06T13:48:01.350167",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "action": "book",
+    "sessionId": "test_comprehensive_123",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-06 13:48:01.349832",
+    "callerPhone": "0412345678",
+    "systemCallerID": null,
+    "patientName": "Test Patient Comprehensive",
+    "patientPhone": "0412345678",
+    "appointmentType": "Massage",
+    "practitioner": "Brendan Smith",
+    "appointmentDate": "Sunday, July 06",
+    "appointmentTime": "3:00 PM",
+    "business_name": null,
+    "business_id": null,
+    "location": null,
+    "bookingFor": "self",
+    "transcript": [],
+    "notes": null,
+    "appointmentId": null,
+    "currentAppointmentDetails": null,
+    "newDate": null,
+    "newTime": null,
+    "newPractitioner": null,
+    "newAppointmentType": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan Smith",
+    "patient_name": "Test Patient Comprehensive",
+    "appointment_type": "Massage",
+    "date": "Sunday, July 06",
+    "time": "3:00 PM",
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

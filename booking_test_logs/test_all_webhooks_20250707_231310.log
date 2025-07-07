@@ -1,0 +1,49 @@
+2025-07-07 23:13:10,584 - INFO - Starting comprehensive webhook test - Log file: booking_test_logs\test_all_webhooks_20250707_231310.log
+2025-07-07 23:13:10,585 - INFO - === REDUCED WEBHOOK TEST: ONLY FAILING TESTS ===
+2025-07-07 23:13:10,585 - INFO - Webhook API: http://localhost:8000
+2025-07-07 23:13:10,586 - INFO - Test phone number: 0478621276
+2025-07-07 23:13:10,586 - INFO - 
+--- Testing find_next_available_any_practitioner ---
+2025-07-07 23:13:10,587 - INFO - Endpoint: /find-next-available
+2025-07-07 23:13:10,587 - INFO - Payload: {
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 14,
+  "service": "Massage",
+  "locationId": "1717010852512540252",
+  "locationName": "balmain"
+}
+2025-07-07 23:13:42,652 - ERROR - EXCEPTION: find_next_available_any_practitioner - HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=30)
+2025-07-07 23:13:42,652 - INFO - 
+--- Testing appointment_handler_book ---
+2025-07-07 23:13:42,653 - INFO - Endpoint: /appointment-handler
+2025-07-07 23:13:42,653 - INFO - Payload: {
+  "patientName": "Test Patient Comprehensive",
+  "patientPhone": "0412345678",
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "appointmentDate": "2025-07-14",
+  "appointmentTime": "14:00",
+  "business_id": "1717010852512540252",
+  "location": "balmain",
+  "action": "book",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-07 23:13:50,830 - INFO - Status: 200
+2025-07-07 23:13:50,831 - INFO - Response: {"success":false,"error":"time_not_available","message":"[From local system] I'm sorry, 2:00 PM is not available on Monday, July 14, 2025. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 3:00 PM, 4:00 PM. (Note: These may be slightly out of date.) Which time would you prefer?","sessionId":"test_comprehensive_123","availableTimes":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","3:00 PM","4:00 PM"]}
+2025-07-07 23:13:50,832 - ERROR - FAILED: appointment_handler_book - [From local system] I'm sorry, 2:00 PM is not available on Monday, July 14, 2025. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 3:00 PM, 4:00 PM. (Note: These may be slightly out of date.) Which time would you prefer?
+2025-07-07 23:13:50,832 - INFO - 
+==================================================
+2025-07-07 23:13:50,832 - INFO - TEST SUMMARY
+2025-07-07 23:13:50,833 - INFO - ==================================================
+2025-07-07 23:13:50,833 - INFO - find_next_available_any_practitioner: FAIL
+2025-07-07 23:13:50,834 - INFO -   Error: HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=30)
+2025-07-07 23:13:50,834 - INFO - appointment_handler_book: FAIL
+2025-07-07 23:13:50,834 - INFO -   Error: [From local system] I'm sorry, 2:00 PM is not available on Monday, July 14, 2025. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 3:00 PM, 4:00 PM. (Note: These may be slightly out of date.) Which time would you prefer?
+2025-07-07 23:13:50,835 - INFO - 
+Overall: 0/2 tests passed
+2025-07-07 23:13:50,835 - INFO - 
+2 tests failed
+2025-07-07 23:13:50,836 - INFO - 
+Detailed results saved to: booking_test_logs\test_all_webhooks_20250707_231310.log
