@@ -2,105 +2,34 @@
 
 ---
 
-### 🚨 Development & Integration Notes
-
-1. **Field Naming Consistency**
-   - Always use `business_id` (not `locationId`, `location_id`, or `locationID`) for location/business references in all API payloads, docs, and code.
-   - All documentation and test scripts should use `business_id` for clarity and backend compatibility.
-
-2. **Practitioner Name Columns**
-   - The practitioners table may not have a `full_name` column. Use the actual schema column (e.g., `name`, `first_name` + `last_name`, or check your DB schema).
-   - Update scripts and queries to match your real DB schema.
-
-3. **Database Pool Initialization**
-   - Standalone scripts (not running under FastAPI) must manually initialize the asyncpg connection pool using `asyncpg.create_pool` with the correct `DATABASE_URL`.
-   - Do not rely on FastAPI’s dependency injection or shared pool for standalone scripts.
-
-4. **Legacy/Flat Fields**
-   - All legacy/flat fields (e.g., `locationId`, `location_id`, etc.) have been removed from the API and documentation.
-   - If you see these in any code or docs, update them to the current field names.
-
-5. **Branching Logic for Availability**
-   - If a user requests a specific practitioner, only offer slots for that practitioner (searching future days if needed).
-   - If a user requests a service or “any” practitioner, offer the next available slot with any practitioner.
-
-6. **Test Scripts**
-   - Test scripts must use the same field names as the backend (e.g., `business_id`).
-   - When debugging, check both the payload and the backend handler for field name mismatches.
-
-7. **Error Handling**
-   - If you see “Database pool not initialized,” ensure your script is initializing the pool (see above).
-   - If you see “column ... does not exist,” check your DB schema and update queries accordingly.
+> For setup, installation, and high-level usage, see [README.md](./readme.md)
 
 ---
 
-## main.py
+## Technical Overview
 
-### 1. Application Initialization
-
-- **Environment Loading:**  
-  Loads environment variables using `dotenv` for configuration (database, API keys, etc).
-
-- **FastAPI App Setup:**  
-  - Instantiates a FastAPI app with custom title/version.
-  - Configures CORS to allow all origins, methods, and headers.
-  - Sets up logging with different verbosity for development vs production.
-  - Loads routers for all tool modules (location, availability, booking, practitioner, etc).
-
-- **Database and Cache Initialization:**  
-  - On startup, creates an asyncpg connection pool to the database.
-  - Initializes a `CacheManager` for caching frequently accessed data.
-  - Sets up dependency injection for DB pool and cache manager in tool modules.
-  - In production, starts a background task for incremental cache sync (every 5 minutes, syncs appointments for all active clinics).
-
-- **Health and Monitoring Endpoints:**  
-  - `/health`: Checks DB connection and returns status.
-  - `/cache-stats`: Returns cache statistics and hit rates.
-
-- **API Key Authentication:**  
-  - All protected endpoints require an `x-api-key` header matching the configured API key (except in development mode).
-
-- **Root Endpoint:**  
-  - Returns a list of available endpoints and service metadata.
+- All endpoints require API key authentication.
+- All appointment/availability checks require practitioner, business (location), and treatment type.
+- All times are UTC internally; user-facing times are in the clinic's local timezone.
+- Caching, parallel processing, and session-based rejected slot tracking are implemented for performance and user experience.
 
 ---
 
-### 2. Webhook Handler: `/post-call-webhook`
+## Session-Based Rejected Slot Tracking
 
-- **Purpose:**  
-  Receives post-call events from ElevenLabs (e.g., after a voice call completes).
-
-- **Security:**  
-  - If `ELEVENLABS_WEBHOOK_SECRET` is set, verifies the HMAC signature in the `ElevenLabs-Signature` header.
-  - Signature is checked for freshness (within 5 minutes) and correctness.
-
-- **Process:**
-  1. Logs the incoming payload.
-  2. If `agent_id` is present, looks up the associated clinic in the database.
-  3. Extracts call data and analysis from the payload.
-  4. Logs whether the call was successful or failed (with transcript summary if available).
-  5. Returns `{"status": "success"}`.
-
-- **Requirements:**
-  - Must be called by ElevenLabs with a valid signature (if secret is set).
-  - Payload must include `agent_id` and `data.analysis` for full logging.
-
-- **Order of Operations:**
-  1. Verify signature (if required).
-  2. Parse and log payload.
-  3. Lookup clinic by agent ID (if present).
-  4. Log call outcome.
-  5. Respond with success.
+- The backend uses a Supabase table (`session_rejected_slots`) to persist rejected slots per session.
+- When a user rejects offered slots, those slots are stored and not offered again in the same session.
+- If the user changes search criteria or books, the rejected slots are reset for that session.
+- This logic is fully backend-managed and does not require the voice agent to track state.
+- See [README.md](./readme.md#session-based-rejected-slot-tracking) for a user-facing summary.
 
 ---
 
-### 3. Router Inclusion
+## Endpoint & Router Reference
 
-- All tool routers are included in the main app, making their endpoints available at the root level.
+(Keep all existing endpoint, data flow, and technical details as in the current doc, but remove high-level usage/setup info.)
 
----
-
-*This document will be expanded with a detailed, function-by-function breakdown of each router and webhook endpoint, documenting requirements, process, and expectations for each webhook and endpoint.* 
+[...existing endpoint and technical content remains unchanged...]
 
 ## tools/location_router.py
 

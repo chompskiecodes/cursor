@@ -1544,3 +1544,24 @@ SELECT
     timezone,
     NOW() AT TIME ZONE timezone as clinic_current_time
 FROM clinics;
+
+-- ==========================================
+-- SESSION REJECTED SLOTS (for voice session slot tracking)
+-- ==========================================
+
+CREATE TABLE IF NOT EXISTS session_rejected_slots (
+    session_id TEXT PRIMARY KEY,
+    rejected_slots TEXT[] NOT NULL DEFAULT '{}',
+    last_criteria JSONB,
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_session_rejected_slots_updated ON session_rejected_slots(updated_at DESC);
+
+-- Enable RLS
+ALTER TABLE session_rejected_slots ENABLE ROW LEVEL SECURITY;
+
+-- Allow service_role full access
+CREATE POLICY "Service role access" ON session_rejected_slots
+    FOR ALL
+    USING (auth.role() = 'service_role');

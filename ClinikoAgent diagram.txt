@@ -1,7 +1,0 @@
-ClinikoAgent/
-├── main.py                      # Main API (runs 24/7)
-├── initialize_clinic.py         # Initialization logic (shared)
-├── onboard_single_clinic.py     # Standalone onboarding script
-├── test.py                      # Test bookings
-├── test_db.py                   # Test database
-└── .env                         # Environment variables

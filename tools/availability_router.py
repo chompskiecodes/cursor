@@ -593,6 +593,18 @@ async def find_next_available(
             "VoiceBookingSystem/1.0"
         )
     
+        # Set up timezone and search window before using search_start
+        clinic_tz = get_clinic_timezone(clinic)
+        requested_date = None
+        if 'date' in body and body['date']:
+            try:
+                requested_date = parse_date_request(body['date'], clinic_tz)
+            except Exception:
+                requested_date = None
+        search_start = requested_date if requested_date else datetime.now(clinic_tz).date()
+        search_end = search_start + timedelta(days=max_days)
+        logger.info(f"Searching from {search_start} to {search_end}")
+
         # --- SESSION-BASED REJECTED SLOTS TRACKING (Supabase) ---
         import json
         # Define criteria for this search

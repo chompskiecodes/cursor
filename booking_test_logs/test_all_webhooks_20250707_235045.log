@@ -1,0 +1,51 @@
+2025-07-07 23:50:45,057 - INFO - Starting comprehensive webhook test - Log file: booking_test_logs\test_all_webhooks_20250707_235045.log
+2025-07-07 23:50:45,057 - INFO - === REDUCED WEBHOOK TEST: ONLY FAILING TESTS ===
+2025-07-07 23:50:45,058 - INFO - Webhook API: http://localhost:8000
+2025-07-07 23:50:45,058 - INFO - Test phone number: 0478621276
+2025-07-07 23:50:45,059 - INFO - 
+--- Testing find_next_available_any_practitioner ---
+2025-07-07 23:50:45,059 - INFO - Endpoint: /find-next-available
+2025-07-07 23:50:45,059 - INFO - Payload: {
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 14,
+  "service": "Massage",
+  "locationId": "1717010852512540252",
+  "locationName": "balmain"
+}
+2025-07-07 23:50:47,399 - INFO - Status: 200
+2025-07-07 23:50:47,399 - INFO - Response: {"success":false,"error":"internal_error","message":"An error occurred while finding availability: name 'search_start' is not defined","sessionId":"test_comprehensive_123"}
+2025-07-07 23:50:47,399 - ERROR - FAILED: find_next_available_any_practitioner - An error occurred while finding availability: name 'search_start' is not defined
+2025-07-07 23:50:47,400 - INFO - 
+--- Testing appointment_handler_book ---
+2025-07-07 23:50:47,400 - INFO - Endpoint: /appointment-handler
+2025-07-07 23:50:47,400 - INFO - Payload: {
+  "patientName": "Test Patient Comprehensive",
+  "patientPhone": "0412345678",
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "appointmentDate": "2025-07-14",
+  "appointmentTime": "14:00",
+  "business_id": "1717010852512540252",
+  "location": "balmain",
+  "action": "book",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-07 23:50:54,089 - INFO - Status: 200
+2025-07-07 23:50:54,090 - INFO - Response: {"success":false,"error":"time_not_available","message":"I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?","sessionId":"test_comprehensive_123","availableTimes":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM"]}
+2025-07-07 23:50:54,090 - ERROR - FAILED: appointment_handler_book - I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?
+2025-07-07 23:50:54,091 - INFO - 
+==================================================
+2025-07-07 23:50:54,091 - INFO - TEST SUMMARY
+2025-07-07 23:50:54,091 - INFO - ==================================================
+2025-07-07 23:50:54,092 - INFO - find_next_available_any_practitioner: FAIL
+2025-07-07 23:50:54,092 - INFO -   Error: An error occurred while finding availability: name 'search_start' is not defined
+2025-07-07 23:50:54,093 - INFO - appointment_handler_book: FAIL
+2025-07-07 23:50:54,093 - INFO -   Error: I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?
+2025-07-07 23:50:54,093 - INFO - 
+Overall: 0/2 tests passed
+2025-07-07 23:50:54,094 - INFO - 
+2 tests failed
+2025-07-07 23:50:54,094 - INFO - 
+Detailed results saved to: booking_test_logs\test_all_webhooks_20250707_235045.log

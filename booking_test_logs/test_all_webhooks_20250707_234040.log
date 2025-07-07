@@ -1,0 +1,51 @@
+2025-07-07 23:40:40,019 - INFO - Starting comprehensive webhook test - Log file: booking_test_logs\test_all_webhooks_20250707_234040.log
+2025-07-07 23:40:40,020 - INFO - === REDUCED WEBHOOK TEST: ONLY FAILING TESTS ===
+2025-07-07 23:40:40,020 - INFO - Webhook API: http://localhost:8000
+2025-07-07 23:40:40,020 - INFO - Test phone number: 0478621276
+2025-07-07 23:40:40,021 - INFO - 
+--- Testing find_next_available_any_practitioner ---
+2025-07-07 23:40:40,021 - INFO - Endpoint: /find-next-available
+2025-07-07 23:40:40,021 - INFO - Payload: {
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 14,
+  "service": "Massage",
+  "locationId": "1717010852512540252",
+  "locationName": "balmain"
+}
+2025-07-07 23:40:42,191 - INFO - Status: 200
+2025-07-07 23:40:42,192 - INFO - Response: {"success":false,"error":"internal_error","message":"An error occurred while finding availability: relation \"session_rejected_slots\" does not exist","sessionId":"test_comprehensive_123"}
+2025-07-07 23:40:42,192 - ERROR - FAILED: find_next_available_any_practitioner - An error occurred while finding availability: relation "session_rejected_slots" does not exist
+2025-07-07 23:40:42,193 - INFO - 
+--- Testing appointment_handler_book ---
+2025-07-07 23:40:42,194 - INFO - Endpoint: /appointment-handler
+2025-07-07 23:40:42,194 - INFO - Payload: {
+  "patientName": "Test Patient Comprehensive",
+  "patientPhone": "0412345678",
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "appointmentDate": "2025-07-14",
+  "appointmentTime": "14:00",
+  "business_id": "1717010852512540252",
+  "location": "balmain",
+  "action": "book",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-07 23:40:48,674 - INFO - Status: 200
+2025-07-07 23:40:48,675 - INFO - Response: {"success":false,"error":"time_not_available","message":"I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?","sessionId":"test_comprehensive_123","availableTimes":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM"]}
+2025-07-07 23:40:48,675 - ERROR - FAILED: appointment_handler_book - I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?
+2025-07-07 23:40:48,676 - INFO - 
+==================================================
+2025-07-07 23:40:48,676 - INFO - TEST SUMMARY
+2025-07-07 23:40:48,676 - INFO - ==================================================
+2025-07-07 23:40:48,677 - INFO - find_next_available_any_practitioner: FAIL
+2025-07-07 23:40:48,677 - INFO -   Error: An error occurred while finding availability: relation "session_rejected_slots" does not exist
+2025-07-07 23:40:48,677 - INFO - appointment_handler_book: FAIL
+2025-07-07 23:40:48,678 - INFO -   Error: I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?
+2025-07-07 23:40:48,678 - INFO - 
+Overall: 0/2 tests passed
+2025-07-07 23:40:48,679 - INFO - 
+2 tests failed
+2025-07-07 23:40:48,679 - INFO - 
+Detailed results saved to: booking_test_logs\test_all_webhooks_20250707_234040.log
