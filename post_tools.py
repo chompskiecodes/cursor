@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 ElevenLabs Tools Creator
 Creates all 10 webhook tools for the Voice Booking System

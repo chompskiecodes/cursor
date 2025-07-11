@@ -53,6 +53,15 @@ This project is an AI-powered voice receptionist system for multi-location clini
 
 ---
 
+## Cliniko API Key Management
+
+- All production code (API endpoints, routers, background jobs) retrieves the Cliniko API key securely from Supabase, per clinic.
+- Environment variables for the Cliniko API key are only used in non-production scripts (e.g., onboarding, debugging, or local utilities) and are not used in any production or user-facing code paths.
+- This ensures secure, scalable, and per-client management of API credentials.
+- When onboarding a new clinic, the key is collected and stored in Supabase, never in environment variables for production use.
+
+---
+
 ## API & Endpoint Reference
 
 For full technical documentation, endpoint details, and architectural notes, see:
