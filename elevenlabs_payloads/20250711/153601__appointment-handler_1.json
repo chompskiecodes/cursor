@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-07-11T15:36:01.101181",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "dialedNumber": "0478621276",
+    "sessionId": "1",
+    "patientName": "Peter Bryan",
+    "appointmentType": "Acupuncture (Initial)",
+    "business_id": "1717010852512540252",
+    "patientPhone": "0412345987",
+    "practitioner": "Chomps",
+    "appointmentTime": "10:00",
+    "appointmentDate": "2024-07-12"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Chomps",
+    "patient_name": "Peter Bryan",
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "2024-07-12",
+    "time": "10:00",
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

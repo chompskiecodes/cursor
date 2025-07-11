@@ -288,26 +288,46 @@ async def get_location_practitioners(
     request: Request,
     authenticated: bool = Depends(verify_api_key)
 ) -> Dict[str, Any]:
-    """Get all practitioners who work at a specific business/location"""
+    """Get all practitioners who work at a specific business/location and are available on a given date"""
+    print("=== /get-location-practitioners endpoint called (location_router.py) ===")
     body = await request.json()
+    print("[DEBUG] /get-location-practitioners payload:", body)
     business_id = body.get('business_id', '')  # From location-resolver
     business_name = body.get('businessName', '')
     dialed_number = body.get('dialedNumber', '')
     session_id = body.get('sessionId', '')
+    date_str = body.get('date')  # New: date parameter
+    print("[DEBUG] Resolved business_id:", business_id)
+    print("[DEBUG] Business name from payload:", business_name)
+    print("[DEBUG] Date from payload:", date_str)
     
-    # Get database pool
+    # Get database pool and cache
     pool = await get_db()
+    cache = await get_cache()
     
     # Get clinic
     clinic = await get_clinic_by_dialed_number(dialed_number, pool)
+    print("[DEBUG] Clinic found:", clinic)
     if not clinic:
+        print("[DEBUG] No clinic found for dialed_number:", dialed_number)
         return {
             "success": False,
             "message": "I couldn't find the clinic information.",
             "sessionId": session_id
         }
     
-    # Query practitioners at this business
+    # Parse date
+    from tools.timezone_utils import get_clinic_timezone
+    from utils import parse_date_request
+    clinic_tz = get_clinic_timezone(clinic)
+    if date_str:
+        check_date = parse_date_request(date_str, clinic_tz)
+    else:
+        from datetime import datetime
+        check_date = datetime.now(clinic_tz).date()
+    print("[DEBUG] Using check_date:", check_date)
+    
+    # Query practitioners at this business (all associated)
     query = """
         SELECT DISTINCT
             p.practitioner_id,
@@ -317,27 +337,48 @@ async def get_location_practitioners(
                 ELSE CONCAT(p.first_name, ' ', p.last_name)
             END as practitioner_name,
             p.first_name,
-            p.last_name,
-            COUNT(DISTINCT pat.appointment_type_id) as service_count
+            p.last_name
         FROM practitioners p
         JOIN practitioner_businesses pb ON p.practitioner_id = pb.practitioner_id
-        JOIN practitioner_appointment_types pat ON p.practitioner_id = pat.practitioner_id
         WHERE pb.business_id = $1
           AND p.active = true
           AND p.clinic_id = $2
-        GROUP BY p.practitioner_id, p.first_name, p.last_name, p.title
         ORDER BY practitioner_name
     """
-    
     async with pool.acquire() as conn:
         rows = await conn.fetch(query, business_id, clinic.clinic_id)
+        print("[DEBUG] Raw practitioner rows:", rows)
+        print("[DEBUG] Practitioner query returned", len(rows), "rows for business_id", business_id, "and clinic_id", clinic.clinic_id)
     
-    practitioners = [row for row in rows]
+    # Initialize Cliniko API
+    from cliniko import ClinikoAPI
+    cliniko = ClinikoAPI(
+        clinic.cliniko_api_key,
+        clinic.cliniko_shard,
+        "VoiceBookingSystem/1.0"
+    )
+    from .cache_utils import get_availability_with_fallback
+    # Filter practitioners by availability on the given date using the cache (with fallback)
+    available_practitioners = []
+    for row in rows:
+        practitioner_id = row['practitioner_id']
+        slots = await get_availability_with_fallback(
+            practitioner_id,
+            business_id,
+            check_date,
+            clinic.clinic_id,
+            pool,
+            cache,
+            cliniko
+        )
+        if slots and len(slots) > 0:
+            available_practitioners.append(row)
     
-    if not practitioners:
+    if not available_practitioners:
+        print(f"[DEBUG] No practitioners with availability found for business_id {business_id} and clinic_id {clinic.clinic_id} on {check_date}")
         return {
             "success": False,
-            "message": "I couldn't find any practitioners at that location.",
+            "message": "I couldn't find any practitioners with availability at that location on the requested date.",
             "sessionId": session_id
         }
     
@@ -345,7 +386,7 @@ async def get_location_practitioners(
     response = GetPractitionersResponse(
         success=True,
         sessionId=session_id,
-        message=f"At {business_name}, we have {len(practitioners)} practitioners available.",
+        message=f"At {business_name}, we have {len(available_practitioners)} practitioners available on {check_date}.",
         location=LocationData(
             id=business_id,
             name=business_name
@@ -357,7 +398,7 @@ async def get_location_practitioners(
                 firstName=p.get('first_name', p['practitioner_name'].split()[0]),
                 servicesCount=p.get('service_count', 0)
             )
-            for p in practitioners
+            for p in available_practitioners
         ]
     )
     

@@ -1,0 +1,15 @@
+{
+  "created_at": "2025-07-11T15:15:06.161479",
+  "tools": {
+    "location_resolver": "tool_01jzvygz5aen6tyqv99584y67p",
+    "confirm_location": "tool_01jzvygzz1ey09grdm39g31zpt",
+    "find_next_available": "tool_01jzvyh0s9ew1rbhjz7rkmpxed",
+    "availability_checker": "tool_01jzvyh1nkesrtspf8g5s11301",
+    "appointment_handler": "tool_01jzvyh2h7fqjv1c1n3yz92cq1",
+    "cancel_appointment": "tool_01jzvyh3crfk5rmvzncsj0d58n",
+    "get_practitioner_services": "tool_01jzvyh48mf70a53wa3tbenatw",
+    "get_practitioner_info": "tool_01jzvyh575eyxb77kfnmy88c8h",
+    "get_location_practitioners": "tool_01jzvyh63kf08rs7m2kp6nqeyx",
+    "get_available_practitioners": "tool_01jzvyh72tecdb92amx45g0pm9"
+  }
+}

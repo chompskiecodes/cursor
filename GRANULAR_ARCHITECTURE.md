@@ -12,6 +12,7 @@
 - All appointment/availability checks require practitioner, business (location), and treatment type.
 - All times are UTC internally; user-facing times are in the clinic's local timezone.
 - Caching, parallel processing, and session-based rejected slot tracking are implemented for performance and user experience.
+- **Real-time Cliniko fallback:** If the cache is missing or stale, the backend will fetch live data from Cliniko, update the cache, and use the fresh data for all practitioner/location/date checks and bookings. This ensures users always get the most accurate, up-to-date availability.
 
 ---
 
@@ -639,6 +640,16 @@ Authorization: Bearer <API_KEY>
 - API key must have access to all relevant data.
 - Rate limits apply (60 req/min typical).
 - All times are UTC in API; convert as needed.
+
+---
+
+## Cache Fallback Logic
+
+For all endpoints that check practitioner/location/date availability (including `/get-location-practitioners`, `/get-available-practitioners`, `/availability-checker`, `/find-next-available`, and all booking flows):
+
+- The backend first checks the cache for available slots.
+- If the cache is missing, expired, or marked as stale, the backend immediately queries Cliniko for live availability, updates the cache, and uses the fresh data for the response.
+- This fallback ensures that users never see stale or missing availability, and that bookings are always made against the true source of truth (Cliniko).
 
 ---
 

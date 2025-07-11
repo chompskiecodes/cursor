@@ -1,0 +1,194 @@
+ngrok Request Logs - Generated at 2025-07-11 15:42:27
+Total Requests: 6
+
+================================================================================
+Request Time: 2025-07-11 15:36:01
+Request ID: airt_2ziRyUanvy7meTKAUd9ftCI8Hap
+Duration: 4512.83ms
+================================================================================
+
+--- REQUEST ---
+POST /appointment-handler HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 277
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "patientName": "Peter Bryan", "appointmentType": "Acupuncture (Initial)", "business_id": "1717010852512540252", "patientPhone": "0412345987", "practitioner": "Chomps", "appointmentTime": "10:00", "appointmentDate": "2024-07-12"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:36:00 GMT
+server: uvicorn
+content-length: 644
+content-type: application/json
+
+{"success":true,"sessionId":"1","message":"Perfect! I've successfully booked your {service['service_name']} appointment with {practitioner['full_name']} for {display_date} at {display_time} at our {business['business_name']}.","bookingId":"1727309732026263516","confirmationNumber":"APT-263516","practitioner":{"id":"1701928802566808842","name":"Chomps Skie","firstName":"Chomps","servicesCount":0},"service":{"id":"1701928805083391378","name":"Acupuncture (Initial)","duration":60},"location":{"id":"1717010852512540252","name":"balmain"},"timeSlot":{"date":"2024-07-12","time":"10:00 AM","displayTime":"10:00 AM"},"patientName":"Peter Bryan"}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:35:40
+Request ID: airt_2ziRvuGWw9bbRd0Vh3jMo0MKE2N
+Duration: 96.09ms
+================================================================================
+
+--- REQUEST ---
+POST /appointment-handler HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 247
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "patientName": "Peter Bryan", "appointmentType": "Acupuncture (Initial)", "business_id": "1717010852512540252", "practitioner": "Chomps", "appointmentTime": "10:00", "appointmentDate": "2024-07-12"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:35:40 GMT
+server: uvicorn
+content-length: 124
+content-type: application/json
+
+{"success":false,"error":"invalid_phone_number","message":"Please provide a valid Australian phone number.","sessionId":"1"}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:34:56
+Request ID: airt_2ziRqKBQElYjvGUl8QubkOxaevt
+Duration: 8009.63ms
+================================================================================
+
+--- REQUEST ---
+POST /find-next-available HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 148
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "service": "Acupuncture (Initial)", "business_id": "1717010852512540252", "practitioner": "Chomps", "sessionId": "1"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:34:55 GMT
+server: uvicorn
+content-length: 311
+content-type: application/json
+
+{"success":true,"found":true,"message":"Chomps Skie's next availability for Acupuncture (Initial) is Saturday, July 12 at 9:00 AM at Location 2 and Saturday, July 12 at 10:00 AM at Location 2.","slots":["Saturday, July 12 at 9:00 AM at Location 2","Saturday, July 12 at 10:00 AM at Location 2"],"sessionId":"1"}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:34:27
+Request ID: airt_2ziRmebBmuqiO7pS7U34lHJy5za
+Duration: 295.20ms
+================================================================================
+
+--- REQUEST ---
+POST /get-practitioner-services HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 74
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "practitioner": "Chomps", "sessionId": "1"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:34:27 GMT
+server: uvicorn
+content-length: 484
+content-type: application/json
+
+{"success":true,"message":"Chomps Skie offers Acupuncture (Follow up), Acupuncture (Initial), and Massage.","practitioner":"Chomps Skie","services":[{"appointment_type_id":"1702104670815659451","service_name":"Acupuncture (Follow up)","duration_minutes":60},{"appointment_type_id":"1701928805083391378","service_name":"Acupuncture (Initial)","duration_minutes":60},{"appointment_type_id":"1702104852236084669","service_name":"Massage","duration_minutes":60}],"businessFiltered":false}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:34:13
+Request ID: airt_2ziRkxjWYco2SKTdKtuTZFyZNaz
+Duration: 163.54ms
+================================================================================
+
+--- REQUEST ---
+POST /get-location-practitioners HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 113
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "business_id": "1717010852512540252", "businessName": "balmain", "sessionId": "1"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:34:12 GMT
+server: uvicorn
+content-length: 440
+content-type: application/json
+
+{"success":true,"sessionId":"1","message":"At balmain, we have 3 practitioners available.","location":{"id":"1717010852512540252","name":"balmain"},"practitioners":[{"id":"1702104296348198163","name":"Brendan Smith","firstName":"Brendan","servicesCount":3},{"id":"1702107281644070164","name":"Cameron Lockey","firstName":"Cameron","servicesCount":3},{"id":"1701928802566808842","name":"Chomps Skie","firstName":"Chomps","servicesCount":3}]}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:34:00
+Request ID: airt_2ziRjIzJvNV7w8KgKlhmNQ27Pp7
+Duration: 859.85ms
+================================================================================
+
+--- REQUEST ---
+POST /location-resolver HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 76
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "locationQuery": "Balmain"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:34:00 GMT
+server: uvicorn
+content-length: 211
+content-type: application/json
+
+{"success":true,"sessionId":"1","message":"I'll book you at balmain","resolved":true,"needs_clarification":false,"options":null,"confidence":1.0,"selected_location":{"id":"1717010852512540252","name":"balmain"}}
+
+================================================================================

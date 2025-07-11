@@ -1,6 +1,6 @@
 """Shared cache utility functions to avoid circular imports"""
 from typing import Dict, Any, List, Optional
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 import asyncpg
 import logging
 
@@ -123,3 +123,44 @@ async def find_patient_with_cache(
             return patient_data
 
     return None
+
+async def get_availability_with_fallback(
+    practitioner_id: str,
+    business_id: str,
+    check_date: date,
+    clinic_id: str,
+    pool,
+    cache,
+    cliniko_api
+) -> Optional[List[Dict[str, Any]]]:
+    # Try cache first
+    slots = await cache.get_availability(practitioner_id, business_id, check_date)
+    if slots:
+        return slots
+
+    # Lookup appointment type for this practitioner
+    async with pool.acquire() as conn:
+        appointment_type_id = await conn.fetchval(
+            """SELECT appointment_type_id FROM practitioner_appointment_types
+                   WHERE practitioner_id = $1 LIMIT 1""", practitioner_id
+        )
+    if not appointment_type_id:
+        return []
+
+    # Fallback: fetch from Cliniko
+    slots = await cliniko_api.get_available_times(
+        business_id,
+        practitioner_id,
+        appointment_type_id,
+        check_date.isoformat(),
+        check_date.isoformat()
+    )
+    # Update cache
+    await cache.set_availability(
+        practitioner_id,
+        business_id,
+        check_date,
+        clinic_id,
+        slots
+    )
+    return slots

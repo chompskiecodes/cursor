@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-07-11T16:51:40.766234",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "dialedNumber": "0478621276",
+    "sessionId": "1",
+    "patientName": "Darren Spiegel",
+    "appointmentType": "Acupuncture (Initial)",
+    "callerPhone": "0411223344",
+    "business_id": "1717010852512540252",
+    "practitioner": "Chomps Skie",
+    "appointmentTime": "10:00",
+    "appointmentDate": "2024-07-12"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Chomps Skie",
+    "patient_name": "Darren Spiegel",
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "2024-07-12",
+    "time": "10:00",
+    "caller_phone": "0411223344",
+    "dialed_number": "0478621276"
+  }
+}

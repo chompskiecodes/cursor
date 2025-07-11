@@ -34,7 +34,7 @@ from utils import (
     parse_date_request, parse_time_request
 )
 from payload_logger import payload_logger
-from .cache_utils import check_and_trigger_sync
+from .cache_utils import get_availability_with_fallback
 from tools.timezone_utils import (
     get_clinic_timezone,
     convert_utc_to_local,
@@ -158,72 +158,75 @@ async def check_and_trigger_sync(
 # Main appointment handler
 @router.post("/appointment-handler")
 async def handle_appointment(
-    request: BookingRequest,
+    request: Request,
     background_tasks: BackgroundTasks,
     authenticated: bool = Depends(verify_api_key)
 ) -> Dict[str, Any]:
-    """Main appointment booking handler"""
-    payload_logger.log_payload("/appointment-handler", request.model_dump())
-
-    # Use INFO for important milestones only
-    logger.info(f"Booking request: session={request.sessionId}, action={request.action}")
-
-    # Use DEBUG for detailed flow tracking
-    booking_flow_logger.debug("=== BOOKING REQUEST START ===")
-    booking_flow_logger.debug(f"Session: {request.sessionId}")
-    booking_flow_logger.debug(f"Action: {request.action}")
-    booking_flow_logger.debug(f"Practitioner: '{request.practitioner}'")
-    booking_flow_logger.debug(f"Service: '{getattr(request, 'service', getattr(request, 'appointmentType', None))}'")
-
-    try:
-        # Route based on action
-        if request.action == ActionType.BOOK:
-            return await handle_booking(request, background_tasks)
-        elif request.action == ActionType.MODIFY:
-            return await handle_modify(request)
-        elif request.action == ActionType.RESCHEDULE:
-            return await handle_reschedule(request)
-        elif request.action == ActionType.CANCEL:
-            # Convert to CancelRequest
-            cancel_request = CancelRequest(
-                sessionId=request.sessionId,
-                callerPhone=request.callerPhone,
-                dialedNumber=request.dialedNumber,
-                appointmentId=request.appointmentId,
-                appointmentDetails=request.notes
-            )
-            return await cancel_appointment(cancel_request)
-        else:
-            return create_error_response(
-                error_code="invalid_action",
-                message=f"Action '{request.action}' is not supported.",
-                session_id=request.sessionId
-            )
-
-        # Log success at INFO level
-        logger.info(f"✓ Booking completed: appointment_id={appointment['id']}, session={request.sessionId}")
-        # Detailed success info at DEBUG
-        booking_flow_logger.debug(f"Appointment details: {appointment}")
-    except Exception as e:
-        # Errors always at ERROR level
-        logger.error(f"Booking failed: session={request.sessionId}, error={str(e)}")
-        raise
-
-@router.post("/appointment-handler")
-async def appointment_handler_direct(
-    request: Request,
-    authenticated: bool = Depends(verify_api_key)
-) -> Dict[str, Any]:
-    """
-    Direct appointment booking handler for ElevenLabs voice agent.
-    Creates the actual appointment after find_next_available has been called.
-    This is a separate endpoint from handle_appointment to avoid routing complexity.
-    """
-
+    """Main appointment booking handler - handles both BookingRequest models and direct JSON"""
+    
     body = await request.json()
     payload_logger.log_payload("/appointment-handler", body)
 
-    logger.info("=== APPOINTMENT HANDLER DIRECT START ===")
+    # Use INFO for important milestones only
+    logger.info(f"Booking request: session={body.get('sessionId')}")
+
+    # Use DEBUG for detailed flow tracking
+    booking_flow_logger.debug("=== BOOKING REQUEST START ===")
+    booking_flow_logger.debug(f"Session: {body.get('sessionId')}")
+    booking_flow_logger.debug(f"Patient: {body.get('patientName')}")
+    booking_flow_logger.debug(f"Service: {body.get('appointmentType')}")
+
+    try:
+        # Check if this is a direct booking request (from ElevenLabs) or a structured request
+        if 'action' in body:
+            # Structured request with action - route based on action
+            action = body.get('action')
+            if action == ActionType.BOOK:
+                # Convert to BookingRequest and call handle_booking
+                booking_request = BookingRequest(**body)
+                return await handle_booking(booking_request, background_tasks)
+            elif action == ActionType.MODIFY:
+                booking_request = BookingRequest(**body)
+                return await handle_modify(booking_request)
+            elif action == ActionType.RESCHEDULE:
+                reschedule_request = RescheduleRequest(**body)
+                return await handle_reschedule(reschedule_request)
+            elif action == ActionType.CANCEL:
+                # Convert to CancelRequest
+                cancel_request = CancelRequest(
+                    sessionId=body.get('sessionId'),
+                    callerPhone=body.get('callerPhone'),
+                    dialedNumber=body.get('dialedNumber'),
+                    appointmentId=body.get('appointmentId'),
+                    appointmentDetails=body.get('notes')
+                )
+                return await cancel_appointment(cancel_request)
+            else:
+                return create_error_response(
+                    error_code="invalid_action",
+                    message=f"Action '{action}' is not supported.",
+                    session_id=body.get('sessionId', 'unknown')
+                )
+        else:
+            # Direct booking request from ElevenLabs - handle directly
+            return await handle_direct_booking(body, background_tasks)
+
+    except Exception as e:
+        logger.error(f"Appointment handler error: {str(e)}", exc_info=True)
+        return {
+            "success": False,
+            "error": "booking_failed",
+            "message": "I'm sorry, I encountered an error while processing your request. Please try again or contact the clinic directly.",
+            "sessionId": body.get('sessionId', 'unknown')
+        }
+
+async def handle_direct_booking(body: Dict[str, Any], background_tasks: BackgroundTasks) -> Dict[str, Any]:
+    """
+    Handle direct appointment booking for ElevenLabs voice agent.
+    Creates the actual appointment after find_next_available has been called.
+    """
+
+    logger.info("=== DIRECT BOOKING START ===")
     logger.info(f"Session: {body.get('sessionId')}")
     logger.info(f"Patient: {body.get('patientName')}")
     logger.info(f"Service: {body.get('appointmentType')}")
@@ -295,6 +298,44 @@ async def appointment_handler_direct(
             clinic.cliniko_shard,
             clinic.contact_email
         )
+
+        # Validate phone number format
+        if not patient_phone:
+            return {
+                "success": False,
+                "error": "invalid_phone_number",
+                "message": "Please provide a valid Australian phone number.",
+                "sessionId": session_id
+            }
+
+        # Normalize phone number for validation
+        from utils import normalize_phone
+        normalized_phone = normalize_phone(patient_phone)
+        
+        # Check if it's a valid Australian phone number (10 digits starting with 0, or 11 digits starting with 61)
+        if len(normalized_phone) == 11 and normalized_phone.startswith('61'):
+            # International format - convert back to local for validation
+            local_phone = '0' + normalized_phone[2:]
+        elif len(patient_phone) == 10 and patient_phone.startswith('0'):
+            # Local format
+            local_phone = patient_phone
+        else:
+            return {
+                "success": False,
+                "error": "invalid_phone_number",
+                "message": "Please provide a valid 10-digit Australian phone number.",
+                "sessionId": session_id
+            }
+
+        # Check if it's a valid Australian phone prefix
+        valid_prefixes = ['02', '03', '04', '07', '08']
+        if not any(local_phone.startswith(prefix) for prefix in valid_prefixes):
+            return {
+                "success": False,
+                "error": "invalid_phone_number",
+                "message": "Please provide a valid Australian phone number starting with 02, 03, 04, 07, or 08.",
+                "sessionId": session_id
+            }
 
         # Find or create patient
         logger.info(f"Looking for patient with phone: {patient_phone}")
@@ -401,6 +442,40 @@ async def appointment_handler_direct(
             )
             appointment_datetime_utc = appointment_datetime.astimezone(timezone.utc)
 
+            # --- YEAR CORRECTION PATCH ---
+            # Check if the requested year is wrong by comparing to available slots
+            cliniko = ClinikoAPI(clinic.cliniko_api_key, clinic.cliniko_shard, "VoiceBookingSystem/1.0")
+            # Get all slots for the practitioner/business/service in the next 400 days
+            cache_slots = []
+            for offset in range(0, 400):
+                check_date = appointment_date.replace(year=appointment_date.year + (offset // 366)) + timedelta(days=offset % 366)
+                slots = await get_availability_with_fallback(
+                    practitioner['practitioner_id'],
+                    business['business_id'],
+                    check_date,
+                    clinic.clinic_id,
+                    pool,
+                    cache,
+                    cliniko
+                )
+                if slots:
+                    cache_slots.extend(slots)
+            slot_found = False
+            for slot in cache_slots:
+                slot_dt = datetime.fromisoformat(slot['appointment_start'].replace('Z', '+00:00'))
+                if (slot_dt.month == appointment_date.month and
+                    slot_dt.day == appointment_date.day and
+                    slot_dt.hour == hour and
+                    slot_dt.minute == minute):
+                    # Found a slot with the correct month, day, time, but possibly different year
+                    if slot_dt.year != appointment_date.year:
+                        logger.warning(f"Correcting year from {appointment_date.year} to {slot_dt.year}")
+                        appointment_date = slot_dt.date()
+                        appointment_datetime = slot_dt.astimezone(clinic_tz)
+                        appointment_datetime_utc = slot_dt
+                    slot_found = True
+                    break
+
             # Convert to UTC for Cliniko
             appointment_start_utc = appointment_datetime.astimezone(timezone.utc)
             appointment_end_utc = appointment_start_utc + timedelta(minutes=service['duration_minutes'])
@@ -428,8 +503,64 @@ async def appointment_handler_direct(
 
         logger.info(f"Creating appointment with data: {appointment_data}")
 
+        # --- CACHE AVAILABILITY CHECK BEFORE BOOKING ---
+        # Check cache for practitioner's available slots at this business, date
+        cliniko = ClinikoAPI(clinic.cliniko_api_key, clinic.cliniko_shard, "VoiceBookingSystem/1.0")
+        cache_slots = await get_availability_with_fallback(
+            practitioner['practitioner_id'],
+            business['business_id'],
+            appointment_date,
+            clinic.clinic_id,
+            pool,
+            cache,
+            cliniko
+        )
+        slot_time_str = appointment_start_utc.strftime('%H:%M')
+        slot_found = False
+        if cache_slots:
+            for slot in cache_slots:
+                # slot['appointment_start'] is ISO string, e.g. '2024-07-12T10:00:00Z'
+                slot_dt = datetime.fromisoformat(slot['appointment_start'].replace('Z', '+00:00'))
+                if slot_dt.strftime('%H:%M') == slot_time_str:
+                    slot_found = True
+                    break
+        if not slot_found:
+            return {
+                "success": False,
+                "error": "slot_not_available",
+                "message": f"Sorry, that time is no longer available. Please choose another time.",
+                "sessionId": session_id
+            }
+        # --- END CACHE AVAILABILITY CHECK ---
+
         # Create the appointment in Cliniko
-        appointment = await cliniko.create_appointment(appointment_data)
+        try:
+            appointment = await cliniko.create_appointment(appointment_data)
+        except httpx.HTTPStatusError as e:
+            # Check if it's a "slot taken" error
+            error_text = str(e.response.text).lower()
+            if e.response.status_code == 422 and "already booked" in error_text:
+                # Invalidate the cache for this specific date to force a refresh
+                await cache.invalidate_availability(
+                    practitioner['practitioner_id'],
+                    business['business_id'],
+                    appointment_date
+                )
+                # Mark this slot as failed in the cache (optional, for extra safety)
+                async with pool.acquire() as conn:
+                    await conn.execute("""
+                        INSERT INTO failed_booking_attempts
+                        (clinic_id, practitioner_id, business_id, appointment_date, appointment_time, failure_reason)
+                        VALUES ($1, $2, $3, $4, $5, 'slot_taken')
+                        ON CONFLICT DO NOTHING
+                    """, clinic.clinic_id, practitioner['practitioner_id'], business['business_id'], appointment_date, slot_time_str)
+                return {
+                    "success": False,
+                    "error": "slot_taken",
+                    "message": "Sorry, that slot was just taken. Please choose another time.",
+                    "sessionId": session_id
+                }
+            raise
 
         logger.info(f"✓ Appointment created successfully! ID: {appointment['id']}")
 
@@ -532,7 +663,7 @@ async def appointment_handler_direct(
         )
 
     except Exception as e:
-        logger.error(f"Appointment handler error: {str(e)}", exc_info=True)
+        logger.error(f"Direct booking error: {str(e)}", exc_info=True)
         return {
             "success": False,
             "error": "booking_failed",
@@ -588,7 +719,25 @@ async def handle_booking(request: BookingRequest, background_tasks: BackgroundTa
         logger.info(f"Looking for patient with phone: {patient_phone}")
 
         # Validate phone number format - Australian mobile (04) or landline (02, 03, 07, 08)
-        if not patient_phone or len(patient_phone) != 10:
+        if not patient_phone:
+            return create_error_response(
+                error_code="invalid_phone_number",
+                message="Please provide a valid Australian phone number.",
+                session_id=request.sessionId
+            )
+
+        # Normalize phone number for validation
+        from utils import normalize_phone
+        normalized_phone = normalize_phone(patient_phone)
+        
+        # Check if it's a valid Australian phone number (10 digits starting with 0, or 11 digits starting with 61)
+        if len(normalized_phone) == 11 and normalized_phone.startswith('61'):
+            # International format - convert back to local for validation
+            local_phone = '0' + normalized_phone[2:]
+        elif len(patient_phone) == 10 and patient_phone.startswith('0'):
+            # Local format
+            local_phone = patient_phone
+        else:
             return create_error_response(
                 error_code="invalid_phone_number",
                 message="Please provide a valid 10-digit Australian phone number.",
@@ -597,7 +746,7 @@ async def handle_booking(request: BookingRequest, background_tasks: BackgroundTa
 
         # Check if it's a valid Australian phone prefix
         valid_prefixes = ['02', '03', '04', '07', '08']
-        if not any(patient_phone.startswith(prefix) for prefix in valid_prefixes):
+        if not any(local_phone.startswith(prefix) for prefix in valid_prefixes):
             return create_error_response(
                 error_code="invalid_phone_number",
                 message="Please provide a valid Australian phone number starting with 02, 03, 04, 07, or 08.",
@@ -616,7 +765,17 @@ async def handle_booking(request: BookingRequest, background_tasks: BackgroundTa
         if not patient:
             logger.info("Patient not found in cache or database, creating new...")
             # Validate phone before creating patient
-            if len(patient_phone) != 10:
+            from utils import normalize_phone
+            normalized_phone = normalize_phone(patient_phone)
+            
+            # Check if it's a valid Australian phone number
+            if len(normalized_phone) == 11 and normalized_phone.startswith('61'):
+                # International format - convert back to local for validation
+                local_phone = '0' + normalized_phone[2:]
+            elif len(patient_phone) == 10 and patient_phone.startswith('0'):
+                # Local format
+                local_phone = patient_phone
+            else:
                 return create_error_response(
                     error_code="invalid_phone_number",
                     message = \
@@ -821,10 +980,15 @@ async def handle_booking(request: BookingRequest, background_tasks: BackgroundTa
         
         if not available_times:
             # --- SUPABASE-ONLY FALLBACK ---
-            cached_slots = await cache.get_availability(
+            cliniko = ClinikoAPI(clinic.cliniko_api_key, clinic.cliniko_shard, "VoiceBookingSystem/1.0")
+            cached_slots = await get_availability_with_fallback(
                 practitioner['practitioner_id'],
                 business['business_id'],
-                appointment_date
+                appointment_date,
+                clinic.clinic_id,
+                pool,
+                cache,
+                cliniko
             )
             if cached_slots:
                 logger.warning(f"[SUPABASE-ONLY FALLBACK] Returning {len(cached_slots)} slots from cache for practitioner {practitioner['practitioner_id']} at business {business['business_id']} on {appointment_date}")
@@ -874,10 +1038,15 @@ async def handle_booking(request: BookingRequest, background_tasks: BackgroundTa
 
         if not exact_slot:
             # --- SUPABASE-ONLY FALLBACK (for exact slot) ---
-            cached_slots = await cache.get_availability(
+            cliniko = ClinikoAPI(clinic.cliniko_api_key, clinic.cliniko_shard, "VoiceBookingSystem/1.0")
+            cached_slots = await get_availability_with_fallback(
                 practitioner['practitioner_id'],
                 business['business_id'],
-                appointment_date
+                appointment_date,
+                clinic.clinic_id,
+                pool,
+                cache,
+                cliniko
             )
             if cached_slots:
                 logger.warning(f"[SUPABASE-ONLY FALLBACK] Returning {len(cached_slots)} slots from cache for practitioner {practitioner['practitioner_id']} at business {business['business_id']} on {appointment_date}")

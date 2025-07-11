@@ -1,0 +1,86 @@
+2025-07-11 12:47:21,777 - INFO - Starting comprehensive webhook test - Log file: booking_test_logs\test_all_webhooks_20250711_124721.log
+2025-07-11 12:47:21,779 - INFO - === FULL WEBHOOK TEST: ALL 10 ENDPOINTS ===
+2025-07-11 12:47:21,780 - INFO - Webhook API: http://localhost:8000
+2025-07-11 12:47:21,781 - INFO - Test phone number: 0478621276
+2025-07-11 12:47:21,782 - INFO - 
+--- Testing location-resolver ---
+2025-07-11 12:47:21,783 - INFO - Endpoint: /location-resolver
+2025-07-11 12:47:21,785 - INFO - Payload: {
+  "locationQuery": "City Clinic",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678"
+}
+2025-07-11 12:47:24,658 - INFO - Status: 200
+2025-07-11 12:47:24,701 - INFO - Response: {"success":true,"sessionId":"test_comprehensive_123","message":"I'll book you at City Clinic","resolved":true,"needs_clarification":false,"options":null,"confidence":1.0,"selected_location":{"id":"1701928805762869230","name":"City Clinic"}}
+2025-07-11 12:47:24,702 - INFO - SUCCESS: location-resolver
+2025-07-11 12:47:24,702 - INFO - 
+--- Testing find_next_available_any_practitioner ---
+2025-07-11 12:47:24,703 - INFO - Endpoint: /find-next-available
+2025-07-11 12:47:24,703 - INFO - Payload: {
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 14
+}
+2025-07-11 12:47:26,938 - INFO - Status: 200
+2025-07-11 12:47:26,939 - INFO - Response: {"success":false,"message":"Please specify either a practitioner name or service type.","sessionId":"test_comprehensive_123"}
+2025-07-11 12:47:26,941 - ERROR - FAILED: find_next_available_any_practitioner - Please specify either a practitioner name or service type.
+2025-07-11 12:47:26,942 - INFO - 
+--- Testing appointment_handler_book ---
+2025-07-11 12:47:26,945 - INFO - Endpoint: /appointment-handler
+2025-07-11 12:47:26,947 - INFO - Payload: {
+  "patientName": "Test Patient Comprehensive",
+  "patientPhone": "0412345678",
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "appointmentDate": "2025-07-12",
+  "appointmentTime": "14:00",
+  "business_id": "1717010852512540252",
+  "location": "City Clinic",
+  "action": "book",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 12:47:44,369 - INFO - Status: 200
+2025-07-11 12:47:44,370 - INFO - Response: {"success":false,"error":"time_not_available","message":"I'm sorry, {display_time} is not available on {display_date}. Brendan Smith has these times available: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM. Which time would you prefer?","sessionId":"test_comprehensive_123","availableTimes":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM"]}
+2025-07-11 12:47:44,372 - INFO - SUCCESS: appointment_handler_book
+2025-07-11 12:47:44,374 - INFO - 
+--- Testing cancel_appointment ---
+2025-07-11 12:47:44,375 - INFO - Endpoint: /cancel-appointment
+2025-07-11 12:47:44,376 - INFO - Payload: {
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678",
+  "appointmentDetails": "Massage with Brendan Smith on 2025-07-12 at 14:00"
+}
+2025-07-11 12:47:46,707 - INFO - Status: 200
+2025-07-11 12:47:46,707 - INFO - Response: {"success":false,"sessionId":"test_comprehensive_123","message":"I couldn't find your appointment. Could you provide more details like the practitioner's name or the appointment time?","error":"appointment_not_found","resolved":false,"needsClarification":false}
+2025-07-11 12:47:46,709 - ERROR - FAILED: cancel_appointment - I couldn't find your appointment. Could you provide more details like the practitioner's name or the appointment time?
+2025-07-11 12:47:46,711 - INFO - 
+==================================================
+2025-07-11 12:47:46,712 - INFO - TEST SUMMARY
+2025-07-11 12:47:46,714 - INFO - ==================================================
+2025-07-11 12:47:46,716 - INFO - location_resolver: PASS
+2025-07-11 12:47:46,717 - INFO - confirm_location: FAIL
+2025-07-11 12:47:46,719 - INFO -   Error: None
+2025-07-11 12:47:46,721 - INFO - get_location_practitioners: FAIL
+2025-07-11 12:47:46,722 - INFO -   Error: None
+2025-07-11 12:47:46,723 - INFO - get_practitioner_services: FAIL
+2025-07-11 12:47:46,724 - INFO -   Error: None
+2025-07-11 12:47:46,725 - INFO - get_practitioner_info: FAIL
+2025-07-11 12:47:46,727 - INFO -   Error: None
+2025-07-11 12:47:46,728 - INFO - get_available_practitioners: FAIL
+2025-07-11 12:47:46,732 - INFO -   Error: None
+2025-07-11 12:47:46,733 - INFO - availability_checker: FAIL
+2025-07-11 12:47:46,735 - INFO -   Error: None
+2025-07-11 12:47:46,737 - INFO - find_next_available: FAIL
+2025-07-11 12:47:46,738 - INFO -   Error: Please specify either a practitioner name or service type.
+2025-07-11 12:47:46,739 - INFO - appointment_handler_book: PASS
+2025-07-11 12:47:46,740 - INFO - cancel_appointment: FAIL
+2025-07-11 12:47:46,741 - INFO -   Error: I couldn't find your appointment. Could you provide more details like the practitioner's name or the appointment time?
+2025-07-11 12:47:46,743 - INFO - 
+Overall: 2/10 tests passed
+2025-07-11 12:47:46,744 - INFO - 
+8 tests failed
+2025-07-11 12:47:46,746 - INFO - 
+Detailed results saved to: booking_test_logs\test_all_webhooks_20250711_124721.log

@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-07-11T15:20:20.543031",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "action": "book",
+    "sessionId": "1",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-11 15:20:20.542890",
+    "callerPhone": null,
+    "systemCallerID": null,
+    "patientName": "Jason Storm-Lockie",
+    "patientPhone": null,
+    "appointmentType": "Acupuncture (Initial)",
+    "practitioner": "Cameron Lockey",
+    "appointmentDate": "2024-07-14",
+    "appointmentTime": "10:00",
+    "business_name": null,
+    "business_id": "1701928805762869230",
+    "location": null,
+    "bookingFor": "self",
+    "transcript": [],
+    "notes": null,
+    "appointmentId": null,
+    "currentAppointmentDetails": null,
+    "newDate": null,
+    "newTime": null,
+    "newPractitioner": null,
+    "newAppointmentType": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Cameron Lockey",
+    "patient_name": "Jason Storm-Lockie",
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "2024-07-14",
+    "time": "10:00",
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Comprehensive webhook test that covers all 10 webhook endpoints:
 1. location-resolver
@@ -117,12 +116,12 @@ def make_webhook_request(endpoint, payload, webhook_name):
                     result.set_error(response, result_data.get('message', 'Unknown error'))
                     logger.error(f"FAILED: {webhook_name} - {result.error}")
             else:
-            if result_data.get('success'):
-                result.set_success(response, result_data)
-                logger.info(f"SUCCESS: {webhook_name}")
-            else:
-                result.set_error(response, result_data.get('message', 'Unknown error'))
-                logger.error(f"FAILED: {webhook_name} - {result.error}")
+                if result_data.get('success'):
+                    result.set_success(response, result_data)
+                    logger.info(f"SUCCESS: {webhook_name}")
+                else:
+                    result.set_error(response, result_data.get('message', 'Unknown error'))
+                    logger.error(f"FAILED: {webhook_name} - {result.error}")
         else:
             result.set_error(response, f"HTTP {response.status_code}")
             logger.error(f"HTTP ERROR: {webhook_name} - {response.status_code}")
@@ -253,59 +252,144 @@ def test_appointment_handler(action, appointment_data):
 
 
 def main():
-    logger.info("=== REDUCED WEBHOOK TEST: ONLY FAILING TESTS ===")
+    logger.info("=== FULL WEBHOOK TEST: ALL 10 ENDPOINTS ===")
     logger.info(f"Webhook API: {WEBHOOK_BASE_URL}")
     logger.info(f"Test phone number: {TEST_DIALED_NUMBER}")
     
     results = {}
 
-    # Test 1: Service-First Flow (find_next_available_any_practitioner)
-    service_name = "Massage"
-    location_name = "balmain"
-    location_id = "1717010852512540252"  # Example, update as needed
-    find_next_result = test_find_next_available(
-            None, service_name, location_id, location_name
-        )
-    results['find_next_available_any_practitioner'] = find_next_result
+    # Fallbacks
+    fallback_location_id = "1717010852512540252"
+    fallback_location_name = TEST_LOCATIONS[0]
+    fallback_practitioner = "Brendan Smith"
+    fallback_service = "Massage"
+    fallback_date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
-    # Test 2: Booking Flow (appointment_handler_book)
-            booking_data = {
-                "patientName": TEST_PATIENT_NAME,
-                "patientPhone": TEST_PATIENT_PHONE,
-        "practitioner": "Brendan Smith",
-                "appointmentType": service_name,
-        "appointmentDate": "2025-07-14",
+    # 1. location-resolver
+    loc_res_result = test_location_resolver()
+    results['location_resolver'] = loc_res_result
+    location_options = None
+    location_id = None
+    location_name = None
+    practitioner_name = None
+    appointment_type = None
+    if loc_res_result.success and loc_res_result.data:
+        data = loc_res_result.data
+        if data.get('needs_clarification') and data.get('options'):
+            location_options = data['options']
+        elif data.get('business_id') or data.get('location_id'):
+            location_id = data.get('business_id') or data.get('location_id')
+            location_name = data.get('businessName') or data.get('locationName') or fallback_location_name
+    if not location_id:
+        logger.info(f"[Fallback] Using default location_id: {fallback_location_id}")
+        location_id = fallback_location_id
+    if not location_name:
+        logger.info(f"[Fallback] Using default location_name: {fallback_location_name}")
+        location_name = fallback_location_name
+    
+    # 2. confirm-location
+    if location_options:
+        conf_loc_result = test_confirm_location(location_options)
+        results['confirm_location'] = conf_loc_result
+        if conf_loc_result.success and conf_loc_result.data:
+            location_id = conf_loc_result.data.get('business_id') or conf_loc_result.data.get('location_id') or location_id
+            location_name = conf_loc_result.data.get('businessName') or conf_loc_result.data.get('locationName') or location_name
+    else:
+        logger.info(f"[Fallback] Skipping confirm-location, no options. Using location_id: {location_id}, location_name: {location_name}")
+        results['confirm_location'] = WebhookTestResult('confirm-location')
+
+    # 3. get-location-practitioners
+    get_loc_prac_result = test_get_location_practitioners(location_id, location_name)
+    results['get_location_practitioners'] = get_loc_prac_result
+    if get_loc_prac_result.success and get_loc_prac_result.data:
+        practitioners = get_loc_prac_result.data.get('practitioners')
+        if practitioners and isinstance(practitioners, list):
+            practitioner_name = practitioners[0].get('name') if isinstance(practitioners[0], dict) else practitioners[0]
+    if not practitioner_name:
+        logger.info(f"[Fallback] Using default practitioner: {fallback_practitioner}")
+        practitioner_name = fallback_practitioner
+
+    # 4. get-practitioner-services
+    get_prac_serv_result = test_get_practitioner_services(practitioner_name, location_id)
+    results['get_practitioner_services'] = get_prac_serv_result
+    if get_prac_serv_result.success and get_prac_serv_result.data:
+        services = get_prac_serv_result.data.get('services')
+        if services and isinstance(services, list) and services:
+            # If service is a dict, extract the name for endpoints that expect a string
+            if isinstance(services[0], dict):
+                appointment_type = services[0].get('service_name') or services[0].get('name') or fallback_service
+            else:
+                appointment_type = services[0]
+    if not appointment_type:
+        logger.info(f"[Fallback] Using default service: {fallback_service}")
+        appointment_type = fallback_service
+
+    # 5. get-practitioner-info
+    get_prac_info_result = test_get_practitioner_info(practitioner_name, location_name)
+    results['get_practitioner_info'] = get_prac_info_result
+
+    # 6. get-available-practitioners
+    get_avail_prac_result = test_get_available_practitioners(location_id, location_name, fallback_date)
+    results['get_available_practitioners'] = get_avail_prac_result
+
+    # 7. availability-checker
+    avail_checker_result = test_availability_checker(practitioner_name, appointment_type, fallback_date, location_id)
+    results['availability_checker'] = avail_checker_result
+
+    # 8. find-next-available
+    find_next_result = test_find_next_available(practitioner_name, appointment_type, location_id, location_name)
+    results['find_next_available'] = find_next_result
+
+    # 9. appointment-handler (book)
+    booking_data = {
+        "patientName": TEST_PATIENT_NAME,
+        "patientPhone": TEST_PATIENT_PHONE,
+        "practitioner": practitioner_name,
+        # Always send appointmentType as a string, not a dict
+        "appointmentType": appointment_type if isinstance(appointment_type, str) else (appointment_type.get('service_name') if isinstance(appointment_type, dict) else fallback_service),
+        "appointmentDate": fallback_date,
         "appointmentTime": "14:00",
         "business_id": location_id,
         "location": location_name
     }
-            booking_result = test_appointment_handler("book", booking_data)
-            results['appointment_handler_book'] = booking_result
-        
-        # Summary
-        logger.info("\n" + "="*50)
-        logger.info("TEST SUMMARY")
-        logger.info("="*50)
-        
-        successful_tests = 0
-        total_tests = len(results)
-        
-        for test_name, result in results.items():
-            status = "PASS" if result.success else "FAIL"
-            logger.info(f"{test_name}: {status}")
-            if result.success:
-                successful_tests += 1
-            else:
-                logger.info(f"  Error: {result.error}")
-        
-        logger.info(f"\nOverall: {successful_tests}/{total_tests} tests passed")
-        
-        if successful_tests == total_tests:
-        logger.info("\nALL SELECTED WEBHOOK TESTS PASSED!")
+    booking_result = test_appointment_handler("book", booking_data)
+    results['appointment_handler_book'] = booking_result
+
+    # 10. cancel-appointment
+    cancel_payload = {
+        "sessionId": SESSION_ID,
+        "dialedNumber": TEST_DIALED_NUMBER,
+        "callerPhone": TEST_CALLER_PHONE,
+        # Use the string service name in appointmentDetails
+        "appointmentDetails": f"{booking_data['appointmentType']} with {booking_data['practitioner']} on {booking_data['appointmentDate']} at {booking_data['appointmentTime']}"
+    }
+    cancel_result = make_webhook_request("/cancel-appointment", cancel_payload, "cancel_appointment")
+    results['cancel_appointment'] = cancel_result
+
+    # Summary
+    logger.info("\n" + "="*50)
+    logger.info("TEST SUMMARY")
+    logger.info("="*50)
+
+    successful_tests = 0
+    total_tests = len(results)
+
+    for test_name, result in results.items():
+        status = "PASS" if result.success else "FAIL"
+        logger.info(f"{test_name}: {status}")
+        if result.success:
+            successful_tests += 1
         else:
-            logger.info(f"\n{total_tests - successful_tests} tests failed")
-        
-        logger.info(f"\nDetailed results saved to: {log_file}")
+            logger.info(f"  Error: {result.error}")
+
+    logger.info(f"\nOverall: {successful_tests}/{total_tests} tests passed")
+
+    if successful_tests == total_tests:
+        logger.info("\nALL WEBHOOK TESTS PASSED!")
+    else:
+        logger.info(f"\n{total_tests - successful_tests} tests failed")
+
+    logger.info(f"\nDetailed results saved to: {log_file}")
 
 if __name__ == "__main__":
     try:

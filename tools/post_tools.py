@@ -158,15 +158,15 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
-                "locationId": {
+                "business_id": {
                     "type": "string",
-                    "description": "Location ID from location-resolver if location was mentioned",
+                    "description": "Business ID from location-resolver if location was mentioned",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
-                "locationName": {
+                "businessName": {
                     "type": "string",
-                    "description": "Location name for response formatting",
+                    "description": "Business name for response formatting",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
@@ -220,9 +220,9 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
-                "locationId": {
+                "business_id": {
                     "type": "string",
-                    "description": "The resolved location ID from location-resolver",
+                    "description": "The resolved business ID from location-resolver",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
@@ -314,9 +314,9 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
-                "locationId": {
+                "business_id": {
                     "type": "string",
-                    "description": "The resolved location ID number from location-resolver (must be a number,\
+                    "description": "The resolved business ID number from location-resolver (must be a number,\
                         not text)",
                     "dynamic_variable": "",
                     "constant_value": ""

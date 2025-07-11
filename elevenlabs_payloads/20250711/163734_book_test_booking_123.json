@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-07-11T16:37:34.688541",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "action": "book",
+    "sessionId": "test_booking_123",
+    "dialedNumber": "0478621276",
+    "callerPhone": "0412345678",
+    "patientName": "Test Patient",
+    "patientPhone": "0412345678",
+    "practitioner": "Brendan Smith",
+    "appointmentType": "Massage",
+    "appointmentDate": "2025-07-16",
+    "appointmentTime": "9:00 AM"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan Smith",
+    "patient_name": "Test Patient",
+    "appointment_type": "Massage",
+    "date": "2025-07-16",
+    "time": "9:00 AM",
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

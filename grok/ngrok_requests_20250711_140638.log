@@ -1,0 +1,130 @@
+ngrok Request Logs - Generated at 2025-07-11 14:06:38
+Total Requests: 4
+
+================================================================================
+Request Time: 2025-07-11 13:18:11
+Request ID: airt_2ziBDEtoAIQh8GNfWB0UgXnToMd
+Duration: 212.73ms
+================================================================================
+
+--- REQUEST ---
+POST /get-location-practitioners HTTP/1.1
+Host: 400df3607478.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 116
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 400df3607478.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "locationName": "City Clinic", "locationId": "1701928805762869230"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 03:18:10 GMT
+server: uvicorn
+content-length: 97
+content-type: application/json
+
+{"success":false,"message":"I couldn't find any practitioners at that location.","sessionId":"1"}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 13:17:46
+Request ID: airt_2ziBA5kt2XYYj082rm31KyiKlAY
+Duration: 1051.56ms
+================================================================================
+
+--- REQUEST ---
+POST /find-next-available HTTP/1.1
+Host: 400df3607478.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 148
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 400df3607478.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "locationId": "1701928805762869230", "service": "Acupuncture (Initial)", "practitioner": "Cameron", "sessionId": "1"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 03:17:46 GMT
+server: uvicorn
+content-length: 292
+content-type: application/json
+
+{"success":true,"found":true,"message":"Cameron Lockey's next availability for Acupuncture (Initial) is Friday, July 11 at 2:30 PM at balmain and Friday, July 11 at 3:30 PM at balmain.","slots":["Friday, July 11 at 2:30 PM at balmain","Friday, July 11 at 3:30 PM at balmain"],"sessionId":"1"}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 13:17:15
+Request ID: airt_2ziB6EXdEG8IIiup7sYYzcggC1G
+Duration: 8556.53ms
+================================================================================
+
+--- REQUEST ---
+POST /find-next-available HTTP/1.1
+Host: 400df3607478.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 148
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 400df3607478.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "locationId": "1701928805762869230", "service": "Acupuncture (Initial)", "practitioner": "Cameron", "sessionId": "1"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 03:17:15 GMT
+server: uvicorn
+content-length: 292
+content-type: application/json
+
+{"success":true,"found":true,"message":"Cameron Lockey's next availability for Acupuncture (Initial) is Friday, July 11 at 2:30 PM at balmain and Friday, July 11 at 3:30 PM at balmain.","slots":["Friday, July 11 at 2:30 PM at balmain","Friday, July 11 at 3:30 PM at balmain"],"sessionId":"1"}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 13:16:58
+Request ID: airt_2ziB450uvvpC12OTQRyI6wBtx2Q
+Duration: 946.07ms
+================================================================================
+
+--- REQUEST ---
+POST /location-resolver HTTP/1.1
+Host: 400df3607478.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 80
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 400df3607478.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "locationQuery": "City Clinic"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 03:16:57 GMT
+server: uvicorn
+content-length: 219
+content-type: application/json
+
+{"success":true,"sessionId":"1","message":"I'll book you at City Clinic","resolved":true,"needs_clarification":false,"options":null,"confidence":1.0,"selected_location":{"id":"1701928805762869230","name":"City Clinic"}}
+
+================================================================================

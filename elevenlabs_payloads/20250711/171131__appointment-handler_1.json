@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-07-11T17:11:31.445412",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "dialedNumber": "0478621276",
+    "sessionId": "1",
+    "patientName": "Punky Brewster",
+    "appointmentType": "Acupuncture (Initial)",
+    "callerPhone": "0499887766",
+    "business_id": "1717010852512540252",
+    "practitioner": "Chomps",
+    "appointmentTime": "10:00",
+    "appointmentDate": "2024-07-14"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Chomps",
+    "patient_name": "Punky Brewster",
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "2024-07-14",
+    "time": "10:00",
+    "caller_phone": "0499887766",
+    "dialed_number": "0478621276"
+  }
+}

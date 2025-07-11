@@ -893,3 +893,76 @@
 2025-07-07 23:52:35,611 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
 2025-07-07 23:52:35,611 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
 2025-07-07 23:52:35,611 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-11 12:45:08,338 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-11 12:45:08,341 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-11 12:45:08,343 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-11 12:45:08,344 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-11 12:45:08,345 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-11 12:47:29,088 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-11 12:47:29,090 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-11 12:47:29,091 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-11 12:47:29,092 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-11 12:47:29,093 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Massage'
+2025-07-11 12:56:21,180 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-11 12:56:21,181 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: test_comprehensive_123
+2025-07-11 12:56:21,181 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-11 12:56:21,182 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Brendan Smith'
+2025-07-11 12:56:21,182 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Acupuncture (Follow up)'
+2025-07-11 15:20:20,545 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-11 15:20:20,545 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: 1
+2025-07-11 15:20:20,545 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-11 15:20:20,545 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Cameron Lockey'
+2025-07-11 15:20:20,545 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Acupuncture (Initial)'
+2025-07-11 15:20:37,603 - tools.booking_router.flow - DEBUG - [booking_router.py:172] - === BOOKING REQUEST START ===
+2025-07-11 15:20:37,603 - tools.booking_router.flow - DEBUG - [booking_router.py:173] - Session: 1
+2025-07-11 15:20:37,604 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - Action: ActionType.BOOK
+2025-07-11 15:20:37,604 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Practitioner: 'Cameron Lockey'
+2025-07-11 15:20:37,604 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Service: 'Acupuncture (Initial)'
+2025-07-11 15:35:40,505 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 15:35:40,506 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: 1
+2025-07-11 15:35:40,508 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Peter Bryan
+2025-07-11 15:35:40,508 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Acupuncture (Initial)
+2025-07-11 15:36:01,104 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 15:36:01,104 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: 1
+2025-07-11 15:36:01,105 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Peter Bryan
+2025-07-11 15:36:01,105 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Acupuncture (Initial)
+2025-07-11 16:37:34,698 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 16:37:34,699 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_booking_123
+2025-07-11 16:37:34,700 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Test Patient
+2025-07-11 16:37:34,701 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Massage
+2025-07-11 16:40:11,099 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 16:40:11,101 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_booking_123
+2025-07-11 16:40:11,103 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Test Patient
+2025-07-11 16:40:11,104 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Massage
+2025-07-11 16:44:42,951 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 16:44:42,953 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_booking_123
+2025-07-11 16:44:42,954 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Test Patient
+2025-07-11 16:44:42,956 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Massage
+2025-07-11 16:47:09,907 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 16:47:09,908 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: test_booking_123
+2025-07-11 16:47:09,908 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Test Patient
+2025-07-11 16:47:09,909 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Massage
+2025-07-11 16:51:23,179 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 16:51:23,179 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: 1
+2025-07-11 16:51:23,179 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Darren Spiegel
+2025-07-11 16:51:23,179 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Acupuncture (Initial)
+2025-07-11 16:51:40,775 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 16:51:40,776 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: 1
+2025-07-11 16:51:40,776 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Darren Spiegel
+2025-07-11 16:51:40,777 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Acupuncture (Initial)
+2025-07-11 17:11:11,291 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 17:11:11,291 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: 1
+2025-07-11 17:11:11,291 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Punky Brewster
+2025-07-11 17:11:11,291 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Acupuncture (Initial)
+2025-07-11 17:11:31,448 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 17:11:31,448 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: 1
+2025-07-11 17:11:31,448 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Punky Brewster
+2025-07-11 17:11:31,449 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Acupuncture (Initial)
+2025-07-11 17:42:23,082 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 17:42:23,083 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: 1
+2025-07-11 17:42:23,083 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Jupiter Purple
+2025-07-11 17:42:23,083 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Acupuncture (Initial)
+2025-07-11 17:42:40,067 - tools.booking_router.flow - DEBUG - [booking_router.py:174] - === BOOKING REQUEST START ===
+2025-07-11 17:42:40,067 - tools.booking_router.flow - DEBUG - [booking_router.py:175] - Session: 1
+2025-07-11 17:42:40,067 - tools.booking_router.flow - DEBUG - [booking_router.py:176] - Patient: Jupiter Purple
+2025-07-11 17:42:40,067 - tools.booking_router.flow - DEBUG - [booking_router.py:177] - Service: Acupuncture (Initial)

@@ -83,19 +83,28 @@ def check_availability():
         if not result.get('success'):
             logger.error(f"Availability check not successful: {result.get('message')}")
             return None
-        slots = result.get('slots') or result.get('availability', {}).get('slots')
+        # Updated slot extraction logic: check for 'available_times' as well as 'slots'
+        slots = (
+            result.get('slots')
+            or result.get('available_times')
+            or result.get('availability', {}).get('slots')
+        )
         if not slots:
             logger.error("No available slots returned.")
             return None
         # Try to find preferred time first
         for slot in slots:
-            slot_time = slot.get('time') or slot.get('displayTime') or slot.get('start')
+            slot_time = slot.get('time') if isinstance(slot, dict) else slot
+            slot_time = slot_time or (slot.get('displayTime') if isinstance(slot, dict) else None)
+            slot_time = slot_time or (slot.get('start') if isinstance(slot, dict) else None)
             if slot_time and PREFERRED_TIME in slot_time:
                 logger.info(f"Preferred time {PREFERRED_TIME} is available.")
                 return PREFERRED_TIME
         # Otherwise, return the next available slot
         next_slot = slots[0]
-        next_time = next_slot.get('time') or next_slot.get('displayTime') or next_slot.get('start')
+        next_time = next_slot.get('time') if isinstance(next_slot, dict) else next_slot
+        next_time = next_time or (next_slot.get('displayTime') if isinstance(next_slot, dict) else None)
+        next_time = next_time or (next_slot.get('start') if isinstance(next_slot, dict) else None)
         logger.info(f"Preferred time not available. Next available time: {next_time}")
         return next_time
     except Exception as e:

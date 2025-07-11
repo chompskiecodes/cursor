@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-11T12:54:02.950215",
+  "endpoint": "/cancel-appointment",
+  "headers": {},
+  "payload": {
+    "sessionId": "test_comprehensive_123",
+    "callerPhone": "0412345678",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-11 12:54:02.950065",
+    "action": "cancel",
+    "appointmentId": null,
+    "appointmentDetails": "{'appointment_type_id': '1702104670815659451', 'service_name': 'Acupuncture (Follow up)', 'duration_minutes': 60} with Brendan Smith on 2025-07-12 at 14:00",
+    "reason": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": null,
+    "patient_name": null,
+    "appointment_type": null,
+    "date": null,
+    "time": null,
+    "caller_phone": "0412345678",
+    "dialed_number": "0478621276"
+  }
+}

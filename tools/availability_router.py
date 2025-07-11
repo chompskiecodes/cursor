@@ -23,7 +23,7 @@ from tools.timezone_utils import (
     convert_utc_to_local,
     format_time_for_voice
 )
-from .cache_utils import check_and_trigger_sync
+from .cache_utils import check_and_trigger_sync, get_availability_with_fallback
 from shared_types import CacheManagerProtocol
 from models import (
     AvailabilityResponse,
@@ -215,10 +215,15 @@ async def check_availability(
         if not available_times:
             # --- SUPABASE-ONLY FALLBACK ---
             # Try to get slots from Supabase cache directly
-            cached_slots = await cache.get_availability(
+            cliniko = ClinikoAPI(clinic.cliniko_api_key, clinic.cliniko_shard, "VoiceBookingSystem/1.0")
+            cached_slots = await get_availability_with_fallback(
                 practitioner['practitioner_id'],
                 location['business_id'] if location else None,
-                appointment_date
+                appointment_date,
+                clinic.clinic_id,
+                db,
+                cache,
+                cliniko
             )
             if cached_slots:
                 logger.warning(f"[SUPABASE-ONLY FALLBACK] Returning {len(cached_slots)} slots from cache for practitioner {practitioner['practitioner_id']} at business {location['business_id'] if location else None} on {appointment_date}")
@@ -232,143 +237,84 @@ async def check_availability(
                     "success": True,
                     "sessionId": availability_request.sessionId,
                     "available_times": available_times_local,
+                    "slots": available_times_local,  # NEW: always include both keys
                     "practitioner": practitioner["full_name"],
                     "service": service_match.get("name", "the requested service"),
                     "date": appointment_date.strftime("%A, %B %d, %Y"),
                     "message": f"[From local system] {practitioner['full_name']} has these times available on {appointment_date.strftime('%A, %B %d, %Y')}: {', '.join(available_times_local)}. (Note: These may be slightly out of date.)"
                 }
-            # If no availability on requested date, search for next available slot across all locations
+            # If no availability on requested date, search for next available slot
             logger.info(f"No availability found for {practitioner['full_name']} on {appointment_date}, searching for next available slot...")
-            
-            # Initialize Cliniko API for the search
             cliniko = ClinikoAPI(
                 clinic.cliniko_api_key,
                 clinic.cliniko_shard,
                 "VoiceBookingSystem/1.0"
             )
-            
-            # Get all businesses where this practitioner works
-            query = """
-                SELECT DISTINCT 
-                    pb.business_id,
-                    b.business_name
-                FROM practitioner_businesses pb
-                JOIN businesses b ON pb.business_id = b.business_id
-                WHERE pb.practitioner_id = $1
-            """
-            async with db.acquire() as conn:
-                businesses = await conn.fetch(query, practitioner['practitioner_id'])
-            
-            logger.info(f"Found {len(businesses)} businesses for practitioner {practitioner['full_name']}")
-            
-            # Search for next available slot across all locations
+            # --- STRICT LOCATION FALLBACK ---
             earliest_slot = None
             earliest_date = None
             earliest_location = None
-            
             clinic_tz = get_clinic_timezone(clinic)
             search_start = datetime.now(clinic_tz).date()
             search_end = search_start + timedelta(days=14)  # Search next 2 weeks
-            
+            if location and location.get('business_id'):
+                # Only search the requested location
+                business_ids = [location['business_id']]
+            else:
+                # No location specified, search all locations (legacy behavior)
+                query = """
+                    SELECT DISTINCT 
+                        pb.business_id,
+                        b.business_name
+                    FROM practitioner_businesses pb
+                    JOIN businesses b ON pb.business_id = b.business_id
+                    WHERE pb.practitioner_id = $1
+                """
+                async with db.acquire() as conn:
+                    businesses = await conn.fetch(query, practitioner['practitioner_id'])
+                business_ids = [biz['business_id'] for biz in businesses]
             for days_ahead in range(14):
                 check_date = search_start + timedelta(days=days_ahead)
-                
-                for biz in businesses:
+                for biz_id in business_ids:
                     try:
-                        # Check availability for this practitioner/service/location combination
                         available_times = await cliniko.get_available_times(
-                            business_id=biz['business_id'],
+                            business_id=biz_id,
                             practitioner_id=practitioner['practitioner_id'],
                             appointment_type_id=service_match['appointment_type_id'],
                             from_date=check_date.isoformat(),
                             to_date=check_date.isoformat()
                         )
-                        
                         if available_times and len(available_times) > 0:
                             earliest_slot = available_times[0]
                             earliest_date = check_date
-                            earliest_location = biz
-                            logger.info(f"Found available slot on {check_date} at {biz['business_name']}")
+                            earliest_location = biz_id
+                            logger.info(f"Found available slot on {check_date} at business_id {biz_id}")
                             break
                     except Exception as e:
-                        logger.warning(f"Error checking availability for {practitioner['full_name']} at {biz['business_name']} on {check_date}: {e}")
+                        logger.warning(f"Error checking availability for {practitioner['full_name']} at business_id {biz_id} on {check_date}: {e}")
                         continue
-                
                 if earliest_slot:
                     break
-            
             if earliest_slot:
-                # Convert to local time
                 slot_utc = datetime.fromisoformat(earliest_slot['appointment_start'].replace('Z', '+00:00'))
                 slot_local = slot_utc.astimezone(clinic_tz)
-                
-                # Format the response message
-                date_str = slot_local.strftime('%A, %B %d')
-                time_str = format_time_for_voice(slot_local)
-                
-                # --- NEW: Also find next slot at originally requested location (if different) ---
-                next_at_requested = None
-                if location and earliest_location['business_id'] != location.get('business_id'):
-                    # Search next 14 days at the requested location
-                    for days_ahead in range(14):
-                        check_date = search_start + timedelta(days=days_ahead)
-                        try:
-                            available_times = await cliniko.get_available_times(
-                                business_id=location['business_id'],
-                                practitioner_id=practitioner['practitioner_id'],
-                                appointment_type_id=service_match['appointment_type_id'],
-                                from_date=check_date.isoformat(),
-                                to_date=check_date.isoformat()
-                            )
-                            if available_times and len(available_times) > 0:
-                                slot_utc2 = datetime.fromisoformat(available_times[0]['appointment_start'].replace('Z', '+00:00'))
-                                slot_local2 = slot_utc2.astimezone(clinic_tz)
-                                next_at_requested = {
-                                    'date': slot_local2.strftime('%A, %B %d'),
-                                    'time': format_time_for_voice(slot_local2),
-                                    'location': location['business_name'],
-                                    'business_id': location['business_id']
-                                }
-                                break
-                        except Exception as e:
-                            logger.warning(f"Error checking availability for {practitioner['full_name']} at requested location {location['business_name']} on {check_date}: {e}")
-                            continue
-                
-                # --- Compose message ---
-                logger.info(f"service_match: {service_match}")
-                if next_at_requested:
-                    message = (
-                        f"{practitioner['full_name']} doesn't have availability on {appointment_date.strftime('%A, %B %d, %Y')}, "
-                        f"but they have a slot on {date_str} at {time_str} at our {earliest_location['business_name']}. "
-                        f"Their next slot in {next_at_requested['location']} is {next_at_requested['date']} at {next_at_requested['time']}. "
-                        f"Would you like to book either of them instead?"
-                    )
-                else:
-                    if location and earliest_location['business_id'] == location.get('business_id'):
-                        message = f"{practitioner['full_name']} doesn't have availability on {appointment_date.strftime('%A, %B %d, %Y')}, but they have a slot on {date_str} at {time_str}."
-                    else:
-                        message = f"{practitioner['full_name']} doesn't have availability on {appointment_date.strftime('%A, %B %d, %Y')}, but they have a slot on {date_str} at {time_str} at our {earliest_location['business_name']}."
-                
                 return {
                     "success": True,
                     "sessionId": availability_request.sessionId,
-                    "message": message,
+                    "available_times": [format_time_for_voice(slot_local)],
+                    "slots": [format_time_for_voice(slot_local)],
                     "practitioner": practitioner["full_name"],
                     "service": service_match.get("name", "the requested service"),
-                    "next_available": {
-                        "date": date_str,
-                        "time": time_str,
-                        "location": earliest_location['business_name'],
-                        "business_id": earliest_location['business_id']
-                    },
-                    **({"next_at_requested": next_at_requested} if next_at_requested else {})
+                    "date": earliest_date.strftime("%A, %B %d, %Y"),
+                    "message": f"{practitioner['full_name']} has an available time on {earliest_date.strftime('%A, %B %d, %Y')} at {format_time_for_voice(slot_local)}."
                 }
             else:
                 return create_error_response(
                     error_code="no_availability",
                     message=f"I'm sorry, {practitioner['full_name']} doesn't have any available times "
                             f"on {appointment_date.strftime('%A, %B %d, %Y')} or in the next 2 weeks.",
-                    session_id=availability_request.sessionId
+                    session_id=availability_request.sessionId,
+                    extra={"slots": [], "available_times": []}  # NEW: always include both keys
                 )
         
         # Format times for voice response
@@ -384,6 +330,7 @@ async def check_availability(
             "success": True,
             "sessionId": availability_request.sessionId,
             "available_times": available_times_local,
+            "slots": available_times_local,  # NEW: always include both keys
             "practitioner": practitioner["full_name"],
             "service": service_match.get("name", "the requested service"),
             "date": appointment_date.strftime("%A, %B %d, %Y"),
@@ -401,7 +348,8 @@ async def check_availability(
         return create_error_response(
             error_code="internal_error",
             message="I'm sorry, I encountered an error while checking availability. Please try again.",
-            session_id=body.get("sessionId", "unknown") if 'body' in locals() else "unknown"
+            session_id=body.get("sessionId", "unknown") if 'body' in locals() else "unknown",
+            extra={"slots": [], "available_times": []}  # NEW: always include both keys
         )
 
 @router.post("/get-available-practitioners")
@@ -519,6 +467,8 @@ async def get_available_practitioners(
         return {
             "success": False,
             "message": message,
+            "slots": [],  # NEW: always include both keys
+            "available_times": [],  # NEW: always include both keys
             "sessionId": session_id
         }
     else:
@@ -545,7 +495,10 @@ async def get_available_practitioners(
         date=date_str,
         location=LocationData(id=business_id, name=business_name) if business_id and business_name else None
     )
-    return response.dict()
+    result = response.dict()
+    result['slots'] = []  # NEW: always include both keys
+    result['available_times'] = []  # NEW: always include both keys
+    return result
 
 @router.post("/find-next-available")
 async def find_next_available(
@@ -874,10 +827,15 @@ async def find_next_available(
             logger.info(f"Checking date: {check_date}")
             for criteria in search_criteria:
                 logger.info(f"Checking criteria: {criteria['practitioner_name']} at {criteria['business_name']}")
-                cached_slots = await cache.get_availability(
+                cliniko = ClinikoAPI(clinic.cliniko_api_key, clinic.cliniko_shard, "VoiceBookingSystem/1.0")
+                cached_slots = await get_availability_with_fallback(
                     criteria['practitioner_id'],
                     criteria['business_id'],
-                    check_date
+                    check_date,
+                    clinic.clinic_id,
+                    pool,
+                    cache,
+                    cliniko
                 )
                 if cached_slots is not None:
                     slots = cached_slots
@@ -919,6 +877,9 @@ async def find_next_available(
                         slot for slot in available_slots 
                         if slot.get('appointment_start', '').split('T')[1][:5] not in failed_times
                     ]
+                # --- ENFORCE: Only include slots for the requested business_id if provided ---
+                if business_id:
+                    filtered_slots = [slot for slot in filtered_slots if criteria['business_id'] == business_id]
                 for slot in filtered_slots:
                     try:
                         slot_dt = datetime.fromisoformat(slot['appointment_start'].replace('Z', '+00:00'))
@@ -973,6 +934,7 @@ async def find_next_available(
                 "found": True,
                 "message": message,
                 "slots": slot_msgs,
+                "available_times": slot_msgs,  # NEW: always include both keys
                 "sessionId": session_id
             }
         else:
@@ -990,6 +952,8 @@ async def find_next_available(
                 "success": True,
                 "found": False,
                 "message": message,
+                "slots": [],  # NEW: always include both keys
+                "available_times": [],  # NEW: always include both keys
                 "sessionId": session_id
             }
     except Exception as e:

@@ -1,0 +1,48 @@
+2025-07-11 14:49:30,814 - INFO - Starting comprehensive webhook test - Log file: booking_test_logs\test_all_webhooks_20250711_144930.log
+2025-07-11 14:49:30,815 - INFO - === FULL WEBHOOK TEST: ALL 10 ENDPOINTS ===
+2025-07-11 14:49:30,816 - INFO - Webhook API: http://localhost:8000
+2025-07-11 14:49:30,816 - INFO - Test phone number: 0478621276
+2025-07-11 14:49:30,816 - INFO - 
+--- Testing location-resolver ---
+2025-07-11 14:49:30,817 - INFO - Endpoint: /location-resolver
+2025-07-11 14:49:30,817 - INFO - Payload: {
+  "locationQuery": "City Clinic",
+  "sessionId": "test_comprehensive_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678"
+}
+2025-07-11 14:49:34,891 - ERROR - EXCEPTION: location-resolver - HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /location-resolver (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000021F60B501A0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-07-11 14:49:34,892 - INFO - [Fallback] Using default location_id: 1717010852512540252
+2025-07-11 14:49:34,893 - INFO - [Fallback] Using default location_name: City Clinic
+2025-07-11 14:49:34,894 - INFO - [Fallback] Skipping confirm-location, no options. Using location_id: 1717010852512540252, location_name: City Clinic
+2025-07-11 14:49:34,895 - INFO - 
+--- Testing get-location-practitioners ---
+2025-07-11 14:49:34,895 - INFO - Endpoint: /get-location-practitioners
+2025-07-11 14:49:34,896 - INFO - Payload: {
+  "business_id": "1717010852512540252",
+  "businessName": "City Clinic",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comprehensive_123"
+}
+2025-07-11 14:49:38,972 - ERROR - EXCEPTION: get-location-practitioners - HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /get-location-practitioners (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000021F60B5CB90>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-07-11 14:49:38,973 - INFO - [Fallback] Using default practitioner: Brendan Smith
+2025-07-11 14:49:38,973 - INFO - 
+--- Testing get-practitioner-services ---
+2025-07-11 14:49:38,973 - INFO - Endpoint: /get-practitioner-services
+2025-07-11 14:49:38,974 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comprehensive_123",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 14:49:43,041 - ERROR - EXCEPTION: get-practitioner-services - HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /get-practitioner-services (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000021F60B5D450>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-07-11 14:49:43,042 - INFO - [Fallback] Using default service: Massage
+2025-07-11 14:49:43,043 - INFO - 
+--- Testing get-practitioner-info ---
+2025-07-11 14:49:43,043 - INFO - Endpoint: /get-practitioner-info
+2025-07-11 14:49:43,044 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comprehensive_123",
+  "businessName": "City Clinic"
+}

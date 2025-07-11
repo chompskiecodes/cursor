@@ -5,6 +5,7 @@ from fastapi import APIRouter, Request, Depends
 from typing import Dict, Any
 import logging
 import json
+import os
 
 # Local imports
 from .dependencies import verify_api_key, get_db
@@ -16,11 +17,14 @@ from models import (
     LocationData,
     PractitionerInfoResponse,
     ServiceData,
+    GetPractitionersResponse,
     create_error_response
 )
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+print("=== practitioner_router.py loaded ===")
 
 # Create router
 router = APIRouter(tags=["practitioner"])
@@ -339,13 +343,13 @@ async def get_location_practitioners(
     authenticated: bool = Depends(verify_api_key)
 ) -> Dict[str, Any]:
     """Get practitioners available at a specific business/location"""
+    print("=== /get-location-practitioners endpoint called ===")
     body = await request.json()
-    logger.info(f"/get-location-practitioners payload: {body}")
-    print(f"/get-location-practitioners payload: {body}")
+    print("[DEBUG] /get-location-practitioners payload:", body)
+    
     # Handle both field names for compatibility
     business_id = body.get('business_id') or body.get('locationId', '')
-    logger.info(f"Resolved business_id: {business_id}")
-    print(f"Resolved business_id: {business_id}")
+    print("[DEBUG] Resolved business_id:", business_id)
     session_id = body.get('sessionId', '')
     
     # Get database pool
@@ -353,15 +357,24 @@ async def get_location_practitioners(
     
     # Get business name
     query = "SELECT business_name FROM businesses WHERE business_id = $1"
-    async with pool.acquire() as conn:
-        row = await conn.fetchrow(query, business_id)
+    try:
+        async with pool.acquire() as conn:
+            db_user = await conn.fetchval("SELECT current_user")
+            print("[DEBUG] DB current_user:", db_user)
+            row = await conn.fetchrow(query, business_id)
+            print("[DEBUG] Business row:", row)
+    except Exception as e:
+        print("[ERROR] Exception during business lookup:", e)
+        raise
     if not row:
+        print("[DEBUG] No business found for business_id:", business_id)
         return create_error_response(
             error_code="location_not_found",
             message="I couldn't find the location you're looking for.",
             session_id=session_id
         )
     business_name = row['business_name']
+    print("[DEBUG] Business name:", business_name)
     
     # Get practitioners at this business
     query = """
@@ -370,25 +383,28 @@ async def get_location_practitioners(
             p.first_name || ' ' || p.last_name AS full_name,
             p.first_name,
             p.last_name,
-            (SELECT COUNT(DISTINCT at.appointment_type_id) FROM (
-                SELECT DISTINCT at.appointment_type_id
-                FROM practitioner_appointment_types pat
-                JOIN appointment_types at ON pat.appointment_type_id = at.appointment_type_id
-                WHERE pat.practitioner_id = p.practitioner_id AND at.active = true
-            ) s) as service_count
+            (
+                SELECT COUNT(DISTINCT at2.appointment_type_id)
+                FROM practitioner_appointment_types pat2
+                JOIN appointment_types at2 ON pat2.appointment_type_id = at2.appointment_type_id
+                WHERE pat2.practitioner_id = p.practitioner_id AND at2.active = true
+            ) as service_count
         FROM practitioners p
         JOIN practitioner_businesses pb ON p.practitioner_id = pb.practitioner_id
         WHERE pb.business_id = $1
         ORDER BY full_name
     """
-    async with pool.acquire() as conn:
-        rows = await conn.fetch(query, business_id)
-    logger.info(f"Practitioner query returned {len(rows)} rows for business_id {business_id}")
-    print(f"Practitioner query returned {len(rows)} rows for business_id {business_id}")
+    try:
+        async with pool.acquire() as conn:
+            rows = await conn.fetch(query, business_id)
+            print("[DEBUG] Raw practitioner rows:", rows)
+            print("[DEBUG] Practitioner query returned", len(rows), "rows for business_id", business_id)
+    except Exception as e:
+        print("[ERROR] Exception during practitioner query:", e)
+        raise
     practitioners = [row for row in rows]
     if not practitioners:
-        logger.warning(f"No practitioners found for business_id {business_id} (business_name: {business_name})")
-        print(f"No practitioners found for business_id {business_id} (business_name: {business_name})")
+        print(f"[DEBUG] No practitioners found for business_id {business_id} (business_name: {business_name})")
         return create_error_response(
             error_code="no_practitioners_found",
             message="I couldn't find any practitioners at that location.",

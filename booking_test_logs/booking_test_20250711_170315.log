@@ -1,0 +1,183 @@
+2025-07-11 17:03:15,174 - INFO - Starting webhook booking test - Log file: booking_test_logs\booking_test_20250711_170315.log
+2025-07-11 17:03:15,175 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-11) ---
+2025-07-11 17:03:15,176 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-11",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:03:31,399 - INFO - Status: 200
+2025-07-11 17:03:31,400 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:03:31,402 - INFO - Available slots on 2025-07-11: ['9:00 AM']
+2025-07-11 17:03:31,403 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-12) ---
+2025-07-11 17:03:31,403 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-12",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:03:43,303 - INFO - Status: 200
+2025-07-11 17:03:43,304 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:03:43,304 - INFO - Available slots on 2025-07-12: ['9:00 AM']
+2025-07-11 17:03:43,305 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-13) ---
+2025-07-11 17:03:43,305 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-13",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:03:55,083 - INFO - Status: 200
+2025-07-11 17:03:55,084 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:03:55,084 - INFO - Available slots on 2025-07-13: ['9:00 AM']
+2025-07-11 17:03:55,085 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-14) ---
+2025-07-11 17:03:55,085 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-14",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:03:58,858 - INFO - Status: 200
+2025-07-11 17:03:58,859 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"slots":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has available times on Monday, July 14, 2025: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 2:00 PM, 3:00 PM."}
+2025-07-11 17:03:58,859 - INFO - Available slots on 2025-07-14: ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM']
+2025-07-11 17:03:58,860 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-15) ---
+2025-07-11 17:03:58,860 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-15",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:04:02,788 - INFO - Status: 200
+2025-07-11 17:04:02,789 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"slots":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Tuesday, July 15, 2025","message":"Chomps Skie has available times on Tuesday, July 15, 2025: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 2:00 PM, 3:00 PM."}
+2025-07-11 17:04:02,790 - INFO - Available slots on 2025-07-15: ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM']
+2025-07-11 17:04:02,791 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-16) ---
+2025-07-11 17:04:02,792 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-16",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:04:14,619 - INFO - Status: 200
+2025-07-11 17:04:14,620 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:04:14,620 - INFO - Available slots on 2025-07-16: ['9:00 AM']
+2025-07-11 17:04:14,622 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-17) ---
+2025-07-11 17:04:14,622 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-17",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:04:43,073 - INFO - Status: 200
+2025-07-11 17:04:43,075 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:04:43,077 - INFO - Available slots on 2025-07-17: ['9:00 AM']
+2025-07-11 17:04:43,078 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-18) ---
+2025-07-11 17:04:43,080 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-18",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:05:00,538 - INFO - Status: 200
+2025-07-11 17:05:00,540 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:05:00,542 - INFO - Available slots on 2025-07-18: ['9:00 AM']
+2025-07-11 17:05:00,543 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-19) ---
+2025-07-11 17:05:00,544 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-19",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:05:20,387 - INFO - Status: 200
+2025-07-11 17:05:20,389 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:05:20,391 - INFO - Available slots on 2025-07-19: ['9:00 AM']
+2025-07-11 17:05:20,392 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-20) ---
+2025-07-11 17:05:20,392 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-20",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:05:38,914 - INFO - Status: 200
+2025-07-11 17:05:38,916 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:05:38,917 - INFO - Available slots on 2025-07-20: ['9:00 AM']
+2025-07-11 17:05:38,919 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-21) ---
+2025-07-11 17:05:38,920 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-21",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:05:43,478 - INFO - Status: 200
+2025-07-11 17:05:43,479 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"slots":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 21, 2025","message":"Chomps Skie has available times on Monday, July 21, 2025: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 2:00 PM, 3:00 PM."}
+2025-07-11 17:05:43,480 - INFO - Available slots on 2025-07-21: ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM']
+2025-07-11 17:05:43,481 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-22) ---
+2025-07-11 17:05:43,481 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-22",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:05:47,869 - INFO - Status: 200
+2025-07-11 17:05:47,870 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"slots":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Tuesday, July 22, 2025","message":"Chomps Skie has available times on Tuesday, July 22, 2025: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 2:00 PM, 3:00 PM."}
+2025-07-11 17:05:47,870 - INFO - Available slots on 2025-07-22: ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM']
+2025-07-11 17:05:47,871 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-23) ---
+2025-07-11 17:05:47,872 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-23",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:06:01,245 - INFO - Status: 200
+2025-07-11 17:06:01,246 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:06:01,247 - INFO - Available slots on 2025-07-23: ['9:00 AM']
+2025-07-11 17:06:01,247 - INFO - 
+--- Check Availability for Chomps Skie at Balmain (date: 2025-07-24) ---
+2025-07-11 17:06:01,247 - INFO - Payload: {
+  "practitioner": "Chomps Skie",
+  "appointmentType": "Acupuncture (Initial)",
+  "date": "2025-07-24",
+  "sessionId": "test_chomps_balmain_acu_initial",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-11 17:06:10,347 - INFO - Status: 200
+2025-07-11 17:06:10,347 - INFO - Response: {"success":true,"sessionId":"test_chomps_balmain_acu_initial","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Chomps Skie","service":"the requested service","date":"Monday, July 14, 2025","message":"Chomps Skie has an available time on Monday, July 14, 2025 at 9:00 AM."}
+2025-07-11 17:06:10,348 - INFO - Available slots on 2025-07-24: ['9:00 AM']

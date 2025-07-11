@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-07-11T17:42:40.063956",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "dialedNumber": "0478621276",
+    "sessionId": "1",
+    "patientName": "Jupiter Purple",
+    "appointmentType": "Acupuncture (Initial)",
+    "business_id": "1717010852512540252",
+    "patientPhone": "0400234523",
+    "practitioner": "Brendan",
+    "appointmentTime": "10:00",
+    "appointmentDate": "2024-07-14"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan",
+    "patient_name": "Jupiter Purple",
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "2024-07-14",
+    "time": "10:00",
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

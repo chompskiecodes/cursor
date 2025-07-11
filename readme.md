@@ -20,6 +20,7 @@ This project is an AI-powered voice receptionist system for multi-location clini
 - Robust timezone handling (UTC internally, clinic-local for users)
 - Fast, structured JSON webhooks for ElevenLabs
 - Caching and parallel processing for performance
+- **Real-time Cliniko fallback:** If the cache is missing or stale, the system automatically fetches live availability from Cliniko, updates the cache, and uses the fresh data for all practitioner/location/date checks and bookings.
 - Session-based rejected slot tracking (see below)
 
 ---
@@ -49,6 +50,7 @@ This project is an AI-powered voice receptionist system for multi-location clini
 - When a user rejects offered slots, those slots are stored and not offered again in the same session.
 - If the user changes search criteria or books, the rejected slots are reset.
 - This logic is fully backend-managed and does not require the voice agent to track state.
+- **Cache fallback:** If the cache is missing or stale when checking availability, the backend will fetch live data from Cliniko, update the cache, and use the fresh data. This ensures users always get the most accurate, up-to-date availability.
 - See [GRANULAR_ARCHITECTURE.md](./GRANULAR_ARCHITECTURE.md#session-based-rejected-slot-tracking) for details.
 
 ---

@@ -48,8 +48,8 @@ webhook_headers = {
 
 
 def check_availability():
-    """Call the webhook's availability checker, searching up to 7 days ahead for an available slot."""
-    for day_offset in range(1, 8):  # Next 7 days
+    """Call the webhook's availability checker, searching 30 days ahead for an available slot (to test fallback)."""
+    for day_offset in range(5, 31):  # Days 5 to 30 in the future
         check_date = (datetime.now() + timedelta(days=day_offset)).strftime('%Y-%m-%d')
         payload = {
             "practitioner": "Brendan Smith",
@@ -98,7 +98,7 @@ def check_availability():
         except Exception as e:
             logger.error(f"Exception in check_availability: {e}")
             continue
-    logger.error("No available times found in the next 7 days.")
+    logger.error("No available times found in the next 30 days.")
     return None
 
 
@@ -151,6 +151,50 @@ def book_appointment(availability):
         return False
 
 
+def check_availability_chomps_balmain_acupuncture():
+    """Check availability for Chomps Skie at Balmain for Acupuncture (Initial) and print slots for the next 14 days."""
+    practitioner = "Chomps Skie"
+    appointment_type = "Acupuncture (Initial)"
+    # Balmain business_id: must be set to the correct value for your environment
+    # If you have a mapping, set it here. Otherwise, you may need to look it up.
+    business_id = "1717010852512540252"  # Replace with actual Balmain business_id if different
+    for day_offset in range(0, 14):
+        check_date = (datetime.now() + timedelta(days=day_offset)).strftime('%Y-%m-%d')
+        payload = {
+            "practitioner": practitioner,
+            "appointmentType": appointment_type,
+            "date": check_date,
+            "sessionId": "test_chomps_balmain_acu_initial",
+            "dialedNumber": TEST_DIALED_NUMBER,
+            "business_id": business_id
+        }
+        logger.info(f"\n--- Check Availability for Chomps Skie at Balmain (date: {check_date}) ---")
+        logger.info(f"Payload: {json.dumps(payload, indent=2)}")
+        try:
+            response = requests.post(
+                f'{WEBHOOK_BASE_URL}/availability-checker',
+                headers=webhook_headers,
+                json=payload
+            )
+            logger.info(f"Status: {response.status_code}")
+            logger.info(f"Response: {response.text}")
+            if response.status_code != 200:
+                logger.error("Availability check failed.")
+                continue
+            result = response.json()
+            if not result.get('success'):
+                logger.error(f"Availability check not successful: {result.get('message')}")
+                continue
+            slots = result.get('slots') or result.get('available_times')
+            if slots:
+                logger.info(f"Available slots on {check_date}: {slots}")
+            else:
+                logger.info(f"No available slots on {check_date}.")
+        except Exception as e:
+            logger.error(f"Exception in check_availability_chomps_balmain_acupuncture: {e}")
+            continue
+
+
 def main():
     logger.info("=== Webhook-First Booking Test ===")
     logger.info(f"Webhook API: {WEBHOOK_BASE_URL}")
@@ -171,7 +215,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        check_availability_chomps_balmain_acupuncture()
     except Exception as e:
         logger.error(f"Unhandled exception: {e}", exc_info=True)
         logger.error(f"\nCheck log file for details: {log_file}")

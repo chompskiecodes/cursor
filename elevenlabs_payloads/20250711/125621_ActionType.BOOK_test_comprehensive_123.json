@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-07-11T12:56:21.171654",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "action": "book",
+    "sessionId": "test_comprehensive_123",
+    "dialedNumber": "0478621276",
+    "timestamp": "2025-07-11 12:56:21.170889",
+    "callerPhone": null,
+    "systemCallerID": null,
+    "patientName": "Test Patient Comprehensive",
+    "patientPhone": "0412345678",
+    "appointmentType": "Acupuncture (Follow up)",
+    "practitioner": "Brendan Smith",
+    "appointmentDate": "2025-07-12",
+    "appointmentTime": "14:00",
+    "business_name": null,
+    "business_id": "1717010852512540252",
+    "location": "City Clinic",
+    "bookingFor": "self",
+    "transcript": [],
+    "notes": null,
+    "appointmentId": null,
+    "currentAppointmentDetails": null,
+    "newDate": null,
+    "newTime": null,
+    "newPractitioner": null,
+    "newAppointmentType": null
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan Smith",
+    "patient_name": "Test Patient Comprehensive",
+    "appointment_type": "Acupuncture (Follow up)",
+    "date": "2025-07-12",
+    "time": "14:00",
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

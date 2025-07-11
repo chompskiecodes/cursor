@@ -1,0 +1,162 @@
+ngrok Request Logs - Generated at 2025-07-11 15:22:01
+Total Requests: 5
+
+================================================================================
+Request Time: 2025-07-11 15:20:37
+Request ID: airt_2ziQ6RfzAKEgJeKt9ibNkFB04pN
+Duration: 4325.79ms
+================================================================================
+
+--- REQUEST ---
+POST /appointment-handler HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 292
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "patientName": "Jason Storm-Lockie", "appointmentType": "Acupuncture (Initial)", "business_id": "1701928805762869230", "patientPhone": "0400123476", "practitioner": "Cameron Lockey", "appointmentTime": "10:00", "appointmentDate": "2024-07-14"}
+
+--- RESPONSE ---
+HTTP/1.1 500 Internal Server Error
+date: Fri, 11 Jul 2025 05:20:37 GMT
+server: uvicorn
+content-length: 21
+content-type: text/plain; charset=utf-8
+
+Internal Server Error
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:20:20
+Request ID: airt_2ziQ4JkAT2tsC4Zfi2OhN3eIBHX
+Duration: 102.62ms
+================================================================================
+
+--- REQUEST ---
+POST /appointment-handler HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 262
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "patientName": "Jason Storm-Lockie", "appointmentType": "Acupuncture (Initial)", "business_id": "1701928805762869230", "practitioner": "Cameron Lockey", "appointmentTime": "10:00", "appointmentDate": "2024-07-14"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:20:20 GMT
+server: uvicorn
+content-length: 177
+content-type: application/json
+
+{"success":false,"sessionId":"1","message":"Please provide a valid 10-digit Australian phone number.","error":"invalid_phone_number","resolved":false,"needsClarification":false}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:19:35
+Request ID: airt_2ziPyf0ETkjKgJc4rQVWBbSsliw
+Duration: 15229.24ms
+================================================================================
+
+--- REQUEST ---
+POST /find-next-available HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 122
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "service": "Acupuncture (Initial)", "business_id": "1701928805762869230", "sessionId": "1"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:19:34 GMT
+server: uvicorn
+content-length: 310
+content-type: application/json
+
+{"success":true,"found":true,"message":"Cameron Lockey's next availability for Acupuncture (Initial) is Monday, July 14 at 9:00 AM at City Clinic and Monday, July 14 at 10:00 AM at City Clinic.","slots":["Monday, July 14 at 9:00 AM at City Clinic","Monday, July 14 at 10:00 AM at City Clinic"],"sessionId":"1"}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:19:08
+Request ID: airt_2ziPvABBwnzMBPtfbeeCTHPupXV
+Duration: 13166.31ms
+================================================================================
+
+--- REQUEST ---
+POST /get-available-practitioners HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 137
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "business_id": "1701928805762869230", "date": "tomorrow", "businessName": "City Clinic", "sessionId": "1"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:19:08 GMT
+server: uvicorn
+content-length: 161
+content-type: application/json
+
+{"success":false,"message":"I don't see any available appointments at City Clinic on Saturday, July 12. Would you like me to check another day?","sessionId":"1"}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 15:18:55
+Request ID: airt_2ziPtd0OFJsdg5fgJpyibHWcTUv
+Duration: 430.28ms
+================================================================================
+
+--- REQUEST ---
+POST /location-resolver HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 73
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "locationQuery": "City"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 05:18:55 GMT
+server: uvicorn
+content-length: 219
+content-type: application/json
+
+{"success":true,"sessionId":"1","message":"I'll book you at City Clinic","resolved":true,"needs_clarification":false,"options":null,"confidence":1.0,"selected_location":{"id":"1701928805762869230","name":"City Clinic"}}
+
+================================================================================

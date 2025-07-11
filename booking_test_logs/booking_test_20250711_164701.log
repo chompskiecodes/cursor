@@ -1,0 +1,47 @@
+2025-07-11 16:47:01,517 - INFO - Starting webhook booking test - Log file: booking_test_logs\booking_test_20250711_164701.log
+2025-07-11 16:47:01,518 - INFO - === Webhook-First Booking Test ===
+2025-07-11 16:47:01,518 - INFO - Webhook API: http://localhost:8000
+2025-07-11 16:47:01,519 - INFO - Test phone number: 0478621276
+2025-07-11 16:47:01,519 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-16) ---
+2025-07-11 16:47:01,520 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-16",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 16:47:07,860 - INFO - Status: 200
+2025-07-11 16:47:07,861 - INFO - Response: {"success":true,"sessionId":"test_booking_123","available_times":["11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"slots":["11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"practitioner":"Brendan Smith","service":"the requested service","date":"Wednesday, July 16, 2025","message":"Brendan Smith has available times on Wednesday, July 16, 2025: 11:00 AM, 12:00 PM, 1:00 PM, 2:00 PM, 3:00 PM."}
+2025-07-11 16:47:07,862 - INFO - 
+--- Step 2: Book Appointment via Webhook ---
+2025-07-11 16:47:07,863 - INFO - Booking payload: {
+  "action": "book",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678",
+  "patientName": "Test Patient",
+  "patientPhone": "0412345678",
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "appointmentDate": "2025-07-16",
+  "appointmentTime": "11:00 AM"
+}
+2025-07-11 16:47:24,010 - INFO - Status: 200
+2025-07-11 16:47:24,011 - INFO - Response: {"success":true,"message":"Perfect! I've successfully booked your {service['service_name']} appointment with {practitioner['full_name']} for {display_date} at {display_time}.","appointmentDetails":{"appointmentId":"1727345621007869715","practitioner":"Brendan Smith","service":"Massage","duration":"60 minutes","date":"Wednesday, July 16, 2025","time":"11:00 AM","location":"City Clinic","patient":"Test Patient"},"sessionId":"test_booking_123"}
+2025-07-11 16:47:24,016 - INFO - BOOKING SUCCESSFUL!
+2025-07-11 16:47:24,018 - INFO - Message: Perfect! I've successfully booked your {service['service_name']} appointment with {practitioner['full_name']} for {display_date} at {display_time}.
+2025-07-11 16:47:24,020 - INFO - Appointment Details: {
+  "appointmentId": "1727345621007869715",
+  "practitioner": "Brendan Smith",
+  "service": "Massage",
+  "duration": "60 minutes",
+  "date": "Wednesday, July 16, 2025",
+  "time": "11:00 AM",
+  "location": "City Clinic",
+  "patient": "Test Patient"
+}
+2025-07-11 16:47:24,024 - INFO - 
+TEST COMPLETED SUCCESSFULLY!
+2025-07-11 16:47:24,028 - INFO - 
+Test results saved to: booking_test_logs\booking_test_20250711_164701.log

@@ -1,4 +1,5 @@
 
+
 """
 ElevenLabs Tools Creator
 Creates all 10 webhook tools for the Voice Booking System
@@ -171,15 +172,15 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
-                "locationId": {
+                "business_id": {
                     "type": "string",
-                    "description": "Location ID from location-resolver if location was mentioned",
+                    "description": "Business ID from location-resolver if location was mentioned",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
-                "locationName": {
+                "businessName": {
                     "type": "string",
-                    "description": "Location name for response formatting",
+                    "description": "Business name for response formatting",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
@@ -446,19 +447,19 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
         {
             "name": "get_location_practitioners",
             "description": "Shows WHO works at a location (just names,\
-                not availability). Use when caller asks: 'Who works at [location]?' or 'What practitioners do you have at [location]?' Requires locationId from location-resolver first. This is like looking at a staff directory.",
+                not availability). Use when caller asks: 'Who works at [location]?' or 'What practitioners do you have at [location]?' Requires business_id from location-resolver first. This is like looking at a staff directory.",
             "endpoint": "/get-location-practitioners",
-            "required": ["locationId", "locationName", "dialedNumber", "sessionId"],
+            "required": ["business_id", "businessName", "dialedNumber", "sessionId"],
             "properties": {
-                "locationId": {
+                "business_id": {
                     "type": "string",
-                    "description": "Location ID from location-resolver",
+                    "description": "Business ID from location-resolver",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
-                "locationName": {
+                "businessName": {
                     "type": "string",
-                    "description": "Location name for response formatting",
+                    "description": "Business name for response formatting",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
@@ -478,19 +479,19 @@ def create_all_tools(webhook_base_url: str) -> List[Tuple[str, str, bool, str]]:
         },
         {
             "name": "get_available_practitioners",
-            "description": "Shows WHO has appointments available at a location on a specific date. Use when caller is flexible: 'Who's available at [location] tomorrow?' or 'Any practitioner at [location] this week'. Requires BOTH locationId AND date. Returns only practitioners with actual openings.",
+            "description": "Shows WHO has appointments available at a location on a specific date. Use when caller is flexible: 'Who's available at [location] tomorrow?' or 'Any practitioner at [location] this week'. Requires BOTH business_id AND date. Returns only practitioners with actual openings.",
             "endpoint": "/get-available-practitioners",
-            "required": ["locationId", "locationName", "date", "dialedNumber", "sessionId"],
+            "required": ["business_id", "businessName", "date", "dialedNumber", "sessionId"],
             "properties": {
-                "locationId": {
+                "business_id": {
                     "type": "string",
-                    "description": "Location ID from location-resolver",
+                    "description": "Business ID from location-resolver",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },
-                "locationName": {
+                "businessName": {
                     "type": "string",
-                    "description": "Location name for response formatting",
+                    "description": "Business name for response formatting",
                     "dynamic_variable": "",
                     "constant_value": ""
                 },

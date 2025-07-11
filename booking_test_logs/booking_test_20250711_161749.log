@@ -1,0 +1,90 @@
+2025-07-11 16:17:49,461 - INFO - Starting webhook booking test - Log file: booking_test_logs\booking_test_20250711_161749.log
+2025-07-11 16:17:49,464 - INFO - === Webhook-First Booking Test ===
+2025-07-11 16:17:49,465 - INFO - Webhook API: http://localhost:8000
+2025-07-11 16:17:49,466 - INFO - Test phone number: 0478621276
+2025-07-11 16:17:49,467 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-12) ---
+2025-07-11 16:17:49,468 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-12",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 16:17:58,413 - INFO - Status: 200
+2025-07-11 16:17:58,414 - INFO - Response: {"success":false,"sessionId":"test_booking_123","message":"I'm sorry, I encountered an error while checking availability. Please try again.","error":"internal_error","resolved":false,"needsClarification":false}
+2025-07-11 16:17:58,415 - ERROR - Availability check not successful: I'm sorry, I encountered an error while checking availability. Please try again.
+2025-07-11 16:17:58,415 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-13) ---
+2025-07-11 16:17:58,416 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-13",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 16:18:05,826 - INFO - Status: 200
+2025-07-11 16:18:05,827 - INFO - Response: {"success":false,"sessionId":"test_booking_123","message":"I'm sorry, I encountered an error while checking availability. Please try again.","error":"internal_error","resolved":false,"needsClarification":false}
+2025-07-11 16:18:05,828 - ERROR - Availability check not successful: I'm sorry, I encountered an error while checking availability. Please try again.
+2025-07-11 16:18:05,829 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-14) ---
+2025-07-11 16:18:05,830 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-14",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 16:18:13,653 - INFO - Status: 200
+2025-07-11 16:18:13,655 - INFO - Response: {"success":false,"sessionId":"test_booking_123","message":"I'm sorry, I encountered an error while checking availability. Please try again.","error":"internal_error","resolved":false,"needsClarification":false}
+2025-07-11 16:18:13,656 - ERROR - Availability check not successful: I'm sorry, I encountered an error while checking availability. Please try again.
+2025-07-11 16:18:13,658 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-15) ---
+2025-07-11 16:18:13,659 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-15",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 16:18:20,719 - INFO - Status: 200
+2025-07-11 16:18:20,721 - INFO - Response: {"success":false,"sessionId":"test_booking_123","message":"I'm sorry, I encountered an error while checking availability. Please try again.","error":"internal_error","resolved":false,"needsClarification":false}
+2025-07-11 16:18:20,722 - ERROR - Availability check not successful: I'm sorry, I encountered an error while checking availability. Please try again.
+2025-07-11 16:18:20,723 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-16) ---
+2025-07-11 16:18:20,723 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-16",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 16:18:24,850 - INFO - Status: 200
+2025-07-11 16:18:24,851 - INFO - Response: {"success":true,"sessionId":"test_booking_123","available_times":["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"],"practitioner":"Brendan Smith","service":"the requested service","date":"Wednesday, July 16, 2025","message":"Brendan Smith has available times on Wednesday, July 16, 2025: 9:00 AM, 10:00 AM, 11:00 AM, 12:00 PM, 1:00 PM, 2:00 PM, 3:00 PM."}
+2025-07-11 16:18:24,853 - ERROR - No available slots returned.
+2025-07-11 16:18:24,854 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-17) ---
+2025-07-11 16:18:24,855 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-17",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 16:18:31,688 - INFO - Status: 200
+2025-07-11 16:18:31,689 - INFO - Response: {"success":false,"sessionId":"test_booking_123","message":"I'm sorry, I encountered an error while checking availability. Please try again.","error":"internal_error","resolved":false,"needsClarification":false}
+2025-07-11 16:18:31,689 - ERROR - Availability check not successful: I'm sorry, I encountered an error while checking availability. Please try again.
+2025-07-11 16:18:31,690 - INFO - 
+--- Step 1: Check Availability via Webhook (date: 2025-07-18) ---
+2025-07-11 16:18:31,691 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Massage",
+  "date": "2025-07-18",
+  "sessionId": "test_booking_123",
+  "dialedNumber": "0478621276"
+}
+2025-07-11 16:18:38,873 - INFO - Status: 200
+2025-07-11 16:18:38,873 - INFO - Response: {"success":false,"sessionId":"test_booking_123","message":"I'm sorry, I encountered an error while checking availability. Please try again.","error":"internal_error","resolved":false,"needsClarification":false}
+2025-07-11 16:18:38,875 - ERROR - Availability check not successful: I'm sorry, I encountered an error while checking availability. Please try again.
+2025-07-11 16:18:38,878 - ERROR - No available times found in the next 7 days.
+2025-07-11 16:18:38,880 - ERROR - Test failed: No available times found or clarification needed.
