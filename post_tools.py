@@ -36,7 +36,7 @@ def create_tool_config(name: str, description: str, webhook_url: str, parameters
         "tool_config": {
             "name": name,
             "description": description,
-            "response_timeout_secs": 20,
+            "response_timeout_secs": 45,  # Increased from default 20 to 45 seconds
             "type": "webhook",
             "api_schema": {
                 "url": webhook_url,

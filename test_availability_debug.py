@@ -1,51 +1,42 @@
 #!/usr/bin/env python3
-"""Debug script for availability checker"""
+"""Debug script for find-next-available endpoint"""
 
 import asyncio
 import httpx
 import json
 from datetime import datetime, timedelta
 
-async def test_availability_checker():
-    """Test the availability checker directly"""
+async def test_find_next_available():
+    """Test the /find-next-available endpoint directly with production-like payload"""
     
-    # Test data
+    # Test data matching the failing production call
     payload = {
-        "practitioner": "Brendan Smith",
-        "appointmentType": "Massage",
-        "date": "2025-07-07",
-        "sessionId": "debug_test_123",
+        "practitioner": "Cameron",
+        "service": "Acupuncture (Initial)",
+        "sessionId": "1",
         "dialedNumber": "0478621276",
-        "business_id": "1701928805762869230"  # City Clinic
+        "business_id": "1717010852512540252"
     }
     
-    print("Testing availability checker...")
+    print("Testing /find-next-available...")
     print(f"Payload: {json.dumps(payload, indent=2)}")
     
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://localhost:8000/availability-checker",
+                "http://localhost:8000/find-next-available",
                 json=payload,
-                timeout=30.0
+                timeout=60.0
             )
             
             print(f"Status: {response.status_code}")
             print(f"Response: {response.text}")
-            
             if response.status_code == 200:
                 data = response.json()
-                print(f"Success: {data.get('success')}")
-                print(f"Message: {data.get('message')}")
-                print(f"Error: {data.get('error')}")
-                print(f"Resolved: {data.get('resolved')}")
-                print(f"NeedsClarification: {data.get('needsClarification')}")
-                
-                if data.get('next_available'):
-                    print(f"Next available: {data.get('next_available')}")
-            
+                print(json.dumps(data, indent=2))
+    
     except Exception as e:
         print(f"Error: {e}")
 
 if __name__ == "__main__":
-    asyncio.run(test_availability_checker())
+    asyncio.run(test_find_next_available())

@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-07-11T18:26:39.344437",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "dialedNumber": "0478621276",
+    "sessionId": "1",
+    "patientName": "Voltron Trinidad",
+    "appointmentType": "Acupuncture (Initial)",
+    "business_id": "1717010852512540252",
+    "patientPhone": "0499009988",
+    "practitioner": "Brendan",
+    "appointmentTime": "10:00",
+    "appointmentDate": "2024-07-14"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Brendan",
+    "patient_name": "Voltron Trinidad",
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "2024-07-14",
+    "time": "10:00",
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-11T18:24:19.567209",
+  "endpoint": "/confirm-location",
+  "headers": {},
+  "payload": {
+    "dialedNumber": "0478621276",
+    "userResponse": "Balmain",
+    "sessionId": "1",
+    "options": [
+      "City Clinic",
+      "balmain",
+      "Location 2"
+    ]
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": null,
+    "patient_name": null,
+    "appointment_type": null,
+    "date": null,
+    "time": null,
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

@@ -1,0 +1,118 @@
+ngrok Request Logs - Generated at 2025-07-11 18:47:05
+Total Requests: 4
+
+================================================================================
+Request Time: 2025-07-11 18:45:46
+Request ID: airt_2zip3Igz46sR0VmdXIudSvdPmpL
+Duration: 0.00ms
+================================================================================
+
+--- REQUEST ---
+POST /find-next-available HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 149
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "service": "Acupuncture (Initial)", "business_id": "1717010852512540252", "practitioner": "Cameron", "sessionId": "1"}
+
+--- RESPONSE ---
+
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 18:45:30
+Request ID: airt_2zip1C6RVEq693PryIL50fgrma3
+Duration: 0.00ms
+================================================================================
+
+--- REQUEST ---
+POST /find-next-available HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 149
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "service": "Acupuncture (Initial)", "business_id": "1717010852512540252", "practitioner": "Cameron", "sessionId": "1"}
+
+--- RESPONSE ---
+
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 18:45:15
+Request ID: airt_2ziozMbeud0gB2NQ1VmjBZ1Oz5c
+Duration: 247.43ms
+================================================================================
+
+--- REQUEST ---
+POST /get-practitioner-services HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 75
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "practitioner": "Cameron", "sessionId": "1"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 08:45:15 GMT
+server: uvicorn
+content-length: 490
+content-type: application/json
+
+{"success":true,"message":"Cameron Lockey offers Acupuncture (Follow up), Acupuncture (Initial), and Massage.","practitioner":"Cameron Lockey","services":[{"appointment_type_id":"1702104670815659451","service_name":"Acupuncture (Follow up)","duration_minutes":60},{"appointment_type_id":"1701928805083391378","service_name":"Acupuncture (Initial)","duration_minutes":60},{"appointment_type_id":"1702104852236084669","service_name":"Massage","duration_minutes":60}],"businessFiltered":false}
+
+================================================================================
+
+================================================================================
+Request Time: 2025-07-11 18:45:03
+Request ID: airt_2zioxqD9DqALKO7N1gEcWcqW3Pl
+Duration: 619.21ms
+================================================================================
+
+--- REQUEST ---
+POST /location-resolver HTTP/1.1
+Host: 7fe041eaeeac.ngrok-free.app
+User-Agent: Python/3.12 aiohttp/3.11.16
+Content-Length: 76
+Accept: */*
+Accept-Encoding: gzip, deflate
+Content-Type: application/json
+X-Api-Key: MS0xNzAyMDE4MzQ3NzQ0MzcyMjM4LUs2YzJodjE2TEM1OVVGM0JTRU1GMHZ1K2Y5V0VmRHNH-au4
+X-Forwarded-For: 34.59.11.47
+X-Forwarded-Host: 7fe041eaeeac.ngrok-free.app
+X-Forwarded-Proto: https
+
+{"dialedNumber": "0478621276", "sessionId": "1", "locationQuery": "Balmain"}
+
+--- RESPONSE ---
+HTTP/1.1 200 OK
+date: Fri, 11 Jul 2025 08:45:02 GMT
+server: uvicorn
+content-length: 211
+content-type: application/json
+
+{"success":true,"sessionId":"1","message":"I'll book you at balmain","resolved":true,"needs_clarification":false,"options":null,"confidence":1.0,"selected_location":{"id":"1717010852512540252","name":"balmain"}}
+
+================================================================================
