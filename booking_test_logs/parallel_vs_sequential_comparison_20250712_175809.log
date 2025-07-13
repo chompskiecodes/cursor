@@ -1,0 +1,190 @@
+2025-07-12 17:58:09,307 - INFO - Starting parallel vs sequential comparison test - Log file: booking_test_logs\parallel_vs_sequential_comparison_20250712_175809.log
+2025-07-12 17:58:09,309 - INFO - === PARALLEL VS SEQUENTIAL ENDPOINT COMPARISON ===
+2025-07-12 17:58:09,309 - INFO - Webhook API: http://localhost:8000
+2025-07-12 17:58:09,310 - INFO - Test phone number: 0478621276
+2025-07-12 17:58:09,310 - INFO - 
+============================================================
+2025-07-12 17:58:09,312 - INFO - SETTING UP TEST DATA
+2025-07-12 17:58:09,317 - INFO - ============================================================
+2025-07-12 17:58:09,318 - INFO - Making request to location-resolver
+2025-07-12 17:58:09,320 - INFO - Endpoint: /location-resolver
+2025-07-12 17:58:09,322 - INFO - Payload: {
+  "locationQuery": "Location 2",
+  "sessionId": "test_comparison_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678"
+}
+2025-07-12 17:58:11,572 - INFO - Status: 200
+2025-07-12 17:58:11,590 - INFO - Duration: 2.25s
+2025-07-12 17:58:11,592 - INFO - Response: {"success":true,"sessionId":"test_comparison_123","message":"I'll book you at Location 2","resolved":true,"needs_clarification":false,"options":null,"confidence":1.0,"selected_location":{"id":"1709781060880966929","name":"Location 2"}}...
+2025-07-12 17:58:11,612 - INFO - Making request to get-location-practitioners
+2025-07-12 17:58:11,614 - INFO - Endpoint: /get-location-practitioners
+2025-07-12 17:58:11,615 - INFO - Payload: {
+  "business_id": "1717010852512540252",
+  "businessName": "City Clinic",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comparison_123"
+}
+2025-07-12 17:58:22,068 - INFO - Status: 200
+2025-07-12 17:58:22,071 - INFO - Duration: 10.44s
+2025-07-12 17:58:22,076 - INFO - Response: {"success":false,"message":"I couldn't find any practitioners with availability at that location on the requested date.","sessionId":"test_comparison_123"}...
+2025-07-12 17:58:22,080 - INFO - Making request to get-practitioner-services
+2025-07-12 17:58:22,082 - INFO - Endpoint: /get-practitioner-services
+2025-07-12 17:58:22,083 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comparison_123"
+}
+2025-07-12 17:58:24,226 - INFO - Status: 200
+2025-07-12 17:58:24,228 - INFO - Duration: 2.14s
+2025-07-12 17:58:24,229 - INFO - Response: {"success":true,"message":"Brendan Smith offers Acupuncture (Follow up), Acupuncture (Initial), and Massage.","practitioner":"Brendan Smith","services":[{"appointment_type_id":"1702104670815659451","service_name":"Acupuncture (Follow up)","duration_minutes":60},{"appointment_type_id":"1701928805083391378","service_name":"Acupuncture (Initial)","duration_minutes":60},{"appointment_type_id":"1702104852236084669","service_name":"Massage","duration_minutes":60}],"businessFiltered":false}...
+2025-07-12 17:58:24,233 - INFO - Using test data:
+2025-07-12 17:58:24,235 - INFO -   Location: City Clinic (1717010852512540252)
+2025-07-12 17:58:24,237 - INFO -   Practitioner: Brendan Smith
+2025-07-12 17:58:24,239 - INFO -   Service: Acupuncture (Follow up)
+2025-07-12 17:58:24,239 - INFO -   Date: 2025-07-13
+2025-07-12 17:58:24,240 - INFO - 
+============================================================
+2025-07-12 17:58:24,242 - INFO - RUNNING COMPARISON TESTS
+2025-07-12 17:58:24,243 - INFO - ============================================================
+2025-07-12 17:58:24,245 - INFO - 
+============================================================
+2025-07-12 17:58:24,246 - INFO - TESTING: find-next-available vs enhanced/find-next-available
+2025-07-12 17:58:24,246 - INFO - ============================================================
+2025-07-12 17:58:24,248 - INFO - Making request to find-next-available (sequential)
+2025-07-12 17:58:24,249 - INFO - Endpoint: /find-next-available
+2025-07-12 17:58:24,249 - INFO - Payload: {
+  "sessionId": "test_comparison_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 14,
+  "practitioner": "Brendan Smith",
+  "service": "Acupuncture (Follow up)",
+  "locationId": "1717010852512540252",
+  "locationName": "City Clinic"
+}
+2025-07-12 17:58:34,460 - INFO - Status: 200
+2025-07-12 17:58:34,461 - INFO - Duration: 10.21s
+2025-07-12 17:58:34,461 - INFO - Response: {"success":true,"found":true,"message":"Brendan Smith's next availability for Acupuncture (Follow up) is Sunday, July 13 at 9:00 AM at City Clinic and Sunday, July 13 at 10:00 AM at City Clinic.","slots":["Sunday, July 13 at 9:00 AM at City Clinic","Sunday, July 13 at 10:00 AM at City Clinic"],"available_times":["Sunday, July 13 at 9:00 AM at City Clinic","Sunday, July 13 at 10:00 AM at City Clinic"],"sessionId":"test_comparison_123"}...
+2025-07-12 17:58:34,463 - INFO - Making request to enhanced/find-next-available (parallel)
+2025-07-12 17:58:34,464 - INFO - Endpoint: /enhanced/find-next-available
+2025-07-12 17:58:34,465 - INFO - Payload: {
+  "sessionId": "test_comparison_123",
+  "dialedNumber": "0478621276",
+  "maxDays": 14,
+  "practitioner": "Brendan Smith",
+  "service": "Acupuncture (Follow up)",
+  "locationId": "1717010852512540252",
+  "locationName": "City Clinic"
+}
+2025-07-12 17:58:37,226 - INFO - Status: 200
+2025-07-12 17:58:37,232 - INFO - Duration: 2.76s
+2025-07-12 17:58:37,233 - INFO - Response: {"success":true,"found":true,"message":"Brendan Smith's next availability for Acupuncture (Follow up) is Sunday, July 13 at 09:00 AM at City Clinic.","sessionId":"test_comparison_123","slots":["Sunday, July 13 at 09:00 AM at City Clinic"],"available_times":["Sunday, July 13 at 09:00 AM at City Clinic"],"practitioner":{"id":"1702104296348198163","name":"Brendan Smith"},"service":"Acupuncture (Follow up)","date":"Sunday, July 13","time":"09:00 AM","location":{"id":"1701928805762869230","name":"Cit...
+2025-07-12 17:58:37,235 - INFO - 
+============================================================
+2025-07-12 17:58:37,240 - INFO - TESTING: get-available-practitioners vs enhanced/get-available-practitioners
+2025-07-12 17:58:37,242 - INFO - ============================================================
+2025-07-12 17:58:37,271 - INFO - Making request to get-available-practitioners (sequential)
+2025-07-12 17:58:37,273 - INFO - Endpoint: /get-available-practitioners
+2025-07-12 17:58:37,274 - INFO - Payload: {
+  "business_id": "1717010852512540252",
+  "businessName": "City Clinic",
+  "date": "2025-07-13",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comparison_123"
+}
+2025-07-12 17:59:01,865 - INFO - Status: 200
+2025-07-12 17:59:01,865 - INFO - Duration: 24.59s
+2025-07-12 17:59:01,866 - INFO - Response: {"success":false,"message":"I don't see any available appointments at City Clinic on Sunday, July 13. Would you like me to check another day?","slots":[],"available_times":[],"sessionId":"test_comparison_123"}...
+2025-07-12 17:59:01,867 - INFO - Making request to enhanced/get-available-practitioners (parallel)
+2025-07-12 17:59:01,868 - INFO - Endpoint: /enhanced/get-available-practitioners
+2025-07-12 17:59:01,869 - INFO - Payload: {
+  "business_id": "1717010852512540252",
+  "businessName": "City Clinic",
+  "date": "2025-07-13",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comparison_123"
+}
+2025-07-12 17:59:04,103 - INFO - Status: 200
+2025-07-12 17:59:04,103 - INFO - Duration: 2.23s
+2025-07-12 17:59:04,104 - INFO - Response: {"success":true,"message":"No practitioners are available at City Clinic on Sunday, July 13, 2025.","sessionId":"test_comparison_123","available_practitioners":[],"date":"Sunday, July 13, 2025","location":"City Clinic","performance_metrics":{"execution_time":0.124175,"total_calls":9,"successful_calls":9,"cache_hits":9,"success_rate":100.0}}...
+2025-07-12 17:59:04,105 - INFO - 
+============================================================
+2025-07-12 17:59:04,106 - INFO - TESTING: availability-checker (sequential only - no parallel version)
+2025-07-12 17:59:04,107 - INFO - ============================================================
+2025-07-12 17:59:04,107 - INFO - Making request to availability-checker (sequential)
+2025-07-12 17:59:04,108 - INFO - Endpoint: /availability-checker
+2025-07-12 17:59:04,109 - INFO - Payload: {
+  "practitioner": "Brendan Smith",
+  "appointmentType": "Acupuncture (Follow up)",
+  "date": "2025-07-13",
+  "sessionId": "test_comparison_123",
+  "dialedNumber": "0478621276",
+  "business_id": "1717010852512540252"
+}
+2025-07-12 17:59:19,628 - INFO - Status: 200
+2025-07-12 17:59:19,629 - INFO - Duration: 15.52s
+2025-07-12 17:59:19,629 - INFO - Response: {"success":true,"sessionId":"test_comparison_123","available_times":["9:00 AM"],"slots":["9:00 AM"],"practitioner":"Brendan Smith","service":"the requested service","date":"Monday, July 14, 2025","message":"Brendan Smith has an available time on Monday, July 14, 2025 at 9:00 AM."}...
+2025-07-12 17:59:19,631 - INFO - 
+============================================================
+2025-07-12 17:59:19,632 - INFO - COMPARISON SUMMARY
+2025-07-12 17:59:19,632 - INFO - ============================================================
+2025-07-12 17:59:19,633 - INFO - 
+find_next_available:
+2025-07-12 17:59:19,672 - INFO -   Sequential response: {
+  "success": true,
+  "found": true,
+  "message": "Brendan Smith's next availability for Acupuncture (Follow up) is Sunday, July 13 at 9:00 AM at City Clinic and Sunday, July 13 at 10:00 AM at City Clinic.",
+  "slots": [
+    "Sunday, July 13 at 9:00 AM at City Clinic",
+    "Sunday, July 13 at 10:00 AM at City Clinic"
+  ],
+  "available_times": [
+    "Sunday, July 13 at 9:00 AM at City Clinic",
+    "Sunday, July 13 at 10:00 AM at City Clinic"
+  ],
+  "sessionId": "test_comparison_123"
+}
+2025-07-12 17:59:19,673 - INFO -   Parallel response: {
+  "success": true,
+  "found": true,
+  "message": "Brendan Smith's next availability for Acupuncture (Follow up) is Sunday, July 13 at 09:00 AM at City Clinic.",
+  "sessionId": "test_comparison_123",
+  "slots": [
+    "Sunday, July 13 at 09:00 AM at City Clinic"
+  ],
+  "available_times": [
+    "Sunday, July 13 at 09:00 AM at City Clinic"
+  ],
+  "practitioner": {
+    "id": "1702104296348198163",
+    "name": "Brendan Smith"
+  },
+  "service": "Acupuncture (Follow up)",
+  "date": "Sunday, July 13",
+  "time": "09:00 AM",
+  "location": {
+    "id": "1701928805762869230",
+    "name": "City Clinic"
+  },
+  "performance_metrics": {
+    "execution_time": 0.525837,
+    "total_calls": 42,
+    "successful_calls": 42,
+    "failed_calls": 0,
+    "cache_hits": 42,
+    "average_duration": 0.22018278212774367,
+    "rate_limit_delays": 0,
+    "success_rate": 100.0
+  }
+}
+2025-07-12 17:59:19,674 - INFO - 
+get_available_practitioners:
+2025-07-12 17:59:19,699 - INFO - 
+availability_checker:
+2025-07-12 17:59:19,715 - INFO - 
+============================================================
+2025-07-12 17:59:19,717 - INFO - OVERALL RESULTS
+2025-07-12 17:59:19,719 - INFO - ============================================================
+2025-07-12 17:59:19,721 - INFO - Successful comparisons: 0/3
+2025-07-12 17:59:19,733 - INFO - 
+Detailed results saved to: booking_test_logs\parallel_vs_sequential_comparison_20250712_175809.log

@@ -47,3 +47,23 @@
     );
     ```
   - This allows you to definitively know when practitioners are scheduled to work, regardless of their booking status. 
+
+## Efficient Multi-Day Cache Queries for Availability
+
+- **Motivation:**
+  - The current cache logic only supports single-day lookups for practitioner/business availability, mirroring the limitations of the Cliniko API. This results in slow, repetitive queries when a week or more of availability is needed.
+  - The cache is stored in a database and can be queried much more flexibly and efficiently than the API.
+
+- **Current Limitation:**
+  - All endpoints and utilities loop over each day, calling the cache (and possibly the API) for each day separately. This is inefficient and unnecessary when the cache already contains the data for a range of days.
+
+- **Planned Upgrade:**
+  1. Add a new method to the cache manager to fetch all cached slots for a practitioner/business over a date range (e.g., a week) in a single query.
+  2. Update cache utility functions to use this new method and aggregate results for multi-day requests.
+  3. Refactor endpoints and managers (including parallel/enhanced logic) to use batch cache queries for week/multi-day requests, instead of looping per day.
+  4. Only fall back to the API for days not present in the cache, and update the cache accordingly.
+  5. Update/add tests to ensure correct aggregation and performance for week/multi-day cache queries.
+
+- **Expected Benefit:**
+  - Dramatically faster week/multi-day availability lookups, with no changes to the slow, limited Cliniko API logic.
+  - Reduced database and API load, and improved user experience for all clients. 

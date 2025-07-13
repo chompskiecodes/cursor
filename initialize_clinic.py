@@ -7,6 +7,8 @@ import os
 from dotenv import load_dotenv
 import logging
 from datetime import datetime
+import csv
+from datetime import date, timedelta
 
 load_dotenv()
 
@@ -144,7 +146,7 @@ class ClinicInitializer:
             logger.info("Linking practitioners to businesses...")
             business_links = await self._link_practitioners_to_businesses(clinic_id)
             results['practitioner_businesses'] = business_links
-            
+
             # Calculate elapsed time
             elapsed = (datetime.now() - start_time).total_seconds()
             results['elapsed_seconds'] = elapsed

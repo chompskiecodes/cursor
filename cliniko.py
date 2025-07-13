@@ -5,11 +5,33 @@ import logging
 from typing import Dict, Any, List, Optional
 from datetime import timedelta
 import asyncio
+import time
 
 logger = logging.getLogger(__name__)
 
 # === Cliniko API Functions ===
 class ClinikoAPI:
+    # Shared leaky bucket limiter: 199 calls per 60 seconds
+    _rate_limiter_lock = asyncio.Lock()
+    _rate_limiter_calls = []  # timestamps of last 199 calls
+    _rate_limiter_max_calls = 199
+    _rate_limiter_period = 60.0
+
+    @classmethod
+    async def _leaky_bucket_acquire(cls):
+        async with cls._rate_limiter_lock:
+            now = time.monotonic()
+            # Remove calls older than 60 seconds
+            cls._rate_limiter_calls = [t for t in cls._rate_limiter_calls if now - t < cls._rate_limiter_period]
+            if len(cls._rate_limiter_calls) >= cls._rate_limiter_max_calls:
+                oldest_call = cls._rate_limiter_calls[0]
+                wait_time = cls._rate_limiter_period - (now - oldest_call)
+                if wait_time > 0:
+                    await asyncio.sleep(wait_time)
+                    now = time.monotonic()
+                    cls._rate_limiter_calls = [t for t in cls._rate_limiter_calls if now - t < cls._rate_limiter_period]
+            cls._rate_limiter_calls.append(now)
+
     def __init__(self, api_key: str, shard: str, user_agent: str):
         self.base_url = f"https://api.{shard}.cliniko.com/v1"
         
@@ -28,6 +50,7 @@ class ClinikoAPI:
         self.timeout = httpx.Timeout(30.0, connect=5.0)
     
     async def find_patient(self, phone: str) -> Optional[Dict[str, Any]]:
+        await self._leaky_bucket_acquire()
         """Find patient by phone number with EXACT matching"""
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             try:
@@ -68,6 +91,7 @@ class ClinikoAPI:
             return None
     
     async def create_patient(self, patient_data: Dict[str, Any]) -> Dict[str, Any]:
+        await self._leaky_bucket_acquire()
         """Create new patient"""
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             response = await client.post(
@@ -80,6 +104,7 @@ class ClinikoAPI:
     
     async def get_available_times(self, business_id: str, practitioner_id: str, 
                                   appointment_type_id: str, from_date: str, to_date: str) -> List[Dict[str, Any]]:
+        await self._leaky_bucket_acquire()
         """Get available appointment times"""
         url = f"{self.base_url}/businesses/{business_id}/practitioners/{practitioner_id}/appointment_types/{appointment_type_id}/available_times"
         params = {"from": from_date, "to": to_date}
@@ -97,6 +122,7 @@ class ClinikoAPI:
             return response.json().get('available_times', [])
     
     async def create_appointment(self, appointment_data: Dict[str, Any]) -> Dict[str, Any]:
+        await self._leaky_bucket_acquire()
         """Create appointment"""
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             response = await client.post(
@@ -108,6 +134,7 @@ class ClinikoAPI:
             return response.json()
     
     async def get_appointment(self, appointment_id: str) -> Optional[Dict[str, Any]]:
+        await self._leaky_bucket_acquire()
         """Get appointment details"""
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             try:
@@ -122,6 +149,7 @@ class ClinikoAPI:
             return None
     
     async def cancel_appointment(self, appointment_id: str) -> bool:
+        await self._leaky_bucket_acquire()
         """Cancel appointment"""
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             try:
@@ -135,6 +163,7 @@ class ClinikoAPI:
                 return False
     
     async def get_all_pages(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        await self._leaky_bucket_acquire()
         """
         Get all pages of results from an endpoint
         

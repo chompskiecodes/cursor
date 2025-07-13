@@ -96,6 +96,31 @@ CREATE TABLE IF NOT EXISTS practitioners (
 CREATE INDEX IF NOT EXISTS idx_practitioners_clinic_id ON practitioners(clinic_id);
 CREATE INDEX IF NOT EXISTS idx_practitioners_active ON practitioners(clinic_id, active) WHERE active = true;
 
+-- 3.12 Practitioner Schedules (Working hours per location)
+CREATE TABLE IF NOT EXISTS practitioner_schedules (
+    schedule_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    practitioner_id text NOT NULL REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
+    business_id text NOT NULL REFERENCES businesses(business_id) ON DELETE CASCADE,
+    clinic_id uuid REFERENCES clinics(clinic_id),
+    day_of_week INT NOT NULL,         -- 0=Sunday, 6=Saturday
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    effective_from DATE NOT NULL,
+    effective_until DATE,
+    created_at timestamptz DEFAULT NOW(),
+    updated_at timestamptz DEFAULT NOW(),
+    CONSTRAINT uq_prac_sched UNIQUE (practitioner_id, business_id, day_of_week, effective_from)
+);
+CREATE INDEX IF NOT EXISTS idx_prac_sched_practitioner ON practitioner_schedules(practitioner_id);
+CREATE INDEX IF NOT EXISTS idx_prac_sched_business ON practitioner_schedules(business_id);
+CREATE INDEX IF NOT EXISTS idx_prac_sched_day ON practitioner_schedules(day_of_week);
+
+DROP TRIGGER IF EXISTS update_prac_sched_updated_at ON practitioner_schedules;
+CREATE TRIGGER update_prac_sched_updated_at BEFORE UPDATE ON practitioner_schedules
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+COMMENT ON TABLE practitioner_schedules IS 'Stores practitioner working hours per business/location. Used to filter availability checks to only days/locations where a practitioner is scheduled to work.';
+
 -- 3.4 Billable Items
 CREATE TABLE IF NOT EXISTS billable_items (
     item_id text PRIMARY KEY,

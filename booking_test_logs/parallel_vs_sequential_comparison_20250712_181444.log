@@ -1,0 +1,27 @@
+2025-07-12 18:14:44,951 - INFO - Starting parallel vs sequential comparison test - Log file: booking_test_logs\parallel_vs_sequential_comparison_20250712_181444.log
+2025-07-12 18:14:44,953 - INFO - === PARALLEL VS SEQUENTIAL ENDPOINT COMPARISON ===
+2025-07-12 18:14:44,956 - INFO - Webhook API: http://localhost:8000
+2025-07-12 18:14:44,958 - INFO - Test phone number: 0478621276
+2025-07-12 18:14:44,961 - INFO - 
+============================================================
+2025-07-12 18:14:44,963 - INFO - SETTING UP TEST DATA
+2025-07-12 18:14:44,968 - INFO - ============================================================
+2025-07-12 18:14:44,969 - INFO - Making request to location-resolver
+2025-07-12 18:14:44,970 - INFO - Endpoint: /location-resolver
+2025-07-12 18:14:44,970 - INFO - Payload: {
+  "locationQuery": "Location 2",
+  "sessionId": "test_comparison_123",
+  "dialedNumber": "0478621276",
+  "callerPhone": "0412345678"
+}
+2025-07-12 18:14:47,263 - INFO - Status: 200
+2025-07-12 18:14:47,264 - INFO - Duration: 2.29s
+2025-07-12 18:14:47,265 - INFO - Response: {"success":true,"sessionId":"test_comparison_123","message":"I'll book you at Location 2","resolved":true,"needs_clarification":false,"options":null,"confidence":1.0,"selected_location":{"id":"1709781060880966929","name":"Location 2"}}...
+2025-07-12 18:14:47,268 - INFO - Making request to get-location-practitioners
+2025-07-12 18:14:47,269 - INFO - Endpoint: /get-location-practitioners
+2025-07-12 18:14:47,271 - INFO - Payload: {
+  "business_id": "1717010852512540252",
+  "businessName": "City Clinic",
+  "dialedNumber": "0478621276",
+  "sessionId": "test_comparison_123"
+}

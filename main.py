@@ -24,6 +24,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Import from our other modules
 from cache_manager import CacheManager, IncrementalCacheSync
 from tools.availability_router import router as availability_router
+from tools.enhanced_availability_router import router as enhanced_availability_router
 from tools.booking_router import router as booking_router
 from tools.location_router import router as location_router
 from tools.practitioner_router import router as practitioner_router
@@ -33,7 +34,7 @@ from tools.shared_dependencies import set_db_pool, set_cache_manager
 load_dotenv()
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
@@ -73,6 +74,18 @@ LOGGING_CONFIG = {
         },
         # Detailed booking flow logging - only to file
         'tools.booking_router.flow': {
+            'level': 'DEBUG',
+            'handlers': ['debug_file'],
+            'propagate': False
+        },
+        # Enhanced availability router - detailed logging to file
+        'tools.enhanced_availability_router': {
+            'level': 'DEBUG',
+            'handlers': ['debug_file'],
+            'propagate': False
+        },
+        # Enhanced parallel manager - detailed logging to file
+        'tools.enhanced_parallel_manager': {
             'level': 'DEBUG',
             'handlers': ['debug_file'],
             'propagate': False
@@ -147,8 +160,8 @@ async def lifespan(app: FastAPI):
     # Initialize database connection pool
     db.pool = await asyncpg.create_pool(
         os.getenv("DATABASE_URL"),
-        min_size=5,
-        max_size=20
+        min_size=10,
+        max_size=25
     )
         
     # Initialize cache manager
@@ -179,6 +192,7 @@ app = FastAPI(
 
 # Include tool routers
 app.include_router(availability_router)
+app.include_router(enhanced_availability_router)
 app.include_router(booking_router)
 app.include_router(location_router)
 app.include_router(practitioner_router)
@@ -240,11 +254,22 @@ async def health_check():
         async with db.pool.acquire() as conn:
             await conn.fetchval("SELECT 1")
         
+        # Get pool statistics
+        pool_stats = {
+            "min_size": db.pool.get_min_size(),
+            "max_size": db.pool.get_max_size(),
+            "size": db.pool.get_size(),
+            "free_size": db.pool.get_free_size(),
+            "used_connections": db.pool.get_size() - db.pool.get_free_size(),
+            "utilization_percent": round((db.pool.get_size() - db.pool.get_free_size()) / db.pool.get_max_size() * 100, 2)
+        }
+        
         return {
             "status": "healthy",
             "timestamp": datetime.now().isoformat(),
             "version": "2.0.0",
-            "database": "connected"
+            "database": "connected",
+            "pool_stats": pool_stats
         }
     except Exception as e:
         return {

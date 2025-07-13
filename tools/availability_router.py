@@ -31,8 +31,13 @@ from models import (
     LocationData,
     TimeSlotData,
     GetAvailablePractitionersResponse,
-    NextAvailableResponse
+    NextAvailableResponse,
+    ClinicData
 )
+from tools.shared import get_scheduled_working_days
+
+# Import parallel implementation (used by find-next-available-parallel)
+# from .availability_router_parallel import ParallelAvailabilityChecker
 
 logger = logging.getLogger(__name__)
 
@@ -273,28 +278,37 @@ async def check_availability(
                 async with db.acquire() as conn:
                     businesses = await conn.fetch(query, practitioner['practitioner_id'])
                 business_ids = [biz['business_id'] for biz in businesses]
-            for days_ahead in range(14):
-                check_date = search_start + timedelta(days=days_ahead)
+
+            # Build date range and filter to scheduled working days
+            date_range = [search_start + timedelta(days=i) for i in range(14)]
+            async with db.acquire() as conn:
+                scheduled_dates = []
                 for biz_id in business_ids:
-                    try:
-                        available_times = await cliniko.get_available_times(
-                            business_id=biz_id,
-                            practitioner_id=practitioner['practitioner_id'],
-                            appointment_type_id=service_match['appointment_type_id'],
-                            from_date=check_date.isoformat(),
-                            to_date=check_date.isoformat()
-                        )
-                        if available_times and len(available_times) > 0:
-                            earliest_slot = available_times[0]
-                            earliest_date = check_date
-                            earliest_location = biz_id
-                            logger.info(f"Found available slot on {check_date} at business_id {biz_id}")
-                            break
-                    except Exception as e:
-                        logger.warning(f"Error checking availability for {practitioner['full_name']} at business_id {biz_id} on {check_date}: {e}")
-                        continue
-                if earliest_slot:
-                    break
+                    scheduled = await get_scheduled_working_days(conn, practitioner['practitioner_id'], biz_id, date_range)
+                    scheduled_dates.extend([(d, biz_id) for d in scheduled])
+
+            # Now search only on scheduled dates
+            earliest_slot = None
+            earliest_date = None
+            earliest_location = None
+            for d, biz_id in scheduled_dates:
+                try:
+                    available_times = await cliniko.get_available_times(
+                        business_id=biz_id,
+                        practitioner_id=practitioner['practitioner_id'],
+                        appointment_type_id=service_match['appointment_type_id'],
+                        from_date=d.isoformat(),
+                        to_date=d.isoformat()
+                    )
+                    if available_times and len(available_times) > 0:
+                        earliest_slot = available_times[0]
+                        earliest_date = d
+                        earliest_location = biz_id
+                        logger.info(f"Found available slot on {d} at business_id {biz_id}")
+                        break
+                except Exception as e:
+                    logger.warning(f"Error checking availability for {practitioner['full_name']} at business_id {biz_id} on {d}: {e}")
+                    continue
             if earliest_slot:
                 slot_utc = datetime.fromisoformat(earliest_slot['appointment_start'].replace('Z', '+00:00'))
                 slot_local = slot_utc.astimezone(clinic_tz)
@@ -416,13 +430,17 @@ async def get_available_practitioners(
     to_date = check_date.isoformat()  # SAME DATE
     
     for prac in practitioners:
+        # Only check if practitioner is scheduled to work on check_date
+        scheduled = await get_scheduled_working_days(conn, prac['practitioner_id'], business_id, [check_date])
+        if not scheduled:
+            continue  # Not working that day
         # Get services for this practitioner
         services_query = """
             SELECT DISTINCT at.name, at.appointment_type_id
             FROM practitioner_appointment_types pat
             JOIN appointment_types at ON pat.appointment_type_id = at.appointment_type_id
             WHERE pat.practitioner_id = $1
-            ORDER BY at.name
+            ORDER BY at.name, at.appointment_type_id
         """
         async with pool.acquire() as conn:
             services = await conn.fetch(services_query, prac['practitioner_id'])
@@ -964,3 +982,690 @@ async def find_next_available(
             "message": f"An error occurred while finding availability: {str(e)}",
             "sessionId": body.get('sessionId', '') if 'body' in locals() else ''
         }
+
+async def find_next_available_parallel_impl(
+    search_criteria: List[Dict[str, Any]],
+    max_days: int,
+    session_id: str,
+    practitioner_name: Optional[str],
+    service_name: Optional[str],
+    location_name: Optional[str],
+    business_id: Optional[str],
+    clinic: ClinicData,
+    pool: asyncpg.Pool,
+    cache: CacheManagerProtocol
+) -> Dict[str, Any]:
+    """Parallel implementation for finding next available appointment"""
+    
+    import asyncio
+    import time
+    from datetime import date, timedelta
+    
+    start_time = time.time()
+    logger.info("=== FIND NEXT AVAILABLE PARALLEL IMPLEMENTATION ===")
+    
+    # Initialize Cliniko API
+    cliniko = ClinikoAPI(
+        clinic.cliniko_api_key,
+        clinic.cliniko_shard,
+        "VoiceBookingSystem/1.0"
+    )
+    
+    # Generate dates to check (4 days at a time for efficiency)
+    dates_to_check = []
+    current_date = date.today()
+    for i in range(0, max_days, 4):  # Check 4 days at a time
+        batch_start = current_date + timedelta(days=i)
+        batch_end = min(batch_start + timedelta(days=3), current_date + timedelta(days=max_days-1))
+        dates_to_check.append((batch_start, batch_end))
+    
+    logger.info(f"Will check {len(dates_to_check)} date batches: {dates_to_check}")
+    
+    # Create tasks for parallel availability checking
+    async def check_availability_batch(date_batch: tuple, criteria: dict) -> tuple:
+        """Check availability for a specific date range and criteria"""
+        start_date, end_date = date_batch
+        from_date = start_date.isoformat()
+        to_date = end_date.isoformat()
+        
+        logger.info(f"Checking {criteria['practitioner_name']} ({criteria['service_name']}) from {from_date} to {to_date}")
+        try:
+            available_times = await cliniko.get_available_times(
+                business_id=criteria['business_id'],
+                practitioner_id=criteria['practitioner_id'],
+                appointment_type_id=criteria['appointment_type_id'],
+                from_date=from_date,
+                to_date=to_date
+            )
+            logger.info(f"Raw Cliniko response for {criteria['practitioner_name']} ({criteria['service_name']}) {from_date}-{to_date}: {available_times}")
+            # Filter times within the date range
+            filtered_times = []
+            for time_slot in available_times or []:
+                # Cliniko API returns 'appointment_start' not 'time'
+                time_key = 'appointment_start' if 'appointment_start' in time_slot else 'time'
+                slot_date = datetime.fromisoformat(time_slot[time_key].replace('Z', '+00:00')).date()
+                if start_date <= slot_date <= end_date:
+                    filtered_times.append(time_slot)
+            logger.info(f"Filtered times for {criteria['practitioner_name']} ({criteria['service_name']}) {from_date}-{to_date}: {filtered_times}")
+            has_availability = len(filtered_times) > 0
+            logger.debug(f"Batch {start_date}-{end_date} for {criteria['practitioner_name']} {criteria['service_name']}: {'AVAILABLE' if has_availability else 'NO SLOTS'}")
+            return (start_date, end_date, criteria, filtered_times, has_availability)
+        except Exception as e:
+            logger.warning(f"Error checking availability for batch {start_date}-{end_date} {criteria['practitioner_name']} {criteria['service_name']}: {e}")
+            return (start_date, end_date, criteria, [], False)
+    
+    # Create all tasks (date batches × search criteria)
+    tasks = []
+    for date_batch in dates_to_check:
+        for criteria in search_criteria:
+            task = check_availability_batch(date_batch, criteria)
+            tasks.append(task)
+    
+    logger.info(f"Created {len(tasks)} parallel tasks ({len(dates_to_check)} date batches × {len(search_criteria)} criteria)")
+    
+    # Execute tasks with concurrency limit and timeout
+    # Cliniko API documented limit: 60 req/min (1 req/sec). Set concurrency to 25 for optimal performance.
+    max_concurrent = 25
+    timeout_seconds = 90  # Longer timeout for larger batches
+    
+    try:
+        # Use asyncio.gather with semaphore for concurrency control
+        semaphore = asyncio.Semaphore(max_concurrent)
+        
+        async def limited_task(task):
+            async with semaphore:
+                return await task
+        
+        limited_tasks = [limited_task(task) for task in tasks]
+        
+        # Execute with timeout
+        results = await asyncio.wait_for(
+            asyncio.gather(*limited_tasks, return_exceptions=True),
+            timeout=timeout_seconds
+        )
+        
+        logger.info(f"Completed {len(results)} availability batch checks")
+        
+    except asyncio.TimeoutError:
+        logger.error(f"Timeout after {timeout_seconds} seconds")
+        return {
+            "success": False,
+            "message": "The availability check took too long. Please try again.",
+            "sessionId": session_id
+        }
+    except Exception as e:
+        logger.error(f"Error during parallel availability check: {e}")
+        return {
+            "success": False,
+            "message": f"An error occurred while checking availability: {str(e)}",
+            "sessionId": session_id
+        }
+    
+    # Process results to find the earliest available slot
+    earliest_slot = None
+    earliest_date = None
+    available_practitioners = {}
+    
+    for result in results:
+        if isinstance(result, Exception):
+            logger.warning(f"Task failed with exception: {result}")
+            continue
+            
+        start_date, end_date, criteria, times, has_availability = result
+        
+        if has_availability and times:
+            # Find the earliest slot in this batch
+            for time_slot in times:
+                # Cliniko API returns 'appointment_start' not 'time'
+                time_key = 'appointment_start' if 'appointment_start' in time_slot else 'time'
+                slot_datetime = datetime.fromisoformat(time_slot[time_key].replace('Z', '+00:00'))
+                slot_date = slot_datetime.date()
+                
+                if earliest_slot is None or slot_datetime < earliest_slot['datetime']:
+                    earliest_slot = {
+                        'datetime': slot_datetime,
+                        'date': slot_date,
+                        'time': time_slot[time_key],
+                        'practitioner_name': criteria['practitioner_name'],
+                        'service_name': criteria['service_name'],
+                        'business_name': criteria['business_name'],
+                        'practitioner_id': criteria['practitioner_id'],
+                        'appointment_type_id': criteria['appointment_type_id'],
+                        'business_id': criteria['business_id']
+                    }
+                    earliest_date = slot_date
+            
+            # Track available practitioners
+            prac_key = criteria['practitioner_id']
+            if prac_key not in available_practitioners:
+                available_practitioners[prac_key] = {
+                    'practitioner_name': criteria['practitioner_name'],
+                    'earliest_date': slot_date,
+                    'services': []
+                }
+            
+            if criteria['service_name'] not in available_practitioners[prac_key]['services']:
+                available_practitioners[prac_key]['services'].append(criteria['service_name'])
+    
+    # Format response
+    if earliest_slot:
+        # Found availability
+        date_str = earliest_slot['date'].strftime('%A, %B %d')
+        time_str = earliest_slot['datetime'].strftime('%I:%M %p')
+        
+        if practitioner_name and service_name:
+            message = f"I found availability for {practitioner_name} for {service_name} on {date_str} at {time_str}."
+        elif practitioner_name:
+            message = f"I found availability for {practitioner_name} on {date_str} at {time_str}."
+        elif service_name:
+            message = f"I found {service_name} availability with {earliest_slot['practitioner_name']} on {date_str} at {time_str}."
+        else:
+            message = f"I found availability with {earliest_slot['practitioner_name']} on {date_str} at {time_str}."
+        
+        response = {
+            "success": True,
+            "message": message,
+            "sessionId": session_id,
+            "available_times": [earliest_slot['time']],
+            "practitioner": {
+                "id": earliest_slot['practitioner_id'],
+                "name": earliest_slot['practitioner_name']
+            },
+            "service": earliest_slot['service_name'],
+            "date": date_str,
+            "time": time_str,
+            "location": {
+                "id": earliest_slot['business_id'],
+                "name": earliest_slot['business_name']
+            }
+        }
+    else:
+        # No availability found
+        if practitioner_name and service_name:
+            message = f"I couldn't find any availability for {practitioner_name} for {service_name} in the next {max_days} days."
+        elif practitioner_name:
+            message = f"I couldn't find any availability for {practitioner_name} in the next {max_days} days."
+        elif service_name:
+            message = f"I couldn't find any {service_name} availability in the next {max_days} days."
+        else:
+            message = f"I couldn't find any availability in the next {max_days} days."
+        
+        response = {
+            "success": False,
+            "message": message,
+            "sessionId": session_id,
+            "available_times": []
+        }
+    
+    elapsed_time = time.time() - start_time
+    logger.info(f"=== FIND NEXT AVAILABLE PARALLEL COMPLETE in {elapsed_time:.2f}s ===")
+    
+    return response
+
+@router.post("/find-next-available-parallel")
+async def find_next_available_parallel(
+    request: Request,
+    authenticated: bool = Depends(verify_api_key)
+) -> Dict[str, Any]:
+    """Find next available appointment using parallel implementation for better performance"""
+    
+    logger.info("=== FIND NEXT AVAILABLE PARALLEL START ===")
+    
+    try:
+        body = await request.json()
+        logger.info(f"Request body: {body}")
+        
+        # Extract parameters (same as sequential version)
+        service_name = body.get('service')
+        practitioner_name = body.get('practitioner')
+        business_id = body.get('business_id')  # Use business_id from request
+        location_id = body.get('locationId') or business_id  # Support both for compatibility
+        location_name = body.get('locationName')
+        max_days = body.get('maxDays', 14)
+        dialed_number = body.get('dialedNumber', '')
+        session_id = body.get('sessionId', '')
+        
+        logger.info(f"Parsed inputs - service: {service_name}, practitioner: {practitioner_name}, dialed_number: {dialed_number}")
+        
+        # Get database pool and cache
+        pool = await get_db()
+        cache = await get_cache()
+        
+        # Get clinic
+        clinic = await get_clinic_by_dialed_number(dialed_number, pool)
+        if not clinic:
+            return {
+                "success": False,
+                "message": "I couldn't find the clinic information.",
+                "sessionId": session_id
+            }
+        
+        logger.info(f"Found clinic: {clinic.clinic_name}")
+        logger.info(f"Searching from {datetime.now().date()} to {datetime.now().date() + timedelta(days=max_days)}")
+        
+        # Build search criteria (same logic as sequential version)
+        search_criteria = []
+        
+        # CASE 1: Find specific practitioner (across all their locations)
+        if practitioner_name and not service_name:
+            logger.info(f"Case 1: Finding practitioner {practitioner_name} (no service specified)")
+            practitioner_match = await match_practitioner(clinic.clinic_id, practitioner_name, pool)
+            if not practitioner_match or not practitioner_match.get('matches'):
+                return {
+                    "success": False,
+                    "message": f"I couldn't find {practitioner_name}.",
+                    "sessionId": session_id
+                }
+            
+            # Get the first/best match
+            practitioner = practitioner_match['matches'][0]
+            
+            # Get all locations where this practitioner works
+            query = """
+                SELECT DISTINCT pat.practitioner_id, pat.appointment_type_id, b.business_id, b.business_name
+                FROM practitioner_appointment_types pat
+                JOIN practitioner_businesses pb ON pat.practitioner_id = pb.practitioner_id
+                JOIN businesses b ON pb.business_id = b.business_id
+                WHERE pat.practitioner_id = $1 AND b.clinic_id = $2
+            """
+            async with pool.acquire() as conn:
+                rows = await conn.fetch(query, practitioner['practitioner_id'], clinic.clinic_id)
+            logger.info(f"Raw DB rows for practitioner/locations: {[dict(row) for row in rows]}")
+            
+            # Filter by location if specified
+            if location_id:
+                rows = [row for row in rows if row['business_id'] == location_id]
+                if not rows:
+                    return {
+                        "success": False,
+                        "message": f"I couldn't find {practitioner_name} at the requested location.",
+                        "sessionId": session_id
+                    }
+            
+            for row in rows:
+                row_dict = dict(row)
+                search_criteria.append({
+                    'practitioner_id': row_dict.get('practitioner_id'),
+                    'practitioner_name': practitioner['full_name'],
+                    'business_id': row_dict.get('business_id'),
+                    'business_name': row_dict.get('business_name'),
+                    'appointment_type_id': row_dict.get('appointment_type_id'),
+                    'service_name': 'appointment'
+                })
+        
+        # CASE 2: Find specific practitioner with specific service
+        elif practitioner_name and service_name:
+            logger.info(f"Case 1.5: Finding practitioner {practitioner_name} with service {service_name}")
+            practitioner_match = await match_practitioner(clinic.clinic_id, practitioner_name, pool)
+            if not practitioner_match or not practitioner_match.get('matches'):
+                return {
+                    "success": False,
+                    "message": f"I couldn't find {practitioner_name}.",
+                    "sessionId": session_id
+                }
+            
+            # Get the first/best match
+            practitioner = practitioner_match['matches'][0]
+            
+            # Find matching services
+            services_query = """
+                SELECT DISTINCT pat.practitioner_id, pat.appointment_type_id, b.business_id, b.business_name, at.name as service_name
+                FROM practitioner_appointment_types pat
+                JOIN practitioner_businesses pb ON pat.practitioner_id = pb.practitioner_id
+                JOIN businesses b ON pb.business_id = b.business_id
+                JOIN appointment_types at ON pat.appointment_type_id = at.appointment_type_id
+                WHERE pat.practitioner_id = $1 
+                  AND b.clinic_id = $2
+                  AND LOWER(at.name) LIKE LOWER($3)
+            """
+            async with pool.acquire() as conn:
+                rows = await conn.fetch(
+                    services_query, 
+                    practitioner['practitioner_id'], 
+                    clinic.clinic_id,
+                    f'%{service_name}%'
+                )
+            logger.info(f"Raw DB rows for practitioner/services: {[dict(row) for row in rows]}")
+            if location_id:
+                # Filter by location if specified
+                rows = [row for row in rows if row['business_id'] == location_id]
+            for row in rows:
+                row_dict = dict(row)
+                search_criteria.append({
+                    'practitioner_id': row_dict.get('practitioner_id'),
+                    'practitioner_name': practitioner['full_name'],
+                    'business_id': row_dict.get('business_id'),
+                    'business_name': row_dict.get('business_name'),
+                    'appointment_type_id': row_dict.get('appointment_type_id'),
+                    'service_name': row_dict.get('service_name')
+                })
+        
+        # CASE 3: Find any practitioner offering a service
+        elif service_name:
+            logger.info(f"Case 2: Finding any practitioner with service {service_name}")
+            
+            query = """
+                SELECT DISTINCT pat.practitioner_id, pat.appointment_type_id, 
+                       CONCAT(p.first_name, ' ', p.last_name) as practitioner_name, 
+                       b.business_id, b.business_name, at.name as service_name
+                FROM practitioner_appointment_types pat
+                JOIN practitioners p ON pat.practitioner_id = p.practitioner_id
+                JOIN practitioner_businesses pb ON pat.practitioner_id = pb.practitioner_id
+                JOIN businesses b ON pb.business_id = b.business_id
+                JOIN appointment_types at ON pat.appointment_type_id = at.appointment_type_id
+                WHERE b.clinic_id = $1 AND LOWER(at.name) LIKE LOWER($2)
+            """
+            
+            search_term = f'%{service_name}%'
+            async with pool.acquire() as conn:
+                matching_services = await conn.fetch(query, clinic.clinic_id, search_term)
+            logger.info(f"Raw DB rows for any practitioner/services: {[dict(row) for row in matching_services]}")
+            if location_id:
+                matching_services = [row for row in matching_services if row['business_id'] == location_id]
+            if not matching_services:
+                if location_name:
+                    return {
+                        "success": False,
+                        "message": f"I couldn't find any practitioners offering {service_name} at {location_name}.",
+                        "sessionId": session_id
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "message": f"I couldn't find any {service_name} services available.",
+                        "sessionId": session_id
+                    }
+            # Group by practitioner and location
+            seen = set()
+            for row in matching_services:
+                row_dict = dict(row)
+                key = (row_dict.get('practitioner_id'), row_dict.get('business_id'))
+                if key not in seen:
+                    seen.add(key)
+                    search_criteria.append({
+                        'practitioner_id': row_dict.get('practitioner_id'),
+                        'practitioner_name': row_dict.get('practitioner_name'),
+                        'business_id': row_dict.get('business_id'),
+                        'business_name': row_dict.get('business_name'),
+                        'appointment_type_id': row_dict.get('appointment_type_id'),
+                        'service_name': row_dict.get('service_name')
+                    })
+        
+        else:
+            return {
+                "success": False,
+                "message": "Please specify either a practitioner name or service type.",
+                "sessionId": session_id
+            }
+        
+        logger.info(f"Search criteria built: {len(search_criteria)} combinations")
+        
+        # Debug: Log the search criteria structure
+        for i, criteria in enumerate(search_criteria):
+            logger.info(f"Criteria {i}: {criteria}")
+            if 'practitioner_id' not in criteria:
+                logger.error(f"Missing practitioner_id in criteria {i}: {criteria}")
+        
+        # Use parallel implementation to check multiple days at once
+        return await find_next_available_parallel_impl(
+            search_criteria=search_criteria,
+            max_days=max_days,
+            session_id=session_id,
+            practitioner_name=practitioner_name,
+            service_name=service_name,
+            location_name=location_name,
+            business_id=location_id,
+            clinic=clinic,
+            pool=pool,
+            cache=cache
+        )
+        
+    except Exception as e:
+        logger.error(f"Error in find_next_available_parallel: {str(e)}", exc_info=True)
+        return {
+            "success": False,
+            "error": "internal_error",
+            "message": f"An error occurred while finding availability: {str(e)}",
+            "sessionId": body.get('sessionId', '') if 'body' in locals() else ''
+        }
+
+@router.post("/get-available-practitioners-parallel")
+async def get_available_practitioners_parallel(
+    request: Request,
+    authenticated: bool = Depends(verify_api_key)
+) -> Dict[str, Any]:
+    """Get practitioners with availability on a specific date - PARALLEL VERSION"""
+    
+    import asyncio
+    from concurrent.futures import ThreadPoolExecutor
+    import time
+    
+    start_time = time.time()
+    logger.info("=== GET AVAILABLE PRACTITIONERS PARALLEL START ===")
+    
+    body = await request.json()
+    logger.info(f"Request body: {body}")
+    business_id = body.get('business_id', '')
+    business_name = body.get('businessName', '')
+    date_str = body.get('date', 'today')
+    dialed_number = body.get('dialedNumber', '')
+    session_id = body.get('sessionId', '')
+    
+    logger.info(f"Request: business_id={business_id}, date={date_str}, dialed_number={dialed_number}")
+    
+    # Get database pool
+    pool = await get_db()
+    
+    # Get clinic
+    clinic = await get_clinic_by_dialed_number(dialed_number, pool)
+    if not clinic:
+        logger.error(f"Clinic not found for dialed number: {dialed_number}")
+        return {
+            "success": False,
+            "message": "I couldn't find the clinic information.",
+            "sessionId": session_id
+        }
+    
+    logger.info(f"Found clinic: {clinic.clinic_name}")
+    
+    # Parse date
+    clinic_tz = get_clinic_timezone(clinic)
+    check_date = parse_date_request(date_str, clinic_tz)
+    from_date = check_date.isoformat()
+    to_date = check_date.isoformat()
+    
+    logger.info(f"Checking availability for date: {from_date}")
+    
+    # Initialize Cliniko API
+    cliniko = ClinikoAPI(
+        clinic.cliniko_api_key,
+        clinic.cliniko_shard,
+        "VoiceBookingSystem/1.0"
+    )
+    
+    # Get all practitioners at this business with their services
+    query = """
+        SELECT DISTINCT
+            p.practitioner_id,
+            p.first_name,
+            p.last_name,
+            CASE 
+                WHEN p.title IS NOT NULL AND p.title != '' 
+                THEN CONCAT(p.title, ' ', p.first_name, ' ', p.last_name)
+                ELSE CONCAT(p.first_name, ' ', p.last_name)
+            END as practitioner_name,
+            at.name as service_name,
+            at.appointment_type_id
+        FROM practitioners p
+        JOIN practitioner_businesses pb ON p.practitioner_id = pb.practitioner_id
+        JOIN practitioner_appointment_types pat ON p.practitioner_id = pat.practitioner_id
+        JOIN appointment_types at ON pat.appointment_type_id = at.appointment_type_id
+        WHERE pb.business_id = $1
+          AND p.active = true
+          AND p.clinic_id = $2
+          AND at.active = true
+        ORDER BY p.last_name, p.first_name, at.name, at.appointment_type_id
+    """
+    
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(query, business_id, clinic.clinic_id)
+    
+    logger.info(f"Found {len(rows)} practitioner-service combinations to check")
+    
+    # Group by practitioner
+    practitioners_data = {}
+    for row in rows:
+        prac_id = row['practitioner_id']
+        if prac_id not in practitioners_data:
+            practitioners_data[prac_id] = {
+                'practitioner_id': prac_id,
+                'practitioner_name': row['practitioner_name'],
+                'services': []
+            }
+        practitioners_data[prac_id]['services'].append({
+            'name': row['service_name'],
+            'appointment_type_id': row['appointment_type_id']
+        })
+    
+    logger.info(f"Grouped into {len(practitioners_data)} practitioners")
+    
+    # Create tasks for parallel availability checking
+    async def check_practitioner_service_availability(prac_id: str, service: dict) -> tuple:
+        """Check availability for a single practitioner-service combination"""
+        try:
+            available_times = await cliniko.get_available_times(
+                business_id=business_id,
+                practitioner_id=prac_id,
+                appointment_type_id=service['appointment_type_id'],
+                from_date=from_date,
+                to_date=to_date
+            )
+            
+            has_availability = available_times and len(available_times) > 0
+            logger.debug(f"Practitioner {prac_id} service {service['name']}: {'AVAILABLE' if has_availability else 'NO SLOTS'}")
+            
+            return (prac_id, service['name'], has_availability)
+            
+        except Exception as e:
+            logger.warning(f"Error checking availability for practitioner {prac_id} service {service['name']}: {e}")
+            return (prac_id, service['name'], False)
+    
+    # Create all tasks
+    tasks = []
+    for prac_id, prac_data in practitioners_data.items():
+        for service in prac_data['services']:
+            task = check_practitioner_service_availability(prac_id, service)
+            tasks.append(task)
+    
+    logger.info(f"Created {len(tasks)} parallel tasks")
+    
+    # Execute tasks with concurrency limit and timeout
+    # Cliniko API documented limit: 60 req/min (1 req/sec). Set concurrency to 25 for optimal performance.
+    max_concurrent = 25
+    timeout_seconds = 90  # Longer timeout for larger batches
+    
+    try:
+        # Use asyncio.gather with semaphore for concurrency control
+        semaphore = asyncio.Semaphore(max_concurrent)
+        
+        async def limited_task(task):
+            async with semaphore:
+                return await task
+        
+        limited_tasks = [limited_task(task) for task in tasks]
+        
+        # Execute with timeout
+        results = await asyncio.wait_for(
+            asyncio.gather(*limited_tasks, return_exceptions=True),
+            timeout=timeout_seconds
+        )
+        
+        logger.info(f"Completed {len(results)} availability checks")
+        
+    except asyncio.TimeoutError:
+        logger.error(f"Timeout after {timeout_seconds} seconds")
+        return {
+            "success": False,
+            "message": "The availability check took too long. Please try again.",
+            "slots": [],
+            "available_times": [],
+            "sessionId": session_id
+        }
+    except Exception as e:
+        logger.error(f"Error during parallel availability check: {e}")
+        logger.error(f"Exception type: {type(e).__name__}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return {
+            "success": False,
+            "message": f"An error occurred while checking availability: {str(e)}",
+            "slots": [],
+            "available_times": [],
+            "sessionId": session_id
+        }
+    
+    # Process results
+    available_practitioners = {}
+    
+    for result in results:
+        if isinstance(result, Exception):
+            logger.warning(f"Task failed with exception: {result}")
+            continue
+            
+        prac_id, service_name, has_availability = result
+        
+        if has_availability:
+            if prac_id not in available_practitioners:
+                available_practitioners[prac_id] = {
+                    'practitioner_id': prac_id,
+                    'practitioner_name': practitioners_data[prac_id]['practitioner_name'],
+                    'available_services': []
+                }
+            available_practitioners[prac_id]['available_services'].append(service_name)
+    
+    # Convert to list
+    available_practitioners_list = list(available_practitioners.values())
+    
+    # Format response
+    date_str = check_date.strftime('%A, %B %d')
+    
+    if not available_practitioners_list:
+        message = f"I don't see any available appointments at {business_name} on {date_str}. Would you like me to check another day?"
+        response = {
+            "success": False,
+            "message": message,
+            "slots": [],
+            "available_times": [],
+            "sessionId": session_id
+        }
+    else:
+        names = [p['practitioner_name'] for p in available_practitioners_list]
+        
+        if len(names) == 1:
+            message = f"On {date_str} at {business_name}, {names[0]} has availability."
+        elif len(names) == 2:
+            message = f"On {date_str} at {business_name}, {names[0]} and {names[1]} have availability."
+        else:
+            last = names[-1]
+            others = names[:-1]
+            message = f"On {date_str} at {business_name}, {', '.join(others)}, and {last} have availability."
+        
+        response = GetAvailablePractitionersResponse(
+            success=True,
+            sessionId=session_id,
+            message=message,
+            practitioners=[PractitionerData(
+                id=p['practitioner_id'],
+                name=p['practitioner_name'],
+                firstName=p['practitioner_name'].split()[0] if p['practitioner_name'] else ""
+            ) for p in available_practitioners_list],
+            date=date_str,
+            location=LocationData(id=business_id, name=business_name) if business_id and business_name else None
+        ).dict()
+        response['slots'] = []
+        response['available_times'] = []
+    
+    elapsed_time = time.time() - start_time
+    logger.info(f"=== GET AVAILABLE PRACTITIONERS PARALLEL COMPLETE in {elapsed_time:.2f}s ===")
+    
+    return response

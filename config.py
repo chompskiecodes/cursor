@@ -17,7 +17,7 @@ class Settings(BaseSettings):
         alias="DATABASE_URL"
     )
     db_pool_size_min: int = Field(default=10, alias="DB_POOL_SIZE_MIN")
-    db_pool_size_max: int = Field(default=20, alias="DB_POOL_SIZE_MAX")
+    db_pool_size_max: int = Field(default=25, alias="DB_POOL_SIZE_MAX")
     
     # Supabase
     supabase_url: str = Field(

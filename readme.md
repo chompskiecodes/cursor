@@ -64,6 +64,24 @@ This project is an AI-powered voice receptionist system for multi-location clini
 
 ---
 
+## Practitioner Schedule Initialization & Optimization
+
+- **Initial Data Population:**
+  - Use the `probe_practitioner_schedules.py` script to probe all practitioner-business pairs for their working days and hours, up to 1 year in the future.
+  - The script uses a `force_full_scan` flag (default `True`) to check all days for all pairs during the initialization phase, ensuring a complete schedule is captured.
+  - Results are written to both a CSV file and upserted into the `practitioner_schedules` table in Supabase/Postgres.
+
+- **Production Optimization:**
+  - Once the `practitioner_schedules` table is populated, all API endpoints (availability checks, booking, etc.) use this table to determine which days to check for each practitioner at each business/location.
+  - **Endpoints always use the optimized, schedule-aware logic**—they only check days when the practitioner is scheduled to work at a location, never performing a full scan.
+  - The full scan logic is only present in the probe script for initialization or full refreshes, not in production endpoints.
+
+- **No Code Duplication:**
+  - The same codebase supports both initialization and production by using the `force_full_scan` flag in the probe script.
+  - Endpoints do not require or support this flag; they always use the optimized logic.
+
+---
+
 ## API & Endpoint Reference
 
 For full technical documentation, endpoint details, and architectural notes, see:
@@ -77,6 +95,33 @@ For full technical documentation, endpoint details, and architectural notes, see
 - If bookings fail with `time_not_available`, check practitioner/service/location IDs and availability in Cliniko.
 - All times sent to Cliniko are in UTC; all user-facing times are in the clinic's local timezone.
 - For error codes, response structure, and more, see [GRANULAR_ARCHITECTURE.md](./GRANULAR_ARCHITECTURE.md#webhook-response-structure--migration-2025).
+
+---
+
+## Test Requirements
+
+To run the test suite, you need the following Python packages:
+
+- `pytest` (for running tests)
+- `requests` (for HTTP API tests)
+- `python-dotenv` (for environment variable loading in tests)
+- Any other dependencies listed in `requirements.txt`
+
+**Install all requirements:**
+```bash
+pip install -r requirements.txt
+pip install pytest
+```
+
+**Run all tests:**
+```bash
+pytest
+```
+
+Or run a specific test file:
+```bash
+python test_all_webhooks.py
+```
 
 ---
 
