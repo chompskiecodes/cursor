@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-14T14:57:23.744120",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "dialedNumber": "0478621276",
+    "sessionId": "1",
+    "patientName": "Punky Brewster",
+    "appointmentType": "Acupuncture (Initial)",
+    "business_id": "1701928805762869230",
+    "practitioner": "Cameron Lockey",
+    "appointmentTime": "09:00",
+    "appointmentDate": "2025-07-15"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Cameron Lockey",
+    "patient_name": "Punky Brewster",
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "2025-07-15",
+    "time": "09:00",
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-14T15:31:19.006609",
+  "endpoint": "/appointment-handler",
+  "headers": {},
+  "payload": {
+    "dialedNumber": "0478621276",
+    "sessionId": "1",
+    "patientName": "Thomas Tank",
+    "appointmentType": "Acupuncture (Initial)",
+    "business_id": "1701928805762869230",
+    "practitioner": "Cameron",
+    "appointmentTime": "10:00",
+    "appointmentDate": "2024-07-15"
+  },
+  "response": null,
+  "metadata": {
+    "practitioner": "Cameron",
+    "patient_name": "Thomas Tank",
+    "appointment_type": "Acupuncture (Initial)",
+    "date": "2024-07-15",
+    "time": "10:00",
+    "caller_phone": null,
+    "dialed_number": "0478621276"
+  }
+}

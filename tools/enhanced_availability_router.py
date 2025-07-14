@@ -233,16 +233,17 @@ async def enhanced_get_available_practitioners(
         for prac_id, prac_data in filtered_practitioners.items():
             allowed_dates = practitioner_allowed_dates[prac_id]
             for allowed_date in allowed_dates:
-            for service in prac_data['services']:
-                search_criteria.append({
-                    'practitioner_id': prac_id,
-                    'practitioner_name': prac_data['name'],
-                    'appointment_type_id': service['appointment_type_id'],
-                    'service_name': service['name'],
-                    'business_id': business_id,
+                for service in prac_data['services']:
+                    search_criteria.append({
+                        'practitioner_id': prac_id,
+                        'practitioner_name': prac_data['name'],
+                        'appointment_type_id': service['appointment_type_id'],
+                        'service_name': service['name'],
+                        'business_id': business_id,
                         'business_name': business_name,
-                        'date': allowed_date
-                })
+                        'date': allowed_date,
+                        'session_id': session_id
+                    })
         print(f"[DEBUG] Search criteria: {search_criteria}")
         logger.info(f"Created {len(search_criteria)} search criteria")
         

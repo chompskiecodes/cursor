@@ -58,7 +58,7 @@ async def test_parallel_find_next():
         }
     ]
     
-    base_url = "http://localhost:8001"
+    base_url = "http://localhost:8000"
     
     async with aiohttp.ClientSession() as session:
         for test_case in test_cases:
