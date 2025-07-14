@@ -6,53 +6,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-async def check_and_trigger_sync(
-    clinic_id: str,
-    pool: asyncpg.Pool,
-    cache: Any,  # Avoid importing CacheManager
-    cliniko_api_key: str,
-    cliniko_shard: str
-):
-    """Check if sync needed and trigger if so"""
-    try:
-        # Check last sync time
-        async with pool.acquire() as conn:
-            last_sync = await conn.fetchval("""
-                SELECT MAX(cached_at)
-                FROM availability_cache
-                WHERE clinic_id = $1
-            """, clinic_id)
-
-        # Use timezone-aware current time
-        current_time = datetime.now(timezone.utc)
-
-        # If no sync or older than 5 minutes, trigger sync
-        if not last_sync:
-            should_sync = True
-        else:
-            # Ensure last_sync is timezone-aware
-            if last_sync.tzinfo is None:
-                # Assume database times are UTC
-                last_sync = last_sync.replace(tzinfo=timezone.utc)
-
-            time_diff = (current_time - last_sync).total_seconds()
-            should_sync = time_diff > 300
-
-        if should_sync:
-            # Import here to avoid circular import
-            from cache_manager import IncrementalCacheSync
-            from cliniko import ClinikoAPI
-
-            cliniko = ClinikoAPI(
-                cliniko_api_key,
-                cliniko_shard,
-                user_agent="VoiceBookingSystem/1.0"  # Add this parameter
-            )
-            sync = IncrementalCacheSync(cache, pool)
-            await sync.sync_appointments_incremental(clinic_id, cliniko)
-    except Exception as e:
-        logger.warning(f"Sync check failed: {e}")
-
 async def get_cached_practitioner_services(
     clinic_id: str,
     pool: asyncpg.Pool,

@@ -1,7 +1,7 @@
 # tools/location_tools.py
 """Location-related endpoints for the Voice Booking System"""
 
-from fastapi import APIRouter, Request, Depends, BackgroundTasks
+from fastapi import APIRouter, Request, Depends
 from typing import Dict, Any
 import logging
 
@@ -19,7 +19,6 @@ from database import get_clinic_by_dialed_number, get_location_by_name
 from location_resolver import LocationResolver
 from utils import normalize_phone
 from payload_logger import payload_logger
-from .cache_utils import check_and_trigger_sync
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +28,6 @@ router = APIRouter(tags=["location"])
 @router.post("/location-resolver")
 async def resolve_location(
     location_request: LocationResolverRequest,
-    background_tasks: BackgroundTasks,
     authenticated: bool = Depends(verify_api_key)
 ) -> Dict[str, Any]:
     """Resolve ambiguous location references - ElevenLabs optimized"""
@@ -56,14 +54,14 @@ async def resolve_location(
                 session_id=location_request.sessionId
             )
         # Trigger background sync if needed
-        background_tasks.add_task(
-            check_and_trigger_sync,
-            clinic.clinic_id,
-            pool,
-            cache,
-            clinic.cliniko_api_key,
-            clinic.cliniko_shard
-        )
+        # background_tasks.add_task(
+        #     check_and_trigger_sync,
+        #     clinic.clinic_id,
+        #     pool,
+        #     cache,
+        #     clinic.cliniko_api_key,
+        #     clinic.cliniko_shard
+        # )
 
         # Initialize location resolver
         resolver = LocationResolver(pool, cache)

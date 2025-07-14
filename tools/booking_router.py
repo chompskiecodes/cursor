@@ -1,7 +1,7 @@
 # tools/booking_tools.py
 """Booking-related endpoints for the Voice Booking System"""
 
-from fastapi import APIRouter, Request, Depends, BackgroundTasks
+from fastapi import APIRouter, Request, Depends
 from typing import Dict, Any, Optional
 from datetime import datetime, timedelta, timezone
 import logging
@@ -159,7 +159,6 @@ async def check_and_trigger_sync(
 @router.post("/appointment-handler")
 async def handle_appointment(
     request: Request,
-    background_tasks: BackgroundTasks,
     authenticated: bool = Depends(verify_api_key)
 ) -> Dict[str, Any]:
     """Main appointment booking handler - handles both BookingRequest models and direct JSON"""
@@ -184,7 +183,7 @@ async def handle_appointment(
             if action == ActionType.BOOK:
                 # Convert to BookingRequest and call handle_booking
                 booking_request = BookingRequest(**body)
-                return await handle_booking(booking_request, background_tasks)
+                return await handle_booking(booking_request)
             elif action == ActionType.MODIFY:
                 booking_request = BookingRequest(**body)
                 return await handle_modify(booking_request)
@@ -209,7 +208,7 @@ async def handle_appointment(
                 )
         else:
             # Direct booking request from ElevenLabs - handle directly
-            return await handle_direct_booking(body, background_tasks)
+            return await handle_direct_booking(body)
 
     except Exception as e:
         logger.error(f"Appointment handler error: {str(e)}", exc_info=True)
@@ -220,7 +219,7 @@ async def handle_appointment(
             "sessionId": body.get('sessionId', 'unknown')
         }
 
-async def handle_direct_booking(body: Dict[str, Any], background_tasks: BackgroundTasks) -> Dict[str, Any]:
+async def handle_direct_booking(body: Dict[str, Any]) -> Dict[str, Any]:
     """
     Handle direct appointment booking for ElevenLabs voice agent.
     Creates the actual appointment after find_next_available has been called.
@@ -671,7 +670,7 @@ async def handle_direct_booking(body: Dict[str, Any], background_tasks: Backgrou
             "sessionId": body.get('sessionId', 'unknown')
         }
 
-async def handle_booking(request: BookingRequest, background_tasks: BackgroundTasks) -> Dict[str, Any]:
+async def handle_booking(request: BookingRequest) -> Dict[str, Any]:
     """Handle new appointment booking with clean error handling"""
     clinic = None
 
@@ -685,14 +684,14 @@ async def handle_booking(request: BookingRequest, background_tasks: BackgroundTa
         if not clinic:
             return await handle_clinic_not_found(request)
         # Trigger background sync if needed
-        background_tasks.add_task(
-            check_and_trigger_sync,
-            clinic.clinic_id,
-            pool,
-            cache,
-            clinic.cliniko_api_key,
-            clinic.cliniko_shard
-        )
+        # background_tasks.add_task(
+        #     check_and_trigger_sync,
+        #     clinic.clinic_id,
+        #     pool,
+        #     cache,
+        #     clinic.cliniko_api_key,
+        #     clinic.cliniko_shard
+        # )
 
         # Validate clinic timezone
         clinic_tz = get_clinic_timezone(clinic)

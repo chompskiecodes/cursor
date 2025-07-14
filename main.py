@@ -29,6 +29,7 @@ from tools.booking_router import router as booking_router
 from tools.location_router import router as location_router
 from tools.practitioner_router import router as practitioner_router
 from tools.shared_dependencies import set_db_pool, set_cache_manager
+from tools.sync_router import router as sync_router
 
 # Load environment variables
 load_dotenv()
@@ -172,7 +173,62 @@ async def lifespan(app: FastAPI):
     set_cache_manager(db.cache)
     
     logger.info("Voice Booking System started successfully")
-    
+
+    # Start background hourly sync task
+    async def hourly_sync_loop():
+        """Background task for hourly cache sync"""
+        sync = IncrementalCacheSync(db.cache, db.pool)
+        
+        while True:
+            try:
+                # Wait 1 hour between syncs
+                await asyncio.sleep(3600)  # 1 hour
+                
+                logger.info("=== STARTING HOURLY BACKGROUND SYNC ===")
+                
+                # Get all active clinics
+                async with db.pool.acquire() as conn:
+                    clinics = await conn.fetch("""
+                        SELECT clinic_id, cliniko_api_key, cliniko_shard, contact_email
+                        FROM clinics
+                        WHERE is_active = true
+                    """)
+                
+                for clinic in clinics:
+                    try:
+                        from cliniko import ClinikoAPI
+                        
+                        # Create Cliniko API instance  
+                        cliniko = ClinikoAPI(
+                            clinic['cliniko_api_key'],
+                            clinic['cliniko_shard'],
+                            clinic.get('contact_email', 'support@example.com')
+                        )
+                        
+                        # Run incremental sync
+                        stats = await sync.sync_appointments_incremental(
+                            clinic['clinic_id'],
+                            cliniko,
+                            force_full_sync=False  # Use incremental
+                        )
+                        
+                        logger.info(f"Hourly sync for {clinic['clinic_id']}: {stats}")
+                        
+                    except Exception as e:
+                        logger.error(f"Hourly sync failed for clinic {clinic['clinic_id']}: {e}")
+                
+            except Exception as e:
+                logger.error(f"Hourly sync loop error: {e}")
+                # Wait a bit before retrying on error
+                await asyncio.sleep(60)
+
+    settings = get_settings()
+    if settings.environment != "development":
+        asyncio.create_task(hourly_sync_loop())
+        logger.info("Background hourly sync task started")
+    else:
+        logger.info("Skipping background sync in development mode")
+
     yield
     
     # Shutdown
@@ -196,6 +252,7 @@ app.include_router(enhanced_availability_router)
 app.include_router(booking_router)
 app.include_router(location_router)
 app.include_router(practitioner_router)
+app.include_router(sync_router)
 
 # === CORS Configuration ===
 app.add_middleware(

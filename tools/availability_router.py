@@ -1,7 +1,7 @@
 # tools/availability_tools.py
 """Availability-related endpoints for the Voice Booking System"""
 
-from fastapi import APIRouter, Request, Depends, BackgroundTasks
+from fastapi import APIRouter, Request, Depends
 from typing import Dict, Any, Optional, List
 from datetime import datetime, timedelta, date
 import logging
@@ -23,7 +23,7 @@ from tools.timezone_utils import (
     convert_utc_to_local,
     format_time_for_voice
 )
-from .cache_utils import check_and_trigger_sync, get_availability_with_fallback
+from .cache_utils import get_availability_with_fallback
 from shared_types import CacheManagerProtocol
 from models import (
     AvailabilityResponse,
@@ -115,7 +115,6 @@ async def check_practitioner_availability(
 @router.post("/availability-checker")
 async def check_availability(
     request: Request,
-    background_tasks: BackgroundTasks,
     db: asyncpg.Pool = Depends(get_db),
     cache: CacheManagerProtocol = Depends(get_cache)
 ) -> Dict[str, Any]:
